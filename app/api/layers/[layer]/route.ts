@@ -29,3 +29,15 @@ export async function GET(request: Request, { params }: { params: LayerRoutePara
 
   return Response.json(feature);
 }
+
+export async function DELETE(request: Request, { params }: { params: LayerRouteParams }) {
+  const { layer } = params;
+
+  const feature = await prisma.featureCollection.delete({
+    where: {
+      id: parseInt(layer),
+    },
+  });
+
+  return Response.json(feature);
+}

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { FeatureCollectionFull } from "../types";
 
-type LayerInformation = {
+export type LayerInformation = {
   id: number;
   layer: FeatureCollectionFull;
   visible: boolean;
@@ -12,7 +12,7 @@ type LayersStore = {
   isLoading: boolean;
   loadLayers: () => void;
   addLayer: (layer: FeatureCollectionFull) => void;
-  removeLayer: (layer: FeatureCollectionFull) => void;
+  deleteLayer: (layerId: number) => void;
   loadLayer: (layerId: number) => Promise<FeatureCollectionFull>;
   toggleLayerVisibility: (layerId: number) => void;
   isLayerVisible: (layerId: number) => boolean;
@@ -52,10 +52,17 @@ const useLayersStore = create<LayersStore>((set, get) => ({
       layers: [...state.layers, { id: layer.id, layer, visible: true }],
     }));
   },
-  removeLayer: (layer) =>
-    set((state) => ({
-      layers: state.layers.filter((l) => l.id !== layer.id),
-    })),
+  deleteLayer: async (layerId: number) => {
+    const response = await fetch(`/api/layers/${layerId}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      set((state) => ({
+        layers: state.layers.filter((l) => l.id !== layerId),
+      }));
+    }
+  },
   loadLayer: async (layerId) => {
     const response = await fetch(`/api/layers/${layerId}`);
     const layer = await response.json();

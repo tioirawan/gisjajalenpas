@@ -4,8 +4,8 @@ import "moment/locale/id";
 import { Fragment, useEffect, useState } from "react";
 import { IoEye } from "react-icons/io5";
 import { Oval } from "react-loader-spinner";
-import useFeaturePropertiesStore from "../stores/feature_properties_store";
-import { FeatureProperty, FeatureWithProperties } from "../types";
+import useFeaturePropertiesStore from "../../stores/feature_properties_store";
+import { FeatureProperty, FeatureWithProperties } from "../../types";
 import FeaturePropertyDetail from "./FeaturePropertyDetail";
 
 moment.locale("id");

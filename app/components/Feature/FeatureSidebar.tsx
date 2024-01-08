@@ -5,9 +5,9 @@ import { IoClose } from "react-icons/io5";
 // import "react-tabs/style/react-tabs.css";
 import { useState } from "react";
 import { Oval } from "react-loader-spinner";
-import { updateFeatureProperty } from "../actions";
-import useLayersStore from "../stores/layers_store";
-import useSelectedFeatureStore from "../stores/selected_feature_store";
+import { updateFeatureProperty } from "../../actions";
+import useLayersStore from "../../stores/layers_store";
+import useSelectedFeatureStore from "../../stores/selected_feature_store";
 import FeaturePropertiesHistory from "./FeaturePropertiesHistory";
 import FeaturePropertyDetail from "./FeaturePropertyDetail";
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { ImportFormState, saveGeoJSON } from "../actions";
+import { ImportFormState, saveGeoJSON } from "../../actions";
 
 type ImportFormProps = {
   onSuccess: () => void;

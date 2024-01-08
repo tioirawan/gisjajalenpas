@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoAdd, IoTrash } from "react-icons/io5";
-import { FeatureProperty } from "../types";
+import { FeatureProperty } from "../../types";
 
 type FeaturePropertyDetailProp = {
   // feature: FeatureWithProperties | null;

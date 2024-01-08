@@ -2,20 +2,18 @@ import { useState } from "react";
 import { BiImport } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { Circles } from "react-loader-spinner";
-import useLayersStore from "../stores/layers_store";
+import useLayersStore from "../../stores/layers_store";
 import ImportForm from "./ImportForm";
+import LayerTile from "./LayerTile";
 
 export default function LayerSidebar() {
   const [isImporting, setIsImporting] = useState(false);
 
-  const { layers, isLoading, isVisible, toggleVisibility, loadLayers } =
-    useLayersStore((state) => ({
-      layers: state.layers,
-      isLoading: state.isLoading,
-      isVisible: state.isLayerVisible,
-      toggleVisibility: state.toggleLayerVisibility,
-      loadLayers: state.loadLayers,
-    }));
+  const { layers, isLoading, loadLayers } = useLayersStore((state) => ({
+    layers: state.layers,
+    isLoading: state.isLoading,
+    loadLayers: state.loadLayers,
+  }));
 
   return (
     <aside
@@ -63,35 +61,11 @@ export default function LayerSidebar() {
             <>
               <ul>
                 {layers.map((information) => {
-                  const classByType: Record<string, string> = {
-                    road: "w-4 h-1",
-                    bridge: "w-2 h-2 rounded-full",
-                    area: "w-4 h-4 rounded-sm",
-                  };
-
                   return (
-                    <li
-                      key={information.layer.id}
-                      className="flex flex-row items-center"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isVisible(information.layer.id)}
-                        onChange={() => toggleVisibility(information.id)}
-                      />
-                      <div className="w-8 flex items-center justify-center">
-                        <span
-                          className={`inline-block mx-2 ${
-                            classByType[information.layer.type]
-                          }`}
-                          style={{ backgroundColor: information.layer.color }}
-                        ></span>
-                      </div>
-                      <span className="flex-grow text-sm">
-                        {information.layer.name}
-                      </span>
-                      {/* checkbox */}
-                    </li>
+                    <LayerTile
+                      key={information.id}
+                      layerInformation={information}
+                    />
                   );
                 })}
               </ul>

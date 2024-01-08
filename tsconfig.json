@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/components/FeaturePropertyDetail.tsx"
+    "app/components/Feature/FeaturePropertyDetail.tsx"
   ],
   "exclude": [
     "node_modules"

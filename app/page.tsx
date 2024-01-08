@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
-import FeatureSidebar from "./components/FeatureSidebar";
-import LayerSidebar from "./components/LayerSidebar";
+import FeatureSidebar from "./components/Feature/FeatureSidebar";
+import LayerSidebar from "./components/Layer/LayerSidebar";
 import NavBar from "./components/NavBar";
 import useLayersStore from "./stores/layers_store";
 
