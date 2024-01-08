@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// for mongodb
+// model FeatureCollection {
+//   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   type      String
+//   color     String
+//   features  Feature[]
+//   createdAt DateTime  @default(now())
+// }
+
+// model Feature {
+//   id         String       @id @default(auto()) @map("_id") @db.ObjectId
+//   type       String
+//   properties Properties[]
+//   geometry   Geometry[]
+//   createdAt  DateTime     @default(now())
+
+//   featureCollectionId String            @db.ObjectId
+//   FeatureCollection   FeatureCollection @relation(fields: [featureCollectionId], references: [id])
+// }
+
+// model Properties {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   data      Json
+//   createdAt DateTime @default(now())
+
+//   featureId String  @db.ObjectId
+//   Feature   Feature @relation(fields: [featureId], references: [id])
+// }
+
+// model Geometry {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   type        String
+//   coordinates Json
+//   createdAt   DateTime @default(now())
+
+//   featureId String  @db.ObjectId
+//   Feature   Feature @relation(fields: [featureId], references: [id])
+// }
+
+// for mysql
+model FeatureCollection {
+  id        Int       @id @default(autoincrement())
+  name      String
+  type      String
+  color     String
+  weight    Int       @default(1)
+  dashed    Boolean   @default(false)
+  features  Feature[]
+  createdAt DateTime  @default(now())
+}
+
+model Feature {
+  id         Int          @id @default(autoincrement())
+  type       String
+  properties Properties[]
+  geometry   Geometry[]
+  createdAt  DateTime     @default(now())
+
+  featureCollectionId Int               @map("featureCollectionId")
+  FeatureCollection   FeatureCollection @relation(fields: [featureCollectionId], references: [id], onDelete: Cascade)
+}
+
+model Properties {
+  id        Int      @id @default(autoincrement())
+  data      Json
+  createdAt DateTime @default(now())
+
+  featureId Int     @map("featureId")
+  Feature   Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+}
+
+model Geometry {
+  id          Int      @id @default(autoincrement())
+  type        String
+  coordinates Json
+  createdAt   DateTime @default(now())
+
+  featureId Int     @map("featureId")
+  Feature   Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+}
