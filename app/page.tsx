@@ -23,7 +23,11 @@ export default function Home() {
     <div className="flex flex-col items-stretch h-screen">
       <NavBar />
 
-      <main className="flex flex-row flex-grow h-full w-full items-stretch ">
+      <main
+        className="flex flex-row flex-grow w-full items-stretch "
+        // minus the height of the navbar
+        style={{ height: "calc(100vh - 4rem)" }}
+      >
         <FeatureSidebar />
 
         <div className="flex-grow bg-teal-400 w-full relative flex justify-center items-center">

@@ -1,6 +1,7 @@
 
 import prisma from "@/app/libs/prismadb";
 import { PrismaClient } from "@prisma/client";
+import { FeatureCollectionType } from "../types";
 
 
 // SCHEMA
@@ -45,10 +46,11 @@ import { PrismaClient } from "@prisma/client";
 
 export type FeatureCollectionDetail = {
   name: string;
-  type: 'road' | 'bridge' | 'area';
+  type: FeatureCollectionType,
   color: string;
-  weight: number;
-  dashed: boolean;
+  weight: number | null;
+  dashed: boolean | null;
+  radius: number | null;
 };
 
 export class GeoJSONImporter {
@@ -60,6 +62,7 @@ export class GeoJSONImporter {
 
   async importGeoJSON(geoJSON: GeoJSON.FeatureCollection, detail: FeatureCollectionDetail) {
     "use server"
+
     const featureCollection = await this.client.featureCollection.create({
       data: {
         name: detail.name,
@@ -67,6 +70,7 @@ export class GeoJSONImporter {
         color: detail.color,
         weight: detail.weight,
         dashed: detail.dashed,
+        radius: detail.radius,
         features: {
           create: geoJSON.features.map((feature) => ({
             type: feature.type,

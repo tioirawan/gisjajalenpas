@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { FeatureCollectionType } from "@/app/types";
+import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { IoClose } from "react-icons/io5";
 import { ImportFormState, saveGeoJSON } from "../../actions";
 
 type ImportFormProps = {
   onSuccess: () => void;
+  onClose: () => void;
 };
 
 const initialState: ImportFormState = {
@@ -17,7 +20,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
-      className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-sm mt-4 transition-all duration-300 ${
+      className={`bg-green-700 hover:bg-green-900 text-white px-4 py-2 mt-2 rounded transition-all duration-300 ${
         pending ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
@@ -26,7 +29,13 @@ function SubmitButton() {
   );
 }
 
-export default function ImportForm({ onSuccess }: ImportFormProps) {
+export default function ImportForm({ onSuccess, onClose }: ImportFormProps) {
+  const [layerType, setLayerType] = useState<FeatureCollectionType>("road");
+
+  const isRoad = () => layerType === "road";
+  const isBridge = () => layerType === "bridge";
+  const isArea = () => layerType === "area";
+
   const [state, formAction] = useFormState(saveGeoJSON, initialState);
 
   useEffect(() => {
@@ -37,21 +46,36 @@ export default function ImportForm({ onSuccess }: ImportFormProps) {
 
   return (
     <div className="max-w-lg mx-auto overflow-hidden">
+      <div className="flex justify-between items-center p-4">
+        <div className="flex-grow">
+          <h1 className="text-xl font-bold ">Impor</h1>
+          <small className="inline-block">Impor layer dari file GeoJSON.</small>
+        </div>
+        <button onClick={() => onClose()}>
+          <IoClose />
+        </button>
+      </div>
+
+      <hr />
+
       <form
         action={formAction}
         // onSubmit={onSuccess}
-        className="max-w-sm mx-auto bg-white rounded shadow-md"
+        className="max-w-sm mx-auto bg-white rounded shadow-md p-4"
       >
         <div className="mb-4">
-          <label htmlFor="file" className="text-gray-700 font-bold block mb-1">
-            File
+          <label
+            htmlFor="file"
+            className="text-gray-700 text-sm font-bold block mb-2"
+          >
+            File GeoJSON
           </label>
           <input
             type="file"
             name="file"
             id="file"
             accept=".geojson"
-            className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-3 py-2 transition-all duration-300"
+            className="text-sm border focus:border-green-500 w-full focus:outline-none rounded-lg px-3 py-2 transition-all duration-300"
           />
 
           {state.error?.file && (
@@ -60,14 +84,18 @@ export default function ImportForm({ onSuccess }: ImportFormProps) {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="name" className="text-gray-700 font-bold block mb-1">
-            Name
+          <label
+            htmlFor="name"
+            className="text-gray-700 text-sm font-bold block mb-2"
+          >
+            Nama
           </label>
           <input
             type="text"
             name="name"
             id="name"
-            className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-3 py-2 transition-all duration-300"
+            placeholder="Contoh: Jalan Nasional"
+            className="text-sm border focus:border-green-500 w-full focus:outline-none rounded-lg px-3 py-2 transition-all duration-300"
           />
 
           {state.error?.name && (
@@ -76,16 +104,22 @@ export default function ImportForm({ onSuccess }: ImportFormProps) {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="type" className="text-gray-700 font-bold block mb-1">
-            Type
+          <label
+            htmlFor="type"
+            className="text-gray-700 text-sm font-bold block mb-2"
+          >
+            Jenis
           </label>
           <select
             name="type"
             id="type"
-            className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-3 py-2 transition-all duration-300"
+            className="text-sm border focus:border-green-500 w-full focus:outline-none rounded-lg px-3 py-2 transition-all duration-300"
+            onChange={(event) => {
+              setLayerType(event.target.value as FeatureCollectionType);
+            }}
           >
-            <option value="road">Road</option>
-            <option value="bridge">Bridge</option>
+            <option value="road">Jalan</option>
+            <option value="bridge">Jembatan</option>
             <option value="area">Area</option>
           </select>
 
@@ -94,59 +128,91 @@ export default function ImportForm({ onSuccess }: ImportFormProps) {
           )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="color" className="text-gray-700 font-bold block mb-1">
-            Color
-          </label>
-          <input
-            type="color"
-            name="color"
-            id="color"
-            className="border focus:border-blue-500 focus:outline-none rounded-sm px-3 py-2 transition-all duration-300"
-          />
+        {(isRoad() || isArea()) && (
+          <div className="mb-4">
+            <label
+              htmlFor="weight"
+              className="text-gray-700 text-sm font-bold block mb-2"
+            >
+              Ketebalan Garis
+            </label>
+            <input
+              type="range"
+              name="weight"
+              id="weight"
+              className="text-sm border focus:border-green-500 w-full focus:outline-none rounded-lg px-3 mt-2 transition-all duration-300"
+              min={1}
+              max={5}
+              step={1}
+            />
 
-          {state.error?.color && (
-            <p className="text-red-500 text-sm">{state.error.color}</p>
-          )}
-        </div>
+            {state.error?.weight && (
+              <p className="text-red-500 text-sm">{state.error.weight}</p>
+            )}
+          </div>
+        )}
 
-        <div className="mb-4">
-          <label
-            htmlFor="weight"
-            className="text-gray-700 font-bold block mb-1"
-          >
-            Weight
-          </label>
-          <input
-            type="range"
-            name="weight"
-            id="weight"
-            className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-3 py-2 transition-all duration-300"
-            min={1}
-            max={5}
-            step={1}
-          />
-
-          {state.error?.weight && (
-            <p className="text-red-500 text-sm">{state.error.weight}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <div className="flex items-center">
+        {isRoad() && (
+          <div className="mb-4">
+            <label
+              htmlFor="dashed"
+              className="text-gray-700 text-sm font-bold block mb-2"
+            >
+              Putus-putus
+            </label>
             <input
               type="checkbox"
               name="dashed"
               id="dashed"
               className="border border-gray-200 rounded-sm px-2 py-1"
             />
-            <label htmlFor="dashed" className="ml-2 text-gray-700">
-              Dashed
-            </label>
-          </div>
 
-          {state.error?.dashed && (
-            <p className="text-red-500 text-sm">{state.error.dashed}</p>
+            {state.error?.dashed && (
+              <p className="text-red-500 text-sm">{state.error.dashed}</p>
+            )}
+          </div>
+        )}
+
+        {isBridge() && (
+          <div className="mb-2">
+            <label
+              htmlFor="radius"
+              className="text-gray-700 text-sm font-bold block mb-2"
+            >
+              Radius
+            </label>
+            <input
+              type="range"
+              name="radius"
+              id="radius"
+              className="text-sm border focus:border-green-500 w-full focus:outline-none rounded-lg px-3 py-2 transition-all duration-300"
+              min={1}
+              max={5}
+              step={1}
+            />
+
+            {state.error?.radius && (
+              <p className="text-red-500 text-sm">{state.error.radius}</p>
+            )}
+          </div>
+        )}
+
+        <div className="mb-4">
+          <label
+            htmlFor="color"
+            className="text-gray-700 text-sm font-bold block mb-2"
+          >
+            {isRoad() || isBridge() ? "Warna" : "Warna Garis"}
+          </label>
+          <input
+            type="color"
+            name="color"
+            id="color"
+            className="border focus:border-green-500 focus:outline-none rounded transition-all duration-300"
+          />
+
+          {state.error?.color && (
+            <p className="text-red-500 text-sm">{state.error.color}</p>
           )}
         </div>
 

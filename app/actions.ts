@@ -33,7 +33,12 @@ const schema = z.object({
   }).min(3, "Name must be at least 3 characters."),
   type: z.enum(["road", "bridge", "area"]),
   color: z.string(),
-  weight: z.preprocess((value) => parseInt(value as string), z.number()),
+
+  // weight is requred only if type is road or area and will be null if type is bridge
+  weight: z.preprocess((value) => isNaN(parseInt(value as string)) ? null : parseInt(value as string), z.number().nullable()),
+  // radius is required only if type is bridge, and will be null if type is road or area
+  radius: z.preprocess((value) => isNaN(parseInt(value as string)) ? null : parseInt(value as string), z.number().nullable()),
+
   dashed: z.preprocess((value) => value === "on", z.boolean()),
 });
 
@@ -48,6 +53,7 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
     type: formData.get("type"),
     color: formData.get("color"),
     weight: formData.get("weight"),
+    radius: formData.get("radius"),
     dashed: formData.get("dashed"),
   });
 
@@ -63,6 +69,43 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
   const fileContent = await file.text();
   const json = JSON.parse(fileContent);
 
+  // check if file is valid geojson
+  if (json.type !== "FeatureCollection") {
+    return {
+      error: {
+        file: "Invalid geojson file.",
+      },
+      success: false,
+    };
+  }
+
+  // check if data.type is match with geojson features type
+  const featureTypes = json.features.map((feature: any) => feature.geometry.type) as string[];
+
+  const mapper = {
+    "road": ["LineString", "MultiLineString"],
+    "bridge": ["Point", "MultiPoint"],
+    "area": ["Polygon", "MultiPolygon"],
+  }
+  const inverseMapper: Record<string, string> = {
+    "LineString": "Jalan",
+    "MultiLineString": "Jalan",
+    "Point": "Jembatan",
+    "MultiPoint": "Jembatan",
+    "Polygon": "Area",
+    "MultiPolygon": "Area",
+  }
+  const matchAll = featureTypes.every((type: string) => mapper[data.data.type].includes(type));
+
+  if (!matchAll) {
+    return {
+      error: {
+        type: `Tipe salah, harap pilih ${inverseMapper[featureTypes[0]]}`,
+      },
+      success: false,
+    };
+  }
+
   const importer = new GeoJSONImporter();
 
   // import geojson
@@ -72,6 +115,7 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
     color: data.data.color,
     weight: data.data.weight,
     dashed: data.data.dashed,
+    radius: data.data.radius,
   });
 
   return {

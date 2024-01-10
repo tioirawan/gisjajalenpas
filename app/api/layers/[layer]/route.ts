@@ -41,3 +41,20 @@ export async function DELETE(request: Request, { params }: { params: LayerRouteP
 
   return Response.json(feature);
 }
+
+export async function PATCH(request: Request, { params }: { params: LayerRouteParams }) {
+  const { layer } = params;
+  const body = await request.json();
+
+  const feature = await prisma.featureCollection.update({
+    where: {
+      id: parseInt(layer),
+    },
+    data: {
+      ...body,
+    },
+  });
+
+  return Response.json(feature);
+
+}

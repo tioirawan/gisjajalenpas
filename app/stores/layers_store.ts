@@ -13,6 +13,7 @@ type LayersStore = {
   loadLayers: () => void;
   addLayer: (layer: FeatureCollectionFull) => void;
   deleteLayer: (layerId: number) => void;
+  updateLayer: (layerId: number, layer: Record<string, any>) => void;
   loadLayer: (layerId: number) => Promise<FeatureCollectionFull>;
   toggleLayerVisibility: (layerId: number) => void;
   isLayerVisible: (layerId: number) => boolean;
@@ -61,6 +62,19 @@ const useLayersStore = create<LayersStore>((set, get) => ({
       set((state) => ({
         layers: state.layers.filter((l) => l.id !== layerId),
       }));
+    }
+  },
+  updateLayer: async (layerId, layer) => {
+    const response = await fetch(`/api/layers/${layerId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(layer),
+    });
+
+    if (response.ok) {
+      await get().loadLayer(layerId);
     }
   },
   loadLayer: async (layerId) => {

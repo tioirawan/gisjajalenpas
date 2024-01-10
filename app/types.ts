@@ -1,5 +1,7 @@
 import { Prisma } from "@prisma/client";
 
+export type FeatureCollectionType = 'road' | 'bridge' | 'area';
+
 export type FeatureWithProperties = Prisma.FeatureGetPayload<{
   include: { properties: true; geometry: true };
 }>;

@@ -5,10 +5,12 @@ import { IoClose, IoSettings } from "react-icons/io5";
 
 type LayerTileProp = {
   layerInformation: LayerInformation;
+  onEdit: (layerInformation: LayerInformation) => void;
 };
 
 export default function LayerTile({
   layerInformation: information,
+  onEdit,
 }: LayerTileProp) {
   const { isVisible, toggleVisibility, deleteLayer } = useLayersStore(
     (state) => ({
@@ -34,7 +36,7 @@ export default function LayerTile({
   };
 
   return (
-    <li key={information.layer.id} className="flex flex-row items-center">
+    <li key={information.layer.id} className="flex flex-row items-center py-1">
       <input
         type="checkbox"
         checked={isVisible(information.layer.id)}
@@ -46,11 +48,11 @@ export default function LayerTile({
           style={{ backgroundColor: information.layer.color }}
         ></span>
       </div>
-      <span className="flex-grow text-sm">{information.layer.name}</span>
+      <span className="flex-grow ">{information.layer.name}</span>
       {/* setting and delete button */}
       <button
         onClick={() => {
-          console.log("setting");
+          onEdit(information);
         }}
         className="mr-2 text-gray-500"
       >

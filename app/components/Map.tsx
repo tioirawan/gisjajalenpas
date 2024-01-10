@@ -9,12 +9,18 @@ import {
   Pane,
   Polygon,
   Polyline,
-  TileLayer,
 } from "react-leaflet";
 import seedColor from "seed-color";
 import useLayersStore from "../stores/layers_store";
 import useSelectedFeatureStore from "../stores/selected_feature_store";
 import { swapLngLat } from "../utils/helper";
+import BaseLayer from "./BaseLayer";
+
+// import "leaflet.polylinemeasure";
+
+// export const PolylineMeasureControl = createControlComponent(
+//   (props) => new Control.PolylineMeasure(props)
+// );
 
 export default function Map() {
   const { setSelectedFeature, selectedFeature } = useSelectedFeatureStore();
@@ -28,12 +34,15 @@ export default function Map() {
     <MapContainer
       center={[-7.786, 112.8582]}
       zoom={11}
-      className="h-full w-full absolute"
+      className="h-full w-full absolute bg-white"
+      style={{ backgroundColor: "red" }}
       renderer={L.canvas({
         tolerance: 500,
       })}
     >
-      <TileLayer url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+      <BaseLayer />
+
+      {/* <PolylineMeasureControl /> */}
 
       <Pane name="bridge" style={{ zIndex: 503 }} />
       <Pane name="road" style={{ zIndex: 502 }} />
@@ -55,9 +64,10 @@ export default function Map() {
                   // color: selectedFeature == road ? "red" : "black",
                   weight:
                     selectedFeature?.id == feature.id
-                      ? information.layer.weight + 2
-                      : information.layer.weight,
-                  dashArray: information.layer.dashed ? [5, 5] : [],
+                      ? information.layer.weight! + 2
+                      : information.layer.weight!,
+                  dashArray: information.layer.dashed ? [7, 7] : [],
+                  dashOffset: information.layer.dashed ? "10" : "15",
                 }}
                 eventHandlers={{
                   click: (e) => {
@@ -74,12 +84,16 @@ export default function Map() {
                 center={
                   swapLngLat(feature?.geometry[0]?.coordinates as any) as any
                 }
-                radius={selectedFeature?.id == feature.id ? 5 : 3}
+                radius={
+                  selectedFeature?.id == feature.id
+                    ? information.layer.radius! + 2
+                    : information.layer.radius!
+                }
                 pathOptions={{
                   color: "black",
                   weight: 1,
                   fill: true,
-                  fillColor: "yellow",
+                  fillColor: information.layer.color,
                   fillOpacity: 0.5,
                 }}
                 eventHandlers={{
@@ -102,7 +116,7 @@ export default function Map() {
                   color: information.layer.color,
                   fillColor: seedColor(feature.id.toString()).toHex(),
                   opacity: selectedFeature?.id == feature.id ? 1 : 0.5,
-                  weight: selectedFeature?.id == feature.id ? 2 : 1,
+                  weight: information.layer.weight!,
                   fillOpacity: selectedFeature?.id == feature.id ? 1 : 0.25,
                 }}
                 eventHandlers={{

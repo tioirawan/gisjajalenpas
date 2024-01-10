@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { FeatureProperty } from '../types';
 
 type FeaturePropertiesStore = {

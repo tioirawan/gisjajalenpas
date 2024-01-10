@@ -56,8 +56,9 @@ model FeatureCollection {
   name      String
   type      String
   color     String
-  weight    Int       @default(1)
-  dashed    Boolean   @default(false)
+  weight    Int?      @default(1)
+  dashed    Boolean?  @default(false)
+  radius    Int?      @default(5)
   features  Feature[]
   createdAt DateTime  @default(now())
 }
