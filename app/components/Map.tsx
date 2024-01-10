@@ -15,6 +15,7 @@ import useLayersStore from "../stores/layers_store";
 import useSelectedFeatureStore from "../stores/selected_feature_store";
 import { swapLngLat } from "../utils/helper";
 import BaseLayer from "./BaseLayer";
+import DrawPolyline from "./Map/DrawPolyline";
 
 // import "leaflet.polylinemeasure";
 
@@ -41,6 +42,12 @@ export default function Map() {
       })}
     >
       <BaseLayer />
+
+      <DrawPolyline
+        onChange={(value) => {
+          console.log(value);
+        }}
+      />
 
       {/* <PolylineMeasureControl /> */}
 

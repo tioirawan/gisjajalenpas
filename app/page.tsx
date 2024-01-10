@@ -2,13 +2,24 @@
 
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
+import { Puff } from "react-loader-spinner";
 import FeatureSidebar from "./components/Feature/FeatureSidebar";
 import LayerSidebar from "./components/Layer/LayerSidebar";
 import NavBar from "./components/NavBar";
 import useLayersStore from "./stores/layers_store";
 
 const DynamicMap = dynamic(() => import("./components/Map"), {
-  loading: () => <p className="align-middle">Loading...</p>,
+  loading: () => (
+    <Puff
+      visible={true}
+      height="40"
+      width="40"
+      color="#4fa94d"
+      ariaLabel="puff-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+    />
+  ),
   ssr: false,
 });
 
@@ -30,7 +41,7 @@ export default function Home() {
       >
         <FeatureSidebar />
 
-        <div className="flex-grow bg-teal-400 w-full relative flex justify-center items-center">
+        <div className="flex-grow bg-slate-100 w-full relative flex justify-center items-center">
           {/* test */}
           <DynamicMap />
         </div>
