@@ -39,6 +39,7 @@ export default function LayerTile({
     <li key={information.layer.id} className="flex flex-row items-center py-1">
       <input
         type="checkbox"
+        className="text-sm font-medium text-gray-900 dark:text-gray-300"
         checked={isVisible(information.layer.id)}
         onChange={() => toggleVisibility(information.id)}
       />
@@ -48,7 +49,7 @@ export default function LayerTile({
           style={{ backgroundColor: information.layer.color }}
         ></span>
       </div>
-      <span className="flex-grow ">{information.layer.name}</span>
+      <span className="flex-grow text-sm">{information.layer.name}</span>
       {/* setting and delete button */}
       <button
         onClick={() => {

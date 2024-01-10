@@ -42,6 +42,7 @@ export default function FeatureSidebar() {
         ${selectedFeature ? "w-1/5 p-4 shrink-0" : "w-0 p-0"}
         transition-all duration-500 ease-in-out
         overflow-y-auto 
+        border-r
         h-full  bg-white`}
     >
       <div className="flex flex-row justify-between items-center pb-4">

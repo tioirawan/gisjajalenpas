@@ -23,6 +23,13 @@ const DynamicMap = dynamic(() => import("./components/Map"), {
   ssr: false,
 });
 
+const DynamicCreateRoadSidebar = dynamic(
+  () => import("./components/Road/CreateRoadSidebar"),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
   const loadLayers = useLayersStore((state) => state.loadLayers);
 
@@ -40,6 +47,7 @@ export default function Home() {
         style={{ height: "calc(100vh - 4rem)" }}
       >
         <FeatureSidebar />
+        <DynamicCreateRoadSidebar />
 
         <div className="flex-grow bg-slate-100 w-full relative flex justify-center items-center">
           {/* test */}

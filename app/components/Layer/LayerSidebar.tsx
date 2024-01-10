@@ -18,7 +18,7 @@ export default function LayerSidebar() {
     <aside
       className={`w-1/5 shrink-0
         transition-all duration-500 ease-in-out
-        h-full bg-white`}
+        h-full border-l bg-white`}
     >
       {isImporting ? (
         <ImportForm
