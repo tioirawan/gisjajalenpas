@@ -98,19 +98,8 @@ export default function FeaturePropertyDetail({
                   d[1]
                 )}
               </td>
-              {/* remove field button */}
+
               {isEditing && (
-                // <td className="align-bottom flex items-center justify-center bg-green-400">
-                //   {/* <button
-                //     className="text-red-500 hover:text-red-800 transition-all duration-300"
-                //     onClick={() => {
-                //       setData(data.filter((_, j) => j !== i));
-                //     }}
-                //   > */}
-                //   {/* <IoTrash /> */}
-                //   {/* </button> */}
-                //   <p>test</p>
-                // </td>
                 <td className={`pl-2 py-1 px-1 ${align}`}>
                   <button
                     className="text-red-500 hover:text-red-800 transition-all duration-300"
@@ -120,7 +109,6 @@ export default function FeaturePropertyDetail({
                       newData.splice(i, 1);
 
                       setData(newData);
-                      // setData(data.filter((_, j) => j !== i));
                     }}
                   >
                     <IoTrash />
@@ -136,7 +124,7 @@ export default function FeaturePropertyDetail({
       {isEditing && (
         <div className="flex justify-end pt-2">
           <button
-            className="bg-slate-300 text-green-700 px-4 py-2 rounded hover:bg-green-800 hover:text-white transition-all duration-300"
+            className="bg-white shadow-lg text-green-700 px-4 py-2 rounded hover:bg-green-800 hover:text-white transition-all duration-300"
             onClick={() => {
               setData([...data, ["", ""]]);
             }}
@@ -148,9 +136,9 @@ export default function FeaturePropertyDetail({
 
       {/* save button */}
       {isEditing && (
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-stretch pt-4">
           <button
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300"
+            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full"
             onClick={() => {
               onSave?.(toJson());
             }}
