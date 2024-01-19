@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from "@/app/libs/prismadb";
+import { Photo } from "@prisma/client";
 import { z } from "zod";
 import { GeoJSONImporter } from "./services/geojson-importer";
 
@@ -125,11 +126,75 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
 }
 
 // even though this is an update operation, it is actually adding a new property to the database
-export async function updateFeatureProperty(featureId: number, data: Record<string, any>) {
-  await prisma.properties.create({
+export async function updateFeatureProperty(featureId: number, data: Record<string, any>,
+  oldPhotos: Photo[],
+  updatedPhotos: Photo[],
+  deletedPhotos: Photo[],
+) {
+  const property = await prisma.properties.create({
     data: {
       data: data,
       featureId: featureId,
     }
   });
+
+  // copy old photos, and update, delete, and add accordingly
+  const photos = [...oldPhotos];
+
+  // update photos
+  for (const photo of updatedPhotos) {
+    const index = photos.findIndex((p) => p.id === photo.id);
+    photos[index] = photo;
+  }
+
+  // delete photos
+  for (const photo of deletedPhotos) {
+    const index = photos.findIndex((p) => p.id === photo.id);
+    photos.splice(index, 1);
+  }
+
+  // duplicate photos (assign to new property)
+  for (const photo of photos) {
+    await prisma.photo.create({
+      data: {
+        propertyId: property.id,
+        path: photo.path,
+        url: photo.url,
+        description: photo.description,
+      }
+    });
+  }
+
+  return property;
+
+  // // add photos (upload first)
+  // for (const photo of newPhotos) {
+  //   const file = photo.file;
+  //   const bytes = await file.arrayBuffer();
+  //   const fileBuffer = Buffer.from(bytes);
+
+  //   const fileExtension = file.name.split(".").pop();
+  //   const fileName = `${Date.now()}.${fileExtension}`;
+
+  //   const path = `./public/uploads/${fileName}`;
+
+  //   // write file to public folder
+  //   await writeFile(path, fileBuffer, (err: any) => {
+  //     if (err) {
+  //       console.error(err);
+  //     }
+  //   });
+
+  //   // save file to database
+  //   await prisma.photo.create({
+  //     data: {
+  //       propertyId: property.id,
+  //       path: path,
+  //       url: path.replace("./public", ""),
+  //       description: photo.description,
+  //     },
+  //   });
+  // }
+
+
 }

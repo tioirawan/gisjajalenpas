@@ -293,18 +293,18 @@ export default function FeaturePropertyEditor(
                   console.log("updated", updatedPhotos.current);
                   console.log("deleted", deletedPhotos.current);
 
-                  // props.onSave?.(
-                  //   toJson(),
-                  //   newPhotos.current,
-                  //   updatedPhotos.current,
-                  //   deletedPhotos.current
-                  // );
+                  props.onSave?.(
+                    toJson(),
+                    newPhotos.current,
+                    updatedPhotos.current,
+                    deletedPhotos.current
+                  );
 
-                  // // cleanup
-                  // newPhotos.current = [];
-                  // updatedPhotos.current = [];
-                  // deletedPhotos.current = [];
-                  // setPhotos([]);
+                  // cleanup
+                  newPhotos.current = [];
+                  updatedPhotos.current = [];
+                  deletedPhotos.current = [];
+                  setPhotos([]);
                 }
           }
         >

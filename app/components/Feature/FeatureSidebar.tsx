@@ -135,11 +135,40 @@ export default function FeatureSidebar() {
                 key={selectedFeature?.id}
                 property={selectedFeature?.properties[0]}
                 isEditing={isEditing}
-                onSave={async (data) => {
+                onSave={async (
+                  data,
+                  newPhotos,
+                  updatedPhotos,
+                  deletedPhotos
+                ) => {
                   setIsEditing(false);
 
                   setIsLoading(true);
-                  await updateFeatureProperty(selectedFeature?.id!, data);
+                  const property = await updateFeatureProperty(
+                    selectedFeature?.id!,
+                    data,
+                    selectedFeature?.properties[0]?.photos ?? [],
+                    updatedPhotos,
+                    deletedPhotos
+                  );
+
+                  for (const photo of newPhotos) {
+                    const formData = new FormData();
+                    formData.append("file", photo.file);
+                    formData.append("description", photo.description);
+
+                    const response = await fetch(
+                      `/api/properties/${property.id}/photos`,
+                      {
+                        method: "POST",
+                        body: formData,
+                      }
+                    );
+
+                    if (!response.ok) {
+                      return null;
+                    }
+                  }
 
                   const newLayer = await loadLayer(
                     selectedFeature?.featureCollectionId!

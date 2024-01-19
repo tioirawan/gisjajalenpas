@@ -1,13 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
+import { Photo } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { FeatureProperty } from "../../types";
+import { FeatureProperty, NewPhoto } from "../../types";
 import FeaturePropertyEditor from "../FeaturePropertyEditor";
 
 type FeaturePropertyDetailProp = {
   // feature: FeatureWithProperties | null;
   property: FeatureProperty | undefined;
   isEditing?: boolean;
-  onSave?: (data: Record<string, any>) => void;
+  onSave?: (
+    data: Record<string, any>,
+    newPhotos: NewPhoto[],
+    updatedPhotos: Photo[],
+    deletedPhotos: Photo[]
+  ) => void;
 };
 export default function FeaturePropertyDetail({
   property,
@@ -105,7 +111,7 @@ export default function FeaturePropertyDetail({
                 <img
                   src={photo.url}
                   alt={photo.description ?? ""}
-                  className="w-full h-32 object-cover rounded"
+                  className="w-full object-cover rounded"
                 />
 
                 <div className="flex justify-between items-center mt-1">
