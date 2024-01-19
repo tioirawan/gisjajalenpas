@@ -4,7 +4,7 @@ type LayerFeatureRouteParams = {
   layer: string;
 };
 
-// add feature
+// add feature [FeatureWithProperties]
 export async function POST(request: Request, { params }: { params: LayerFeatureRouteParams }) {
   const { layer } = params;
 
@@ -33,6 +33,16 @@ export async function POST(request: Request, { params }: { params: LayerFeatureR
           },
         ],
       },
+    },
+    include: {
+      properties: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+      geometry: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      }
     },
   });
 

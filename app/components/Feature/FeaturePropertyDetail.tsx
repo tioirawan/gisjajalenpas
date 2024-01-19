@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
-import { IoAdd, IoTrash } from "react-icons/io5";
 import { FeatureProperty } from "../../types";
+import FeaturePropertyEditor from "../FeaturePropertyEditor";
 
 type FeaturePropertyDetailProp = {
   // feature: FeatureWithProperties | null;
@@ -63,89 +64,59 @@ export default function FeaturePropertyDetail({
 
   return (
     <div className="flex flex-col">
-      <table className="table-auto text-sm">
-        <tbody key={data.length}>
-          {data.map((d, i) => (
-            <tr key={`${i}`}>
-              <td className={`py-1 font-bold text-xs ${align} w-28`}>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name={`key-${i}`}
-                    className="border  focus:border-blue-500 w-full focus:outline-none rounded-sm px-2 py-1 transition-all duration-300"
-                    defaultValue={d[0]}
-                    onChange={onInputChange}
-                  />
-                ) : (
-                  d[0]
-                )}
-              </td>
-              <td className={`py-1 text-xs px-1 ${align}`}>:</td>
-              <td
-                className={`py-1 text-xs ${align}`}
-                colSpan={isEditing ? 2 : 1}
+      {isEditing ? (
+        <FeaturePropertyEditor
+          initialData={toJson()}
+          photos={property?.photos ?? []}
+          isLoading={false}
+          onSave={onSave}
+        />
+      ) : (
+        <>
+          <table className="table-auto text-sm">
+            <tbody key={data.length}>
+              {data.map((d, i) => (
+                <tr key={`${i}`}>
+                  <td className={`py-1 font-bold text-xs ${align} w-28`}>
+                    {d[0]}
+                  </td>
+                  <td className={`py-1 text-xs px-1 ${align}`}>:</td>
+                  <td className={`py-1 text-xs ${align}`}>{d[1]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* images */}
+          <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
+
+          <div className="grid grid-cols-2 gap-1">
+            {property?.photos?.length === 0 && (
+              <div className="w-full p-1">
+                <span className="text-xs text-gray-500">Tidak ada foto</span>
+              </div>
+            )}
+
+            {property?.photos?.map((photo, i) => (
+              <div
+                key={i}
+                className="flex flex-col justify-center items-center"
               >
-                {/* {values[i]} */}
-                {isEditing ? (
-                  <textarea
-                    name={`value-${i}`}
-                    className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-2 py-1 transition-all duration-300"
-                    rows={1}
-                    defaultValue={d[1]}
-                    onChange={onInputChange}
-                  />
-                ) : (
-                  d[1]
-                )}
-              </td>
+                <img
+                  src={photo.url}
+                  alt={photo.description ?? ""}
+                  className="w-full h-32 object-cover rounded"
+                />
 
-              {isEditing && (
-                <td className={`pl-2 py-1 px-1 ${align}`}>
-                  <button
-                    className="text-red-500 hover:text-red-800 transition-all duration-300"
-                    onClick={() => {
-                      const newData = [...data];
-
-                      newData.splice(i, 1);
-
-                      setData(newData);
-                    }}
-                  >
-                    <IoTrash />
-                  </button>
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* add field button */}
-      {isEditing && (
-        <div className="flex justify-end pt-2">
-          <button
-            className="bg-white shadow-lg text-green-700 px-4 py-2 rounded hover:bg-green-800 hover:text-white transition-all duration-300"
-            onClick={() => {
-              setData([...data, ["", ""]]);
-            }}
-          >
-            <IoAdd />
-          </button>
-        </div>
-      )}
-
-      {/* save button */}
-      {isEditing && (
-        <div className="flex justify-stretch pt-4">
-          <button
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full"
-            onClick={() => {
-              onSave?.(toJson());
-            }}
-          >
-            Simpan
-          </button>
-        </div>
+                <div className="flex justify-between items-center mt-1">
+                  <span className="text-xs text-gray-500">
+                    {photo.description}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

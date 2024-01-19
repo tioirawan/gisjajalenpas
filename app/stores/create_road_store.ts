@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { FeatureWithProperties } from "../types";
+import { FeatureWithProperties, NewPhoto } from "../types";
 
 type RoadFeature = GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString>;
 
@@ -8,9 +8,11 @@ type CreateRoadStore = {
   isLoading: boolean,
   geojsonFeature: RoadFeature | null,
   roadProperties: Record<string, any>,
+  roadPhotos: Array<NewPhoto>,
   startCreatingRoad: () => void,
   setGeojsonFeature: (feature: RoadFeature | null) => void,
   setRoadProperties: (properties: Record<string, any>) => void,
+  setRoadPhotos: (photos: Array<NewPhoto>) => void,
   saveCreatedRoad: (layerId: number) => Promise<FeatureWithProperties | null>,
   cancelCreatingRoad: () => void,
 }
@@ -20,6 +22,7 @@ const useCreateRoad = create<CreateRoadStore>((set, get) => ({
   isLoading: false,
   geojsonFeature: null,
   roadProperties: {},
+  roadPhotos: [],
   startCreatingRoad: () => {
     set(() => ({
       isCreatingRoad: true,
@@ -36,12 +39,17 @@ const useCreateRoad = create<CreateRoadStore>((set, get) => ({
       roadProperties: properties,
     }));
   },
+  setRoadPhotos: (photos: Array<NewPhoto>) => {
+    set(() => ({
+      roadPhotos: photos,
+    }));
+  },
   saveCreatedRoad: async (layerId) => {
     set(() => ({
       isLoading: true,
     }));
 
-    const { geojsonFeature, roadProperties } = get();
+    const { geojsonFeature, roadProperties, roadPhotos } = get();
 
     // combine
     const feature = {
@@ -61,7 +69,27 @@ const useCreateRoad = create<CreateRoadStore>((set, get) => ({
       body: JSON.stringify(feature),
     });
 
-    const createdFeature = await response.json();
+    if (!response.ok) {
+      return null;
+    }
+
+    const createdFeature = await response.json() as FeatureWithProperties;
+
+    // upload photos
+    for (const photo of roadPhotos) {
+      const formData = new FormData();
+      formData.append("file", photo.file);
+      formData.append("description", photo.description);
+
+      const response = await fetch(`/api/properties/${createdFeature.properties[0].id}/photos`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+    }
 
     // add to map
     set(() => ({
@@ -69,6 +97,7 @@ const useCreateRoad = create<CreateRoadStore>((set, get) => ({
       isCreatingRoad: false,
       geojsonFeature: null,
       roadProperties: {},
+      roadPhotos: [],
     }));
 
     return createdFeature;
@@ -79,6 +108,7 @@ const useCreateRoad = create<CreateRoadStore>((set, get) => ({
       isLoading: false,
       geojsonFeature: null,
       roadProperties: {},
+      roadPhotos: [],
     }));
   },
 

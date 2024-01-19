@@ -17,6 +17,9 @@ export async function GET(request: Request, { params }: { params: LayerRoutePara
           properties: {
             orderBy: { createdAt: "desc" },
             take: 1,
+            include: {
+              photos: true,
+            }
           },
           geometry: {
             orderBy: { createdAt: "desc" },

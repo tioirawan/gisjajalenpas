@@ -12,6 +12,9 @@ export async function GET(request: Request, { params }: { params: LayerPropertie
       featureId: parseInt(feature),
     },
     orderBy: { createdAt: "desc" },
+    include: {
+      photos: true,
+    },
   });
 
   return Response.json(properties);

@@ -74,9 +74,22 @@ model Feature {
   FeatureCollection   FeatureCollection @relation(fields: [featureCollectionId], references: [id], onDelete: Cascade)
 }
 
+model Photo {
+  id          Int     @id @default(autoincrement())
+  path        String
+  url         String
+  description String?
+
+  createdAt DateTime @default(now())
+
+  propertyId Int        @map("propertyId")
+  Property   Properties @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
 model Properties {
   id        Int      @id @default(autoincrement())
   data      Json
+  photos    Photo[]
   createdAt DateTime @default(now())
 
   featureId Int     @map("featureId")

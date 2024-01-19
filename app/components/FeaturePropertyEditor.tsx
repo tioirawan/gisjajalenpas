@@ -1,10 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { Photo } from "@prisma/client";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoAdd, IoTrash } from "react-icons/io5";
+import { NewPhoto } from "../types";
 
 type FeaturePropertyEditorProps = {
   initialData?: Record<string, any>;
+  photos?: Array<Photo>;
   isLoading?: boolean;
-  onSave?: (data: Record<string, any>) => void;
+  onSave?: (
+    data: Record<string, any>,
+    newPhotos: Array<NewPhoto>,
+    updatedPhotos: Array<Photo>,
+    deletedPhotos: Array<Photo>
+  ) => void;
 };
 
 export default function FeaturePropertyEditor(
@@ -22,6 +30,14 @@ export default function FeaturePropertyEditor(
   const [data, setData] = useState<Array<[string, any]>>(
     toArray(props.initialData)
   );
+
+  const [photos, setPhotos] = useState<Array<NewPhoto | Photo>>(
+    props.photos ?? []
+  );
+
+  const deletedPhotos = useRef<Array<Photo>>([]);
+  const updatedPhotos = useRef<Array<Photo>>([]);
+  const newPhotos = useRef<Array<NewPhoto>>([]);
 
   useEffect(() => {
     setData(toArray(props.initialData));
@@ -118,6 +134,140 @@ export default function FeaturePropertyEditor(
         </button>
       </div>
 
+      {/* photos editor, can remove or add photos and can also add description */}
+      <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
+
+      <div className="grid grid-cols-2 gap-2">
+        {photos.length === 0 && (
+          <div className="w-full">
+            <span className="text-xs text-gray-500">Tidak ada foto</span>
+          </div>
+        )}
+
+        {photos.map((photo, i) => (
+          <div key={i}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              // if photo is Photo, use url, if photo is File, use url
+              src={
+                (photo as Photo).id
+                  ? (photo as Photo).url
+                  : URL.createObjectURL((photo as NewPhoto).file)
+              }
+              alt={photo.description ?? ""}
+              className="w-full h-32 object-cover rounded"
+            />
+
+            <div className="flex justify-between items-center mt-1">
+              <input
+                type="text"
+                className="border focus:border-blue-500 w-full focus:outline-none rounded-sm px-2 py-1 transition-all duration-300"
+                placeholder="Deskripsi"
+                defaultValue={photo.description ?? ""}
+                onChange={(e) => {
+                  const data = [...photos];
+
+                  data[i].description = e.target.value;
+
+                  setPhotos(data);
+
+                  if ((data[i] as Photo).id) {
+                    // check if photo is in updated, if not, add it, if yes, update it
+                    if (
+                      !updatedPhotos.current.find(
+                        (p) => p.id === (data[i] as Photo).id
+                      )
+                    ) {
+                      updatedPhotos.current.push(data[i] as Photo);
+                    } else {
+                      updatedPhotos.current = updatedPhotos.current.map((p) =>
+                        p.id === (data[i] as Photo).id ? data[i] : (p as Photo)
+                      ) as Array<Photo>;
+                    }
+                  } else {
+                    newPhotos.current = newPhotos.current.map((p) =>
+                      p.file === (data[i] as NewPhoto).file ? data[i] : p
+                    ) as Array<NewPhoto>;
+                  }
+                }}
+              />
+
+              <button
+                className="text-red-500 hover:text-red-800 transition-all duration-300 p-2 bg-slate-200 rounded ml-2"
+                onClick={() => {
+                  const data = [...photos];
+
+                  data.splice(i, 1);
+
+                  setPhotos(data);
+
+                  if ((photo as Photo).id) {
+                    // add to deleted if not already there
+                    if (
+                      !deletedPhotos.current.find(
+                        (p) => p.id === (photo as Photo).id
+                      )
+                    ) {
+                      deletedPhotos.current.push(photo as Photo);
+                    }
+                  } else {
+                    newPhotos.current = newPhotos.current.filter(
+                      (p) => p.file !== (photo as NewPhoto).file
+                    );
+                  }
+                }}
+              >
+                <IoTrash />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* add photo button */}
+      <div className="w-full pt-4">
+        <label
+          htmlFor="photo"
+          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300"
+        >
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            id="photo"
+            onChange={(e) => {
+              // const newPhotos = [...photos];
+
+              // for (let i = 0; i < e.target.files!.length; i++) {
+              //   const file = e.target.files![i];
+
+              //   newPhotos.push({
+              //     photo: file,
+              //     description: "",
+              //   });
+              // }
+
+              // setPhotos(newPhotos);
+
+              const files = [];
+
+              for (let i = 0; i < e.target.files!.length; i++) {
+                const file = e.target.files![i];
+
+                files.push({
+                  file,
+                  description: "",
+                });
+              }
+
+              setPhotos([...photos, ...files]);
+              newPhotos.current = [...newPhotos.current, ...files];
+            }}
+          />
+          Tambah Foto
+        </label>
+      </div>
+
       {/* save button */}
       <div className="flex justify-stretch pt-4">
         <button
@@ -130,7 +280,31 @@ export default function FeaturePropertyEditor(
             props.isLoading
               ? undefined
               : () => {
-                  props.onSave?.(toJson());
+                  // cleanup, if photo is deleted and updated, remove from updated
+                  for (const photo of updatedPhotos.current) {
+                    if (deletedPhotos.current.find((p) => p.id === photo.id)) {
+                      updatedPhotos.current = updatedPhotos.current.filter(
+                        (p) => p.id !== photo.id
+                      );
+                    }
+                  }
+
+                  console.log("new", newPhotos.current);
+                  console.log("updated", updatedPhotos.current);
+                  console.log("deleted", deletedPhotos.current);
+
+                  // props.onSave?.(
+                  //   toJson(),
+                  //   newPhotos.current,
+                  //   updatedPhotos.current,
+                  //   deletedPhotos.current
+                  // );
+
+                  // // cleanup
+                  // newPhotos.current = [];
+                  // updatedPhotos.current = [];
+                  // deletedPhotos.current = [];
+                  // setPhotos([]);
                 }
           }
         >

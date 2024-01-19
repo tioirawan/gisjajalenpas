@@ -8,6 +8,9 @@ export async function GET() {
           properties: {
             orderBy: { createdAt: "desc" },
             take: 1,
+            include: {
+              photos: true,
+            }
           },
           geometry: {
             orderBy: { createdAt: "desc" },

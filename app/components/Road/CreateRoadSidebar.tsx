@@ -19,6 +19,7 @@ export default function CreateRoadSidebar() {
     geojsonFeature,
     roadProperties,
     setRoadProperties,
+    setRoadPhotos,
     saveCreatedRoad,
     isLoading,
   } = useCreateRoad((state) => ({
@@ -27,6 +28,7 @@ export default function CreateRoadSidebar() {
     geojsonFeature: state.geojsonFeature,
     roadProperties: state.roadProperties,
     setRoadProperties: state.setRoadProperties,
+    setRoadPhotos: state.setRoadPhotos,
     saveCreatedRoad: state.saveCreatedRoad,
     isLoading: state.isLoading,
   }));
@@ -221,8 +223,9 @@ export default function CreateRoadSidebar() {
           <FeaturePropertyEditor
             initialData={properties}
             isLoading={isLoading}
-            onSave={(data) => {
+            onSave={(data, photos) => {
               setRoadProperties(data);
+              setRoadPhotos(photos);
 
               submit();
             }}

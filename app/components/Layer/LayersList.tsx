@@ -63,56 +63,13 @@ export default function LayersList(props: LayerListProps) {
 
       <h2 className="text-lg font-bold p-4">Peta Dasar</h2>
 
-      {/* radio button to select between arcgis, openstreetmap atau tanpa peta dasar */}
-      {/* <div className="flex flex-col px-4">
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            className="form-radio"
-            name="radio"
-            checked={baseLayer === "esri"}
-            onChange={() => setBaseLayer("esri")}
-          />
-          <span className="ml-2">Esri World Imagery</span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            className="form-radio"
-            name="radio"
-            checked={baseLayer === "openstreetmap"}
-            onChange={() => setBaseLayer("openstreetmap")}
-          />
-          <span className="ml-2">OpenStreetMap</span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            className="form-radio"
-            name="radio"
-            checked={baseLayer === "stadia"}
-            onChange={() => setBaseLayer("stadia")}
-          />
-          <span className="ml-2">Stadia Alidade Smooth</span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            className="form-radio"
-            name="radio"
-            checked={baseLayer === null}
-            onChange={() => setBaseLayer(null)}
-          />
-          <span className="ml-2">Tanpa Peta Dasar</span>
-        </label>
-      </div> */}
-
-      {/* better looking, grid 2 by 2, with icons */}
       <div className="grid grid-cols-2 gap-2 px-4">
         <div
           className={`p-2 rounded-lg ${
-            baseLayer === "esri" ? "bg-green-800" : "bg-slate-200"
-          }`}
+            baseLayer === "esri"
+              ? "bg-green-800 text-white"
+              : "bg-slate-200 text-slate-800"
+          } hover:bg-green-800 hover:text-white cursor-pointer`}
           onClick={() => setBaseLayer("esri")}
         >
           <img
@@ -120,18 +77,14 @@ export default function LayersList(props: LayerListProps) {
             alt="esri"
             className="w-full rounded"
           />
-          <p
-            className={`text-center ${
-              baseLayer == "esri" ? "text-white" : "text-slate-800"
-            } font-bold text-xs mt-2`}
-          >
-            Esri World
-          </p>
+          <p className={`text-center font-bold text-xs mt-2`}>Esri World</p>
         </div>
         <div
           className={`p-2 rounded-lg ${
-            baseLayer === "openstreetmap" ? "bg-green-800" : "bg-slate-200"
-          }`}
+            baseLayer === "openstreetmap"
+              ? "bg-green-800 text-white"
+              : "bg-slate-200 text-slate-800"
+          } hover:bg-green-800 hover:text-white cursor-pointer`}
           onClick={() => setBaseLayer("openstreetmap")}
         >
           <img
@@ -139,18 +92,14 @@ export default function LayersList(props: LayerListProps) {
             alt="openstreetmap"
             className="w-full rounded"
           />
-          <p
-            className={`text-center ${
-              baseLayer == "openstreetmap" ? "text-white" : "text-slate-800"
-            } font-bold text-xs mt-2`}
-          >
-            OpenStreetMap
-          </p>
+          <p className={`text-center font-bold text-xs mt-2`}>OpenStreetMap</p>
         </div>
         <div
           className={`p-2 rounded-lg ${
-            baseLayer === "stadia" ? "bg-green-800" : "bg-slate-200"
-          }`}
+            baseLayer === "stadia"
+              ? "bg-green-800 text-white"
+              : "bg-slate-200 text-slate-800"
+          } hover:bg-green-800 hover:text-white cursor-pointer`}
           onClick={() => setBaseLayer("stadia")}
         >
           <img
@@ -158,18 +107,14 @@ export default function LayersList(props: LayerListProps) {
             alt="stadia"
             className="w-full rounded"
           />
-          <p
-            className={`text-center ${
-              baseLayer == "stadia" ? "text-white" : "text-slate-800"
-            } font-bold text-xs mt-2`}
-          >
-            Stadia
-          </p>
+          <p className={`text-center font-bold text-xs mt-2`}>Stadia</p>
         </div>
         <div
           className={`p-2 rounded-lg ${
-            baseLayer === null ? "bg-green-800" : "bg-slate-200"
-          }`}
+            baseLayer === null
+              ? "bg-green-800 text-white"
+              : "bg-slate-200 text-slate-800"
+          } hover:bg-green-800 hover:text-white cursor-pointer`}
           onClick={() => setBaseLayer(null)}
         >
           <div className="bg-white rounded-lg ">
@@ -179,11 +124,7 @@ export default function LayersList(props: LayerListProps) {
               className="w-full rounded-lg opacity-0"
             />
           </div>
-          <p
-            className={`text-center ${
-              baseLayer == null ? "text-white" : "text-slate-800"
-            } font-bold text-xs mt-2`}
-          >
+          <p className={`text-center font-bold text-xs mt-2`}>
             Tanpa Peta Dasar
           </p>
         </div>
