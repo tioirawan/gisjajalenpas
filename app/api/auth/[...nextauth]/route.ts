@@ -4,6 +4,12 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
+  theme: {
+    colorScheme: "light",
+    logo: "/logo.png",
+    brandColor: "rgb(19, 145, 71)",
+    buttonText: "Masuk",
+  },
   session: {
     strategy: 'jwt'
   },

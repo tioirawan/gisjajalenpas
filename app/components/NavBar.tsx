@@ -11,25 +11,10 @@ export default function NavBar() {
       className="flex flex-row justify-between items-center h-16 bg-green-800 text-white relative shadow-sm font-sans shrink-0"
       role="navigation"
     >
-      <div className="px-4 cursor-pointer md:hidden">
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          ></path>
-        </svg>
-      </div>
       <div className="pr-8 md:flex hidden md:flex-row md:justify-between md:items-center">
-        {/* <a className="p-4 text-" href="#"> */}
-        {/* large text */}
-        <a href="#" className="text-2xl font-bold p-4">
+        <a href="#" className="text-2xl font-bold p-4 flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Logo" className="w-10 mr-2" />
           Kab. Pasuruan
         </a>
         <a className="p-4" href="/">
