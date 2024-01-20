@@ -33,3 +33,5 @@ export type NewPhoto = {
   file: File;
   description: string;
 };
+
+export type UserRole = 'ADMIN' | 'OPERATOR' | 'OPD';

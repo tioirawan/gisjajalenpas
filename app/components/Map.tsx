@@ -17,6 +17,7 @@ import useCreateRoad from "../stores/create_road_store";
 import useLayersStore from "../stores/layers_store";
 import useSelectedFeatureStore from "../stores/selected_feature_store";
 import { swapLngLat } from "../utils/helper";
+import AdminOnly from "./AdminOnly";
 import BaseLayer from "./BaseLayer";
 import DrawPolyline from "./Map/DrawPolyline";
 
@@ -59,12 +60,14 @@ export default function Map() {
       )}
 
       {!isCreatingRoad && (
-        <button
-          onClick={() => startCreatingRoad()}
-          className="z-[500] relative p-4 rounded-lg bg-slate-200 text-xl text-green-900 shadow-lg border-green-900 border-2 hover:bg-slate-300 hover:text-slate-800 m-4"
-        >
-          <MdOutlineAddRoad />
-        </button>
+        <AdminOnly>
+          <button
+            onClick={() => startCreatingRoad()}
+            className="z-[500] relative p-4 rounded-lg bg-slate-200 text-xl text-green-900 shadow-lg border-green-900 border-2 hover:bg-slate-300 hover:text-slate-800 m-4"
+          >
+            <MdOutlineAddRoad />
+          </button>
+        </AdminOnly>
       )}
 
       <ZoomControl position="bottomright" />

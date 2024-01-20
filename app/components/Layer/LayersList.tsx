@@ -3,6 +3,7 @@ import useBaseLayerStore from "@/app/stores/base_layer_store";
 import useLayersStore from "@/app/stores/layers_store";
 import { BiImport } from "react-icons/bi";
 import { Circles } from "react-loader-spinner";
+import AdminOnly from "../AdminOnly";
 import LayerTile from "./LayerTile";
 
 type LayerListProps = {
@@ -22,9 +23,11 @@ export default function LayersList(props: LayerListProps) {
     <>
       <h1 className="text-xl font-bold p-4 flex justify-between items-center">
         Legenda
-        <button onClick={() => props.onImporting(true)}>
-          <BiImport />
-        </button>
+        <AdminOnly>
+          <button onClick={() => props.onImporting(true)}>
+            <BiImport />
+          </button>
+        </AdminOnly>
       </h1>
 
       <hr />

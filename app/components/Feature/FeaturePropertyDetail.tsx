@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { Photo } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FeatureProperty, NewPhoto } from "../../types";
 import FeaturePropertyEditor from "../FeaturePropertyEditor";
+import OperatorOnly from "../OperatorOnly";
 
 type FeaturePropertyDetailProp = {
   // feature: FeatureWithProperties | null;
@@ -36,26 +37,17 @@ export default function FeaturePropertyDetail({
     );
   }, [isEditing, property?.data]);
 
-  function onInputChange(
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    // update data, wether it's the key or the value
-    const [key, index] = e.target.name.split("-");
-    const i = parseInt(index);
-    const value = e.target.value;
+  // shift RENCANA ANGGARAN to the top
+  const properties = useMemo(() => {
+    const idx = data.findIndex(([key]) => key === "RENCANA ANGGARAN");
+    if (idx === -1) return data;
 
-    const newData = [...data];
+    const copy = [...data];
+    const [removed] = copy.splice(idx, 1);
+    copy.unshift(removed);
 
-    if (key === "key") {
-      newData[i][0] = value;
-    } else {
-      newData[i][1] = value;
-    }
-
-    setData(newData);
-  }
+    return copy;
+  }, [data]);
 
   function toJson() {
     return data
@@ -81,15 +73,32 @@ export default function FeaturePropertyDetail({
         <>
           <table className="table-auto text-sm">
             <tbody key={data.length}>
-              {data.map((d, i) => (
-                <tr key={`${i}`}>
-                  <td className={`py-1 font-bold text-xs ${align} w-28`}>
-                    {d[0]}
-                  </td>
-                  <td className={`py-1 text-xs px-1 ${align}`}>:</td>
-                  <td className={`py-1 text-xs ${align}`}>{d[1]}</td>
-                </tr>
-              ))}
+              {properties.map((d, i) =>
+                d[0] === "RENCANA ANGGARAN" ? (
+                  <OperatorOnly key={`${i}`}>
+                    <tr key={`${i}`} className="border bg-blue-100">
+                      <td className={`py-1 font-bold align-middle w-28 p-2`}>
+                        {d[0]}
+                      </td>
+                      <td className={`py-1 text-xs px-1 align-middle`}>:</td>
+                      <td className={`py-1 align-middle`}>
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(d[1])}
+                      </td>
+                    </tr>
+                  </OperatorOnly>
+                ) : (
+                  <tr key={`${i}`}>
+                    <td className={`py-1 font-bold text-xs ${align} w-28`}>
+                      {d[0]}
+                    </td>
+                    <td className={`py-1 text-xs px-1 ${align}`}>:</td>
+                    <td className={`py-1 text-xs ${align}`}>{d[1]}</td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
 

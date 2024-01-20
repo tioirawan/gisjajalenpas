@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/libs/prismadb";
 import { Photo } from "@prisma/client";
 import { z } from "zod";
 import { GeoJSONImporter } from "./services/geojson-importer";

@@ -8,6 +8,7 @@ import { Oval } from "react-loader-spinner";
 import { updateFeatureProperty } from "../../actions";
 import useLayersStore from "../../stores/layers_store";
 import useSelectedFeatureStore from "../../stores/selected_feature_store";
+import AdminOnly from "../AdminOnly";
 import FeaturePropertiesHistory from "./FeaturePropertiesHistory";
 import FeaturePropertyDetail from "./FeaturePropertyDetail";
 
@@ -102,34 +103,36 @@ export default function FeatureSidebar() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <button
-                className={`mb-4 w-full py-2 pl-4 pr-2 rounded  flex justify-between items-center ${
-                  isEditing ? "bg-red-500" : "bg-green-700"
-                } transition-all duration-300`}
-                onClick={() => setIsEditing(!isEditing)}
-              >
-                <p className="text-white text-lg font-bold">
-                  {isEditing ? "Batal" : "Edit"}
-                </p>
-                <div className="p-2 bg-white rounded">
-                  {isLoading ? (
-                    <Oval
-                      visible={true}
-                      height="16"
-                      width="16"
-                      color="#4fa94d"
-                      ariaLabel="oval-loading"
-                      strokeWidth={4}
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                    />
-                  ) : isEditing ? (
-                    <IoClose className="text-red-500" />
-                  ) : (
-                    <FaPencilAlt className="text-green-700" />
-                  )}
-                </div>
-              </button>
+              <AdminOnly>
+                <button
+                  className={`mb-4 w-full py-2 pl-4 pr-2 rounded  flex justify-between items-center ${
+                    isEditing ? "bg-red-500" : "bg-green-700"
+                  } transition-all duration-300`}
+                  onClick={() => setIsEditing(!isEditing)}
+                >
+                  <p className="text-white text-lg font-bold">
+                    {isEditing ? "Batal" : "Edit"}
+                  </p>
+                  <div className="p-2 bg-white rounded">
+                    {isLoading ? (
+                      <Oval
+                        visible={true}
+                        height="16"
+                        width="16"
+                        color="#4fa94d"
+                        ariaLabel="oval-loading"
+                        strokeWidth={4}
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    ) : isEditing ? (
+                      <IoClose className="text-red-500" />
+                    ) : (
+                      <FaPencilAlt className="text-green-700" />
+                    )}
+                  </div>
+                </button>
+              </AdminOnly>
 
               <FeaturePropertyDetail
                 key={selectedFeature?.id}

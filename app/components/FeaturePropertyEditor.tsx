@@ -20,9 +20,19 @@ export default function FeaturePropertyEditor(
 ) {
   const toArray = useCallback(
     (data?: Record<string, any>): Array<[string, any]> => {
-      return (
-        Object.keys(data ?? {}).map((key) => [key, (data as any)[key]]) ?? []
-      );
+      const records =
+        Object.keys(data ?? {}).map((key) => [key, (data as any)[key]]) ?? [];
+      // add RENCANA ANGGARAN if not already there
+      if (!records.find(([key]) => key === "RENCANA ANGGARAN")) {
+        records.unshift(["RENCANA ANGGARAN", ""]);
+      } else {
+        // shift RENCANA ANGGARAN to the top
+        const idx = records.findIndex(([key]) => key === "RENCANA ANGGARAN");
+        const [removed] = records.splice(idx, 1);
+        records.unshift(removed);
+      }
+
+      return records as Array<[string, any]>;
     },
     []
   );
@@ -102,18 +112,20 @@ export default function FeaturePropertyEditor(
               </td>
 
               <td className={`pl-2 py-1 px-1 ${align}`}>
-                <button
-                  className="text-red-500 hover:text-red-800 transition-all duration-300"
-                  onClick={() => {
-                    const newData = [...data];
+                {d[0] !== "RENCANA ANGGARAN" && (
+                  <button
+                    className="text-red-500 hover:text-red-800 transition-all duration-300"
+                    onClick={() => {
+                      const newData = [...data];
 
-                    newData.splice(i, 1);
+                      newData.splice(i, 1);
 
-                    setData(newData);
-                  }}
-                >
-                  <IoTrash />
-                </button>
+                      setData(newData);
+                    }}
+                  >
+                    <IoTrash />
+                  </button>
+                )}
               </td>
             </tr>
           ))}

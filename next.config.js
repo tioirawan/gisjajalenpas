@@ -3,7 +3,8 @@ const nextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: 10000000,
-    }
+    },
+    serverComponentsExternalPackages: ['bcrypt'],
   }
   // output: 'export',
 }

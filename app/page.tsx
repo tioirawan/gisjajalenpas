@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { Puff } from "react-loader-spinner";
+import AdminOnly from "./components/AdminOnly";
+import AuthenticatedOnly from "./components/AuthenticatedOnly";
 import FeatureSidebar from "./components/Feature/FeatureSidebar";
 import LayerSidebar from "./components/Layer/LayerSidebar";
 import NavBar from "./components/NavBar";
@@ -46,8 +48,13 @@ export default function Home() {
         // minus the height of the navbar
         style={{ height: "calc(100vh - 4rem)" }}
       >
-        <FeatureSidebar />
-        <DynamicCreateRoadSidebar />
+        <AuthenticatedOnly>
+          <FeatureSidebar />
+        </AuthenticatedOnly>
+
+        <AdminOnly>
+          <DynamicCreateRoadSidebar />
+        </AdminOnly>
 
         <div className="flex-grow bg-slate-100 w-full relative flex justify-center items-center">
           {/* test */}

@@ -1,5 +1,5 @@
 
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/libs/prismadb";
 import { PrismaClient } from "@prisma/client";
 import { FeatureCollectionType } from "../types";
 

@@ -2,6 +2,7 @@ import useLayersStore, { LayerInformation } from "@/app/stores/layers_store";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { IoClose, IoSettings } from "react-icons/io5";
+import AdminOnly from "../AdminOnly";
 
 type LayerTileProp = {
   layerInformation: LayerInformation;
@@ -50,23 +51,27 @@ export default function LayerTile({
         ></span>
       </div>
       <span className="flex-grow text-sm">{information.layer.name}</span>
-      {/* setting and delete button */}
-      <button
-        onClick={() => {
-          onEdit(information);
-        }}
-        className="mr-2 text-gray-500"
-      >
-        <IoSettings />
-      </button>
-      <button
-        onClick={() => {
-          setIsDeleteDialogOpen(true);
-        }}
-        className="text-red-500"
-      >
-        <IoClose />
-      </button>
+      <AdminOnly>
+        <button
+          onClick={() => {
+            onEdit(information);
+          }}
+          className="mr-2 text-gray-500"
+        >
+          <IoSettings />
+        </button>
+      </AdminOnly>
+
+      <AdminOnly>
+        <button
+          onClick={() => {
+            setIsDeleteDialogOpen(true);
+          }}
+          className="text-red-500"
+        >
+          <IoClose />
+        </button>
+      </AdminOnly>
 
       <Transition appear show={isDeleteDialogOpen} as={Fragment}>
         <Dialog
