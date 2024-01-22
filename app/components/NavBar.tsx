@@ -12,9 +12,9 @@ export default function NavBar() {
       role="navigation"
     >
       <div className="pr-8 md:flex hidden md:flex-row md:justify-between md:items-center">
-        <a href="#" className="text-2xl font-bold p-4 flex items-center">
+        <a href="/" className="text-xl font-bold p-6 flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Logo" className="w-10 mr-2" />
+          <img src="/logo.png" alt="Logo" className="w-8 mr-2" />
           Kab. Pasuruan
         </a>
         <a className="p-4" href="/">
@@ -41,7 +41,7 @@ export default function NavBar() {
       </div> */}
 
       {status === "authenticated" && (
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center ml-auto md:mr-8 mr-4">
           <div className="flex flex-col">
             <span className="text-sm font-bold">{data?.user?.name}</span>
             <span className="text-xs">{(data?.user as any)?.role}</span>

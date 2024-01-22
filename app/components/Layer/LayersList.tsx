@@ -80,7 +80,7 @@ export default function LayersList(props: LayerListProps) {
             alt="esri"
             className="w-full rounded"
           />
-          <p className={`text-center font-bold text-xs mt-2`}>Esri World</p>
+          <p className={`text-center font-bold text-xs mt-2`}>Satelit</p>
         </div>
         <div
           className={`p-2 rounded-lg ${
@@ -95,7 +95,7 @@ export default function LayersList(props: LayerListProps) {
             alt="openstreetmap"
             className="w-full rounded"
           />
-          <p className={`text-center font-bold text-xs mt-2`}>OpenStreetMap</p>
+          <p className={`text-center font-bold text-xs mt-2`}>Street View</p>
         </div>
         <div
           className={`p-2 rounded-lg ${
@@ -110,7 +110,7 @@ export default function LayersList(props: LayerListProps) {
             alt="stadia"
             className="w-full rounded"
           />
-          <p className={`text-center font-bold text-xs mt-2`}>Stadia</p>
+          <p className={`text-center font-bold text-xs mt-2`}>Simple</p>
         </div>
         <div
           className={`p-2 rounded-lg ${

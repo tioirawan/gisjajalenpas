@@ -8,18 +8,30 @@ export default function LayerSidebar() {
   const [isImporting, setIsImporting] = useState(false);
   const [isEditing, setIsEditing] = useState<LayerInformation | null>(null);
 
-  const { layers, isLoading, loadLayers } = useLayersStore((state) => ({
-    layers: state.layers,
-    isLoading: state.isLoading,
-    loadLayers: state.loadLayers,
-  }));
+  const { isVisible, loadLayers, toggleVisibility } = useLayersStore(
+    (state) => ({
+      loadLayers: state.loadLayers,
+      isVisible: state.isVisible,
+      toggleVisibility: state.toggleVisibility,
+    })
+  );
 
   return (
     <aside
-      className={`w-1/5 shrink-0
+      className={`
+        ${isVisible ? "md:w-1/5 w-full shrink-0" : "w-0 p-0"}
         transition-all duration-500 ease-in-out
         h-full border-l bg-white`}
     >
+      <button
+        className="md:hidden bg-slate-200 text-slate-800
+         w-full text-xl font-bold p-4 "
+        onClick={() => {
+          toggleVisibility();
+        }}
+      >
+        TUTUP
+      </button>
       {isImporting ? (
         <ImportForm
           onSuccess={() => {

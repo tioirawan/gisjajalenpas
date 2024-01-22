@@ -40,7 +40,7 @@ export default function FeatureSidebar() {
   return (
     <aside
       className={`
-        ${selectedFeature ? "w-1/5 p-4 shrink-0" : "w-0 p-0"}
+        ${selectedFeature ? "md:w-1/5 w-full p-4 shrink-0" : "w-0 p-0"}
         transition-all duration-500 ease-in-out
         overflow-y-auto 
         border-r

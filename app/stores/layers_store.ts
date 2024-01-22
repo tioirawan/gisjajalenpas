@@ -10,6 +10,8 @@ export type LayerInformation = {
 type LayersStore = {
   layers: LayerInformation[];
   isLoading: boolean;
+  isVisible: boolean;
+  toggleVisibility: () => void;
   loadLayers: () => void;
   addLayer: (layer: FeatureCollectionFull) => void;
   deleteLayer: (layerId: number) => void;
@@ -22,6 +24,8 @@ type LayersStore = {
 const useLayersStore = create<LayersStore>((set, get) => ({
   layers: [],
   isLoading: false,
+  isVisible: false,
+  toggleVisibility: () => set((state) => ({ isVisible: !state.isVisible })),
   loadLayers: async () => {
     set({ isLoading: true });
 

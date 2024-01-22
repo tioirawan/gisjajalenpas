@@ -248,19 +248,6 @@ export default function FeaturePropertyEditor(
             className="hidden"
             id="photo"
             onChange={(e) => {
-              // const newPhotos = [...photos];
-
-              // for (let i = 0; i < e.target.files!.length; i++) {
-              //   const file = e.target.files![i];
-
-              //   newPhotos.push({
-              //     photo: file,
-              //     description: "",
-              //   });
-              // }
-
-              // setPhotos(newPhotos);
-
               const files = [];
 
               for (let i = 0; i < e.target.files!.length; i++) {

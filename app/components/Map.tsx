@@ -3,13 +3,14 @@
 import L from "leaflet";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet/dist/leaflet.css";
-import { MdOutlineAddRoad } from "react-icons/md";
+import { MdLayers, MdLayersClear, MdOutlineAddRoad } from "react-icons/md";
 import {
   CircleMarker,
   MapContainer,
   Pane,
   Polygon,
   Polyline,
+  Popup,
   ZoomControl,
 } from "react-leaflet";
 import seedColor from "seed-color";
@@ -19,6 +20,7 @@ import useSelectedFeatureStore from "../stores/selected_feature_store";
 import { swapLngLat } from "../utils/helper";
 import AdminOnly from "./AdminOnly";
 import BaseLayer from "./BaseLayer";
+import FeaturePropertyDetailPopup from "./Feature/FeaturePropertyPopup";
 import DrawPolyline from "./Map/DrawPolyline";
 
 // import "leaflet.polylinemeasure";
@@ -33,9 +35,16 @@ export default function Map() {
       setGeojsonFeature: state.setGeojsonFeature,
     }));
 
-  const { layers: layersInformation, isVisible } = useLayersStore((state) => ({
+  const {
+    layers: layersInformation,
+    isLayerVisible,
+    isVisible,
+    toggleVisibility,
+  } = useLayersStore((state) => ({
     layers: [...state.layers].reverse(),
-    isVisible: state.isLayerVisible,
+    isLayerVisible: state.isLayerVisible,
+    isVisible: state.isVisible,
+    toggleVisibility: state.toggleVisibility,
   }));
 
   return (
@@ -70,6 +79,13 @@ export default function Map() {
         </AdminOnly>
       )}
 
+      <button
+        onClick={() => toggleVisibility()}
+        className="float-right z-[500] relative p-4 rounded-lg bg-slate-200 text-xl text-green-900 shadow-lg border-green-900 border-2 hover:bg-slate-300 hover:text-slate-800 m-4"
+      >
+        {!isVisible ? <MdLayers /> : <MdLayersClear />}
+      </button>
+
       <ZoomControl position="bottomright" />
       {/* <PolylineMeasureControl /> */}
 
@@ -77,7 +93,7 @@ export default function Map() {
       <Pane name="road" style={{ zIndex: 502 }} />
       <Pane name="area" style={{ zIndex: 501 }} />
       {layersInformation.map((information, i) => {
-        if (!isVisible(information.id)) return null;
+        if (!isLayerVisible(information.id)) return null;
         switch (information.layer.type) {
           case "road":
             return information.layer.features.map((feature, i) => (
@@ -97,12 +113,16 @@ export default function Map() {
                   dashArray: information.layer.dashed ? [7, 7] : [],
                   dashOffset: information.layer.dashed ? "10" : "15",
                 }}
-                eventHandlers={{
-                  click: (e) => {
-                    setSelectedFeature(feature);
-                  },
-                }}
-              ></Polyline>
+              >
+                <Popup>
+                  <FeaturePropertyDetailPopup
+                    feature={feature}
+                    onDetail={() => {
+                      setSelectedFeature(feature);
+                    }}
+                  />
+                </Popup>
+              </Polyline>
             ));
           case "bridge":
             return information.layer.features.map((feature, i) => (
