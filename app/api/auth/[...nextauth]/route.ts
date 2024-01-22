@@ -8,21 +8,24 @@ export const authOptions: NextAuthOptions = {
     colorScheme: "light",
     logo: "/logo.png",
     brandColor: "rgb(19, 145, 71)",
-    buttonText: "Masuk",
+    buttonText: "Login",
   },
   session: {
-    strategy: 'jwt'
+    strategy: 'jwt',
   },
   providers: [
     CredentialsProvider({
-      name: 'Sign in',
+      name: '',
       credentials: {
         email: {
           label: 'Username',
           type: 'username',
           placeholder: 'Masukkan username'
         },
-        password: { label: 'Password', type: 'password' }
+        password: {
+          label: 'Password', type: 'password',
+          placeholder: 'Masukkan password',
+        }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
@@ -59,7 +62,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: ({ session, token }) => {
-      console.log('Session Callback', { session, token })
+      // console.log('Session Callback', { session, token })
       return {
         ...session,
         user: {
@@ -70,7 +73,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
     jwt: ({ token, user }) => {
-      console.log('JWT Callback', { token, user })
+      // console.log('JWT Callback', { token, user })
       if (user) {
         const u = user as unknown as any
         return {

@@ -4,6 +4,15 @@ import { PrismaClient } from "@prisma/client";
 import { FeatureCollectionType } from "../types";
 
 
+function tryParseInt(value: string, defaultValue: number | null) {
+  const parsed = parseInt(value, 10);
+
+  if (isNaN(parsed)) {
+    return defaultValue;
+  }
+
+  return parsed;
+}
 // SCHEMA
 // model FeatureCollection {
 //   id        String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -77,7 +86,14 @@ export class GeoJSONImporter {
             properties: {
               create: [
                 {
-                  data: feature.properties as any
+                  data: feature.properties as any,
+                  // baik: tryParseInt(feature.properties?.Kon_Baik_1, null),
+                  // sedang: tryParseInt(feature.properties?.Kon_Sdg_1, null),
+                  // rusakRingan: tryParseInt(feature.properties?.Kon_Rgn_1, null),
+                  // rusakBerat: tryParseInt(feature.properties?.Kon_Rusa_1, null),
+                  // mantap: tryParseInt(feature.properties?.Kon_Mntp_1, null),
+                  // tidakMantap: tryParseInt(feature.properties?.Kon_T_Mn_1, null),
+                  // perkerasan: feature.properties?.Tipe_Ker_1,
                 },
               ],
             },

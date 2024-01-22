@@ -87,9 +87,17 @@ model Photo {
 }
 
 model Properties {
-  id        Int      @id @default(autoincrement())
-  data      Json
-  photos    Photo[]
+  id     Int     @id @default(autoincrement())
+  data   Json
+  photos Photo[]
+  // baik        Float?  @default(0) // Kon_Baik_1
+  // sedang      Float?  @default(0) // Kon_Sdg_1
+  // rusakRingan Float?  @default(0) // Kon_Rgn_1
+  // rusakBerat  Float?  @default(0) // Kon_Rusa_1
+  // mantap      Float?  @default(0) // Kon_Mntp_1
+  // tidakMantap Float?  @default(0) // Kon_T_Mn_1
+  // perkerasan  String? // Tipe_Ker_1
+
   createdAt DateTime @default(now())
 
   featureId Int     @map("featureId")
