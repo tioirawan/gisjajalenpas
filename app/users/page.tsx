@@ -1,7 +1,7 @@
 import prisma from "@/libs/prismadb";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import NavBar from "../components/NavBar";
+import { authOptions } from "../utils/auth-options";
 import AddUserForm from "./components/AddUserForm";
 import DeleteUserForm from "./components/DeleteUserForm";
 
