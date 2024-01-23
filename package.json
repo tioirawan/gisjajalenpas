@@ -31,6 +31,7 @@
     "react-leaflet-draft": "^2.0.0",
     "react-loader-spinner": "^6.1.6",
     "react-modal": "^3.16.1",
+    "seed-color": "^2.0.1",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },
