@@ -44,7 +44,7 @@ export default function Home() {
       <NavBar />
 
       <main
-        className="flex flex-row flex-grow w-full items-stretch sm:items-stretch"
+        className="flex flex-row flex-grow w-full items-stretch sm:items-stretch overflow-x-hidden"
         // minus the height of the navbar
         style={{ height: "calc(100vh - 4rem)" }}
       >

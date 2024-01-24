@@ -19,7 +19,7 @@ export default function LayerSidebar() {
   return (
     <aside
       className={`
-        ${isVisible ? "md:w-1/5 w-full shrink-0" : "w-0 p-0"}
+        ${isVisible ? "md:w-1/3 xl:w-1/4 2xl:w-1/5 w-full shrink-0" : "w-0 p-0"}
         transition-all duration-500 ease-in-out
         h-full border-l bg-white`}
     >

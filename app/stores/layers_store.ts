@@ -5,7 +5,7 @@ export type LayerInformation = {
   id: number;
   layer: FeatureCollectionFull;
   visible: boolean;
-}
+};
 
 type LayersStore = {
   layers: LayerInformation[];
@@ -31,6 +31,7 @@ const useLayersStore = create<LayersStore>((set, get) => ({
 
     const response = await fetch(`/api/layers`);
     const data = await response.json();
+    // console.log(response);
 
     // sort data bridge, road, area
     const score: { [key: string]: number } = {
@@ -44,13 +45,13 @@ const useLayersStore = create<LayersStore>((set, get) => ({
     });
 
     set({
-      layers:
-        data.map((layer: FeatureCollectionFull) => ({
-          id: layer.id,
-          layer, visible: true,
-        }))
-      , isLoading: false
-    })
+      layers: data.map((layer: FeatureCollectionFull) => ({
+        id: layer.id,
+        layer,
+        visible: true,
+      })),
+      isLoading: false,
+    });
   },
   addLayer: (layer) => {
     set((state) => ({
