@@ -21,6 +21,11 @@ export default function NavBar() {
           Home
         </a>
         <AuthenticatedOnly>
+          <a className="p-4" href="/laporan">
+            Laporan
+          </a>
+        </AuthenticatedOnly>
+        <AuthenticatedOnly>
           <a className="p-4" href="/statistik">
             Statistik
           </a>

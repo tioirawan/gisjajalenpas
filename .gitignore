@@ -37,6 +37,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# uploads file, but keep the folder
-!public/uploads/
-public/uploads/*
+# uploads file, but keep the folder, nested folders and .gitkeep
+public/uploads/**/*.*
+!public/uploads/.gitkeep
+!public/uploads/**/.gitkeep
