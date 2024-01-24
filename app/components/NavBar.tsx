@@ -3,6 +3,15 @@
 import { useSession } from "next-auth/react";
 import AuthenticatedOnly from "./AuthenticatedOnly";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 export default function NavBar() {
   const { data, status } = useSession();
 
@@ -42,22 +51,29 @@ export default function NavBar() {
 
       {status === "authenticated" && (
         <div className="flex flex-row items-center ml-auto md:mr-8 mr-4">
-          <div className="flex flex-col">
-            <span className="text-sm font-bold">{data?.user?.name}</span>
-            <span className="text-xs">{(data?.user as any)?.role}</span>
-          </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`https://ui-avatars.com/api/?name=${data?.user?.name}&background=0D8ABC&color=fff`}
-            alt={data?.user?.name ?? ""}
-            className="w-10 h-10 rounded-full ml-2"
-          />
-
-          <div className="flex flex-row items-center">
-            <a href="/api/auth/signout" className="p-4">
-              Logout
-            </a>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold">{data?.user?.name}</span>
+                <span className="text-xs">{(data?.user as any)?.role}</span>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://ui-avatars.com/api/?name=${data?.user?.name}&background=0D8ABC&color=fff`}
+                alt={data?.user?.name ?? ""}
+                className="w-10 h-10 rounded-full ml-2"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Edit Profil</DropdownMenuItem>
+              <DropdownMenuItem>Ganti Password</DropdownMenuItem>
+              <DropdownMenuItem>
+                <a href="/api/auth/signout">Keluar</a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )}
 
