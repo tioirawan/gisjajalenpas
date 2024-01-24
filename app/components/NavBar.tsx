@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 
 export default function NavBar() {
   const { data, status } = useSession();
@@ -20,6 +21,35 @@ export default function NavBar() {
       className="flex flex-row justify-between items-center h-16 bg-green-800 text-white relative shadow-sm font-sans shrink-0"
       role="navigation"
     >
+      <div className="md:hidden flex flex-row items-center ml-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Menu size={24} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="z-[500]">
+            <DropdownMenuItem>
+              <a href="/">Home</a>
+            </DropdownMenuItem>
+            <AuthenticatedOnly>
+              <DropdownMenuItem>
+                <a href="/statistik">Statistik</a>
+              </DropdownMenuItem>
+            </AuthenticatedOnly>
+            {(data?.user as any)?.role === "ADMIN" && (
+              <DropdownMenuItem>
+                <a href="/users">Akun</a>
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <a href="/" className="text-xl font-bold p-6 flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Logo" className="w-8 mr-2" />
+          Kab. Pasuruan
+        </a>
+      </div>
+
       <div className="pr-8 md:flex hidden md:flex-row md:justify-between md:items-center">
         <a href="/" className="text-xl font-bold p-6 flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -64,7 +94,7 @@ export default function NavBar() {
                 className="w-10 h-10 rounded-full ml-2"
               />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="z-[500]">
               <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Edit Profil</DropdownMenuItem>
