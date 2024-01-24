@@ -21,8 +21,8 @@ export default function NavBar() {
           Home
         </a>
         <AuthenticatedOnly>
-          <a className="p-4" href="/laporan">
-            Laporan
+          <a className="p-4" href="/statistik">
+            Statistik
           </a>
         </AuthenticatedOnly>
         {(data?.user as any)?.role === "ADMIN" && (
