@@ -1,12 +1,13 @@
 import { Prisma } from "@prisma/client";
 
-export type FeatureCollectionType = 'road' | 'bridge' | 'area';
+export type FeatureCollectionType = "road" | "bridge" | "area";
 
 export type FeatureWithProperties = Prisma.FeatureGetPayload<{
   include: {
     properties: {
       include: { photos: true };
-    }; geometry: true
+    };
+    geometry: true;
   };
 }>;
 
@@ -22,16 +23,16 @@ export type FeatureCollectionFull = Prisma.FeatureCollectionGetPayload<{
           include: {
             photos: true;
           };
-        },
-        geometry: true,
-      },
-    }
-  },
-}>
+        };
+        geometry: true;
+      };
+    };
+  };
+}>;
 
 export type NewPhoto = {
   file: File;
   description: string;
 };
 
-export type UserRole = 'ADMIN' | 'OPERATOR' | 'OPD';
+export type UserRole = "ADMIN" | "OPERATOR" | "OPD";
