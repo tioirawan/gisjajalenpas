@@ -96,7 +96,11 @@ export default function CreateRoadSidebar() {
   return (
     <aside
       className={`
-        ${isCreatingRoad ? "w-1/5 shrink-0" : "w-0 "}
+        ${
+          isCreatingRoad
+            ? "w-1/2 md:w-1/3 sm:w-2/5 lg:w-1/4 xl:w-1/5 shrink-0"
+            : "w-0 "
+        }
         transition-all duration-500 ease-in-out
         overflow-y-auto 
         h-full border-r bg-white`}
