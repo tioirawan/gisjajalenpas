@@ -16,6 +16,8 @@ import { Menu } from "lucide-react";
 export default function NavBar() {
   const { data, status } = useSession();
 
+  const currentPath = window.location.pathname;
+
   return (
     <div
       className="flex flex-row justify-between items-center h-16 bg-green-800 text-white relative shadow-sm font-sans shrink-0"
@@ -56,16 +58,56 @@ export default function NavBar() {
           <img src="/logo.png" alt="Logo" className="w-8 mr-2" />
           Kab. Pasuruan
         </a>
-        <a className="p-4" href="/">
+        <a
+          className={`p-4 ${
+            currentPath === "/"
+              ? "font-bold text-md text-white"
+              : "text-sm text-gray-300"
+          }`}
+          href="/"
+        >
           Home
         </a>
         <AuthenticatedOnly>
-          <a className="p-4" href="/statistik">
+          <a
+            className={`p-4 ${
+              currentPath === "/laporan"
+                ? "font-bold text-md text-white"
+                : "text-sm text-gray-300"
+            }`}
+            href="/laporan"
+          >
+            Laporan
+          </a>
+        </AuthenticatedOnly>
+        <AuthenticatedOnly>
+          <a
+            className={`p-4 ${
+              currentPath === "/statistik"
+                ? "font-bold text-md text-white"
+                : "text-sm text-gray-300"
+            }`}
+            href="/statistik"
+          >
             Statistik
           </a>
         </AuthenticatedOnly>
+        <a
+          className={`p-4 ${"text-sm text-gray-300"}`}
+          href="https://www.lapor.go.id/"
+          target="_blank"
+        >
+          Pengaduan
+        </a>
         {(data?.user as any)?.role === "ADMIN" && (
-          <a className="p-4" href="/users">
+          <a
+            className={`p-4 ${
+              currentPath === "/users"
+                ? "font-bold text-md text-white"
+                : "text-sm text-gray-300"
+            }`}
+            href="/users"
+          >
             Akun
           </a>
         )}

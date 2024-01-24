@@ -3,6 +3,7 @@
 import L from "leaflet";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet/dist/leaflet.css";
+import { useEffect } from "react";
 import { MdLayers, MdLayersClear, MdOutlineAddRoad } from "react-icons/md";
 import {
   CircleMarker,
@@ -15,6 +16,7 @@ import {
 } from "react-leaflet";
 import seedColor from "seed-color";
 import useCreateRoad from "../stores/create_road_store";
+import useCurrentPositionStore from "../stores/current_position_store";
 import useLayersStore from "../stores/layers_store";
 import useSelectedFeatureStore from "../stores/selected_feature_store";
 import { swapLngLat } from "../utils/helper";
@@ -23,10 +25,16 @@ import BaseLayer from "./BaseLayer";
 import FeaturePropertyDetailPopup from "./Feature/FeaturePropertyPopup";
 import DrawPolyline from "./Map/DrawPolyline";
 
-// import "leaflet.polylinemeasure";
+import { AutoLocateControl } from "./AutoLocateControl";
 
 export default function Map() {
   const { setSelectedFeature, selectedFeature } = useSelectedFeatureStore();
+
+  const { position, updatePosition } = useCurrentPositionStore();
+
+  useEffect(() => {
+    updatePosition();
+  }, []);
 
   const { isCreatingRoad, startCreatingRoad, setGeojsonFeature } =
     useCreateRoad((state) => ({
@@ -87,6 +95,7 @@ export default function Map() {
       </button>
 
       <ZoomControl position="bottomright" />
+      <AutoLocateControl position="bottomright" />
       {/* <PolylineMeasureControl /> */}
 
       <Pane name="bridge" style={{ zIndex: 503 }} />
@@ -178,6 +187,21 @@ export default function Map() {
             return null;
         }
       })}
+
+      {position && (
+        <CircleMarker
+          center={[position.coords.latitude, position.coords.longitude]}
+          radius={5}
+          pathOptions={{
+            color: "blue",
+            weight: 2,
+            fill: true,
+            fillColor: "#0000FF",
+            fillOpacity: 1,
+            stroke: true,
+          }}
+        ></CircleMarker>
+      )}
       {/* <FeatureGroup>
         <DraftControl />
       </FeatureGroup> */}
