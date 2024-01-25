@@ -33,7 +33,8 @@ export default function NavBar() {
   const handleLogout = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await signOut({
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/",
     });
   };
 
