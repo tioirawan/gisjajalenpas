@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
+import Link from "next/link";
 
 export default function NavBar() {
   const { data, status } = useSession();
@@ -152,8 +153,9 @@ export default function NavBar() {
               <DropdownMenuContent className="z-[500]">
                 <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Edit Profil</DropdownMenuItem>
-                <DropdownMenuItem>Ganti Password</DropdownMenuItem>
+                <Link href="/edit-profil">
+                  <DropdownMenuItem>Edit Profil</DropdownMenuItem>
+                </Link>
                 <AlertDialogTrigger className="w-full">
                   <DropdownMenuItem>Keluar</DropdownMenuItem>
                 </AlertDialogTrigger>
