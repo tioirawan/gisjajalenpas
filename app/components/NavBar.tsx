@@ -1,7 +1,19 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import AuthenticatedOnly from "./AuthenticatedOnly";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import {
   DropdownMenu,
@@ -17,6 +29,13 @@ export default function NavBar() {
   const { data, status } = useSession();
 
   const currentPath = window.location.pathname;
+
+  const handleLogout = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await signOut({
+      redirect: false,
+    });
+  };
 
   return (
     <div
@@ -112,40 +131,53 @@ export default function NavBar() {
           </a>
         )}
       </div>
-      {/* <div className="pr-8 md:block hidden">
-        <a className="p-4" href="#">
-          Login
-        </a>
-        <a className="p-4" href="#">
-          Sign Up
-        </a>
-      </div> */}
 
       {status === "authenticated" && (
         <div className="flex flex-row items-center ml-auto md:mr-8 mr-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex">
-              <div className="flex flex-col">
-                <span className="text-sm font-bold">{data?.user?.name}</span>
-                <span className="text-xs">{(data?.user as any)?.role}</span>
-              </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`https://ui-avatars.com/api/?name=${data?.user?.name}&background=0D8ABC&color=fff`}
-                alt={data?.user?.name ?? ""}
-                className="w-10 h-10 rounded-full ml-2"
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="z-[500]">
-              <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Edit Profil</DropdownMenuItem>
-              <DropdownMenuItem>Ganti Password</DropdownMenuItem>
-              <DropdownMenuItem>
-                <a href="/api/auth/signout">Keluar</a>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AlertDialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex">
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold">{data?.user?.name}</span>
+                  <span className="text-xs">{(data?.user as any)?.role}</span>
+                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://ui-avatars.com/api/?name=${data?.user?.name}&background=0D8ABC&color=fff`}
+                  alt={data?.user?.name ?? ""}
+                  className="w-10 h-10 rounded-full ml-2"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="z-[500]">
+                <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Edit Profil</DropdownMenuItem>
+                <DropdownMenuItem>Ganti Password</DropdownMenuItem>
+                <AlertDialogTrigger className="w-full">
+                  <DropdownMenuItem>Keluar</DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <AlertDialogContent className="z-[500]">
+              <form onSubmit={handleLogout} action="">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Keluar</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Apakah anda yakin ingin keluar ?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Kembali</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-green-800 text-white"
+                    type="submit"
+                  >
+                    Keluar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </form>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       )}
 

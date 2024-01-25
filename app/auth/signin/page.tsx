@@ -36,7 +36,7 @@ export default function SignIn(props: Props) {
             <h4 className="mt-8 font-bold text-2xl xl:text-4xl">JAJALENPAS</h4>
             <p>Jaringan Jalan Kabupaten Pasuruan</p>
           </div>
-          <div className="basis-full lg:basis-1/2 py-8 px-6 flex flex-col lg:justify-center overflow-y-scroll">
+          <div className="basis-full lg:basis-1/2 py-8 px-6 flex flex-col lg:justify-center overflow-y-auto">
             <div className="lg:hidden flex flex-col justify-center items-center mb-6">
               <img src="/logo.png" className="w-16 sm:w-24" alt="" />
               <h4 className="mt-8 font-bold text-xl sm:text-2xl">JAJALENPAS</h4>
