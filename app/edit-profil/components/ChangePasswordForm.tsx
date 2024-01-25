@@ -46,6 +46,7 @@ export default function ChangePasswordForm(props: Props) {
                 id="password"
                 placeholder="masukkan password baru anda"
                 name="newPassword"
+                type="password"
               />
             </div>{" "}
             <div className="flex flex-col space-y-1.5">
@@ -56,6 +57,7 @@ export default function ChangePasswordForm(props: Props) {
                 id="confirmationPassword"
                 placeholder="masukkan kondirmasi password baru anda"
                 name="newPasswordConfirmation"
+                type="password"
               />
             </div>
             <button
