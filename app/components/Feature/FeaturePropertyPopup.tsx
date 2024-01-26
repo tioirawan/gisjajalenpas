@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useMemo } from "react";
 import { FeatureWithProperties } from "../../types";
+import AuthenticatedOnly from "../AuthenticatedOnly";
+import LoginToSee from "../LoginToSee";
 
 const attributes: Record<string, string> = {
   "Nama Jalan": "Jdl",
@@ -39,57 +41,63 @@ export default function FeaturePropertyDetailPopup({
     <div className="flex flex-col">
       <h1 className="text-xl font-bold mb-4">{title}</h1>
 
-      <table className="table-auto text-sm">
-        <tbody key={data.length}>
-          {Object.keys(attributes).map((key, i) => (
-            <tr key={i}>
-              <td className={`py-1 font-bold text-xs ${align} w-28`}>
-                {key}
-                <br />
-                <span className="text-slate-500 text-[8px]">
-                  ({attributes[key]})
-                </span>
-              </td>
-              <td className={`py-1 text-xs px-1 ${align}`}>:</td>
-              <td className={`py-1 text-xs ${align}`}>
-                {properties?.[attributes[key]] ?? "-"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <AuthenticatedOnly>
+        <table className="table-auto text-sm">
+          <tbody key={data.length}>
+            {Object.keys(attributes).map((key, i) => (
+              <tr key={i}>
+                <td className={`py-1 font-bold text-xs ${align} w-28`}>
+                  {key}
+                  <br />
+                  <span className="text-slate-500 text-[8px]">
+                    ({attributes[key]})
+                  </span>
+                </td>
+                <td className={`py-1 text-xs px-1 ${align}`}>:</td>
+                <td className={`py-1 text-xs ${align}`}>
+                  {properties?.[attributes[key]] ?? "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {/* images */}
-      <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
+        {/* images */}
+        <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
 
-      <div className="grid grid-cols-2 gap-1">
-        {property?.photos?.length === 0 && (
-          <div className="w-full p-1">
-            <span className="text-xs text-gray-500">Tidak ada foto</span>
-          </div>
-        )}
-
-        {property?.photos?.map((photo, i) => (
-          <div key={i} className="flex flex-col justify-center items-center">
-            <img
-              src={photo.url}
-              alt={photo.description ?? ""}
-              className="w-full object-cover rounded"
-            />
-
-            <div className="flex justify-between items-center mt-1">
-              <span className="text-xs text-gray-500">{photo.description}</span>
+        <div className="grid grid-cols-2 gap-1">
+          {property?.photos?.length === 0 && (
+            <div className="w-full p-1">
+              <span className="text-xs text-gray-500">Tidak ada foto</span>
             </div>
-          </div>
-        ))}
-      </div>
+          )}
 
-      <button
-        className="text-sm font-bold text-green-500 mt-4"
-        onClick={onDetail}
-      >
-        Detail
-      </button>
+          {property?.photos?.map((photo, i) => (
+            <div key={i} className="flex flex-col justify-center items-center">
+              <img
+                src={photo.url}
+                alt={photo.description ?? ""}
+                className="w-full object-cover rounded"
+              />
+
+              <div className="flex justify-between items-center mt-1">
+                <span className="text-xs text-gray-500">
+                  {photo.description}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button
+          className="text-sm font-bold text-green-500 mt-4"
+          onClick={onDetail}
+        >
+          Detail
+        </button>
+      </AuthenticatedOnly>
+
+      <LoginToSee />
     </div>
   );
 }

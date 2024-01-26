@@ -13,3 +13,17 @@ export default function AuthenticatedOnly({
     return null;
   }
 }
+
+export function UnauthenticatedOnly({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { status } = useSession();
+
+  if (status !== "authenticated") {
+    return <>{children}</>;
+  } else {
+    return null;
+  }
+}

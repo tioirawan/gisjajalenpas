@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import AuthenticatedOnly from "./AuthenticatedOnly";
 
 import {
@@ -16,7 +17,13 @@ import { Menu } from "lucide-react";
 export default function NavBar() {
   const { data, status } = useSession();
 
-  const currentPath = window.location.pathname;
+  let currentPath = "";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      currentPath = window.location.pathname;
+    }
+  }, []);
 
   return (
     <div
@@ -68,18 +75,16 @@ export default function NavBar() {
         >
           Home
         </a>
-        <AuthenticatedOnly>
-          <a
-            className={`p-4 ${
-              currentPath === "/laporan"
-                ? "font-bold text-md text-white"
-                : "text-sm text-gray-300"
-            }`}
-            href="/laporan"
-          >
-            Laporan
-          </a>
-        </AuthenticatedOnly>
+        <a
+          className={`p-4 ${
+            currentPath === "/laporan"
+              ? "font-bold text-md text-white"
+              : "text-sm text-gray-300"
+          }`}
+          href="/laporan"
+        >
+          Laporan
+        </a>
         <AuthenticatedOnly>
           <a
             className={`p-4 ${

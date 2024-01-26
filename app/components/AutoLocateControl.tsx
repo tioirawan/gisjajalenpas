@@ -1,8 +1,23 @@
 import { createControlComponent } from "@react-leaflet/core";
 import { Control, DomUtil } from "leaflet";
 
+declare module "leaflet" {
+  namespace Control {
+    class AutoLocate extends Control {
+      constructor(options?: AutoLocateOptions);
+    }
+
+    interface AutoLocateOptions {
+      position?: string;
+      [key: string]: any;
+    }
+  }
+
+  function autoLocate(options?: Control.AutoLocateOptions): Control.AutoLocate;
+}
+
 Control.AutoLocate = Control.extend({
-  onAdd: function (map) {
+  onAdd: function (map: any) {
     const img = DomUtil.create("img");
     img.src = "/images/current_location.png";
     img.style.width = "30px";
@@ -23,8 +38,8 @@ Control.AutoLocate = Control.extend({
 
     return img;
   },
-  onRemove: function (map) {},
-});
+  onRemove: function () {},
+} as any);
 
 export const AutoLocateControl = createControlComponent(
   (props) => new Control.AutoLocate(props)

@@ -2,7 +2,9 @@
 import { Photo } from "@prisma/client";
 import { useEffect, useMemo, useState } from "react";
 import { FeatureProperty, NewPhoto } from "../../types";
+import AuthenticatedOnly from "../AuthenticatedOnly";
 import FeaturePropertyEditor from "../FeaturePropertyEditor";
+import LoginToSee from "../LoginToSee";
 import OperatorOnly from "../OperatorOnly";
 
 type FeaturePropertyDetailProp = {
@@ -71,66 +73,70 @@ export default function FeaturePropertyDetail({
         />
       ) : (
         <>
-          <table className="table-auto text-sm">
-            <tbody key={data.length}>
-              {properties.map((d, i) =>
-                d[0] === "RENCANA ANGGARAN" ? (
-                  <OperatorOnly key={`${i}`}>
-                    <tr key={`${i}`} className="border bg-blue-100">
-                      <td className={`py-1 font-bold align-middle w-28 p-2`}>
+          <AuthenticatedOnly>
+            <table className="table-auto text-sm">
+              <tbody key={data.length}>
+                {properties.map((d, i) =>
+                  d[0] === "RENCANA ANGGARAN" ? (
+                    <OperatorOnly key={`${i}`}>
+                      <tr key={`${i}`} className="border bg-blue-100">
+                        <td className={`py-1 font-bold align-middle w-28 p-2`}>
+                          {d[0]}
+                        </td>
+                        <td className={`py-1 text-xs px-1 align-middle`}>:</td>
+                        <td className={`py-1 align-middle`}>
+                          {new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(d[1])}
+                        </td>
+                      </tr>
+                    </OperatorOnly>
+                  ) : (
+                    <tr key={`${i}`}>
+                      <td className={`py-1 font-bold text-xs ${align} w-28`}>
                         {d[0]}
                       </td>
-                      <td className={`py-1 text-xs px-1 align-middle`}>:</td>
-                      <td className={`py-1 align-middle`}>
-                        {new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(d[1])}
-                      </td>
+                      <td className={`py-1 text-xs px-1 ${align}`}>:</td>
+                      <td className={`py-1 text-xs ${align}`}>{d[1]}</td>
                     </tr>
-                  </OperatorOnly>
-                ) : (
-                  <tr key={`${i}`}>
-                    <td className={`py-1 font-bold text-xs ${align} w-28`}>
-                      {d[0]}
-                    </td>
-                    <td className={`py-1 text-xs px-1 ${align}`}>:</td>
-                    <td className={`py-1 text-xs ${align}`}>{d[1]}</td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                  )
+                )}
+              </tbody>
+            </table>
 
-          {/* images */}
-          <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
+            {/* images */}
+            <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
 
-          <div className="grid grid-cols-2 gap-1">
-            {property?.photos?.length === 0 && (
-              <div className="w-full p-1">
-                <span className="text-xs text-gray-500">Tidak ada foto</span>
-              </div>
-            )}
-
-            {property?.photos?.map((photo, i) => (
-              <div
-                key={i}
-                className="flex flex-col justify-center items-center"
-              >
-                <img
-                  src={photo.url}
-                  alt={photo.description ?? ""}
-                  className="w-full object-cover rounded"
-                />
-
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-gray-500">
-                    {photo.description}
-                  </span>
+            <div className="grid grid-cols-2 gap-1">
+              {property?.photos?.length === 0 && (
+                <div className="w-full p-1">
+                  <span className="text-xs text-gray-500">Tidak ada foto</span>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+
+              {property?.photos?.map((photo, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col justify-center items-center"
+                >
+                  <img
+                    src={photo.url}
+                    alt={photo.description ?? ""}
+                    className="w-full object-cover rounded"
+                  />
+
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-xs text-gray-500">
+                      {photo.description}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </AuthenticatedOnly>
+
+          <LoginToSee />
         </>
       )}
     </div>
