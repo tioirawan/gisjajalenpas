@@ -1,8 +1,11 @@
+"use server";
+
 import prisma from "@/libs/prismadb";
+import { hash } from "bcrypt";
 import { z } from "zod";
 
 const changePasswordSchema = z.object({
-  userId: z.number(),
+  userId: z.string(),
   newPassword: z.string().min(6),
   newPasswordConfirmation: z.string().min(6),
 });
@@ -23,6 +26,8 @@ export async function changePassword(
     newPassword: formData.get("newPassword"),
     newPasswordConfirmation: formData.get("newPasswordConfirmation"),
   });
+
+  console.log(data);
 
   if (!data.success) {
     console.log("error change password");
@@ -46,7 +51,7 @@ export async function changePassword(
     console.log("try change password");
     await prisma.user.update({
       where: {
-        id: data.data.userId,
+        id: parseInt(data.data.userId as string),
       },
       data: {
         password: await hash(data.data.newPassword as string, 10),
