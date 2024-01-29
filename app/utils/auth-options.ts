@@ -18,7 +18,6 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
-      // id: "update-user",
       name: "",
       credentials: {
         email: {
@@ -69,7 +68,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: ({ session, token }) => {
-      // console.log('Session Callback', { session, token })
       return {
         ...session,
         user: {
@@ -79,7 +77,7 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user }) => {
       // console.log('JWT Callback', { token, user })
       if (user) {
         const u = user as unknown as any;
@@ -89,6 +87,23 @@ export const authOptions: NextAuthOptions = {
           role: u.role,
         };
       }
+
+      const u = await prisma.user.findUnique({
+        where: {
+          id: parseInt(token?.id as string) || parseInt(token?.sub as string),
+        },
+      });
+
+      if (u) {
+        return {
+          ...token,
+          id: u.id + "",
+          role: u.role,
+          name: u.username,
+          email: u.username,
+        };
+      }
+
       return token;
     },
   },

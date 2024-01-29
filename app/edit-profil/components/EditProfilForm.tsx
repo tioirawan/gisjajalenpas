@@ -18,12 +18,16 @@ const initialState: EditProfilFormState = {
 };
 
 export default function EditProfilForm(props: Props) {
-  const { data, status } = useSession();
+  const { data, status, update } = useSession();
+
   const [state, formAction] = useFormState(editProfil, initialState);
 
   useEffect(() => {
     if (state.success) {
-      window.location.reload();
+      (async () => {
+        await update();
+        window.location.reload();
+      })();
     }
   }, [state.success]);
 
