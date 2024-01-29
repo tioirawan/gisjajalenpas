@@ -9,6 +9,7 @@ import { updateFeatureProperty } from "../../actions";
 import useLayersStore from "../../stores/layers_store";
 import useSelectedFeatureStore from "../../stores/selected_feature_store";
 import AdminOnly from "../AdminOnly";
+import AuthenticatedOnly from "../AuthenticatedOnly";
 import FeaturePropertiesHistory from "./FeaturePropertiesHistory";
 import FeaturePropertyDetail from "./FeaturePropertyDetail";
 
@@ -76,20 +77,22 @@ export default function FeatureSidebar() {
             Data
           </Tab>
 
-          <Tab
-            key="tab_riwayat"
-            className={({ selected }) =>
-              classNames(
-                "w-full py-2.5 text-sm font-medium leading-5",
-                "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none",
-                selected
-                  ? "bg-white text-gray-700 border-b-4 border-green-500"
-                  : "text-gray-500 hover:bg-white/[0.12] hover:text-green-500"
-              )
-            }
-          >
-            Riwayat
-          </Tab>
+          <AuthenticatedOnly>
+            <Tab
+              key="tab_riwayat"
+              className={({ selected }) =>
+                classNames(
+                  "w-full py-2.5 text-sm font-medium leading-5",
+                  "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none",
+                  selected
+                    ? "bg-white text-gray-700 border-b-4 border-green-500"
+                    : "text-gray-500 hover:bg-white/[0.12] hover:text-green-500"
+                )
+              }
+            >
+              Riwayat
+            </Tab>
+          </AuthenticatedOnly>
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel key="tab_data" className="py-4">
@@ -186,22 +189,24 @@ export default function FeatureSidebar() {
             </Transition>
           </Tab.Panel>
 
-          <Tab.Panel key="tab_riwayat" className="py-4">
-            <Transition
-              appear
-              show={true}
-              enter="transition-opacity duration-500"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-500"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              {selectedFeature && (
-                <FeaturePropertiesHistory feature={selectedFeature!} />
-              )}
-            </Transition>
-          </Tab.Panel>
+          <AuthenticatedOnly>
+            <Tab.Panel key="tab_riwayat" className="py-4">
+              <Transition
+                appear
+                show={true}
+                enter="transition-opacity duration-500"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-500"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                {selectedFeature && (
+                  <FeaturePropertiesHistory feature={selectedFeature!} />
+                )}
+              </Transition>
+            </Tab.Panel>
+          </AuthenticatedOnly>
         </Tab.Panels>
       </Tab.Group>
     </aside>
