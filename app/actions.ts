@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import prisma from "@/libs/prismadb";
 import { Photo } from "@prisma/client";
@@ -17,28 +17,41 @@ import { GeoJSONImporter } from "./services/geojson-importer";
 //   onSuccess: () => void;
 // };
 
-
 const MAX_FILE_SIZE = 10000000;
 const ACCEPTED_TYPES = ["application/geo+json"];
 
 const schema = z.object({
-  file: z.any()
+  file: z
+    .any()
     .refine((files) => files?.length == 1, "Geojson file is required.")
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
     .refine(
-      (files) => ACCEPTED_TYPES.includes(files?.[0]?.type),
-      ".geojson file are accepted."
+      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+      `Max file size is 5MB.`
     ),
-  name: z.string({
-    required_error: "Name is required.",
-  }).min(3, "Name must be at least 3 characters."),
+  // .refine(
+  //   (files) => ACCEPTED_TYPES.includes(files?.[0]?.type),
+  //   ".geojson file are accepted."
+  // ),
+  name: z
+    .string({
+      required_error: "Name is required.",
+    })
+    .min(3, "Name must be at least 3 characters."),
   type: z.enum(["road", "bridge", "area"]),
   color: z.string(),
 
   // weight is requred only if type is road or area and will be null if type is bridge
-  weight: z.preprocess((value) => isNaN(parseInt(value as string)) ? null : parseInt(value as string), z.number().nullable()),
+  weight: z.preprocess(
+    (value) =>
+      isNaN(parseInt(value as string)) ? null : parseInt(value as string),
+    z.number().nullable()
+  ),
   // radius is required only if type is bridge, and will be null if type is road or area
-  radius: z.preprocess((value) => isNaN(parseInt(value as string)) ? null : parseInt(value as string), z.number().nullable()),
+  radius: z.preprocess(
+    (value) =>
+      isNaN(parseInt(value as string)) ? null : parseInt(value as string),
+    z.number().nullable()
+  ),
 
   dashed: z.preprocess((value) => value === "on", z.boolean()),
 });
@@ -47,7 +60,10 @@ export type ImportFormState = {
   error: Record<string, string> | null;
   success: boolean;
 };
-export async function saveGeoJSON(prevState: ImportFormState | null, formData: FormData): Promise<ImportFormState> {
+export async function saveGeoJSON(
+  prevState: ImportFormState | null,
+  formData: FormData
+): Promise<ImportFormState> {
   const data = schema.safeParse({
     file: formData.getAll("file"),
     name: formData.get("name"),
@@ -81,22 +97,26 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
   }
 
   // check if data.type is match with geojson features type
-  const featureTypes = json.features.map((feature: any) => feature.geometry.type) as string[];
+  const featureTypes = json.features.map(
+    (feature: any) => feature.geometry.type
+  ) as string[];
 
   const mapper = {
-    "road": ["LineString", "MultiLineString"],
-    "bridge": ["Point", "MultiPoint"],
-    "area": ["Polygon", "MultiPolygon"],
-  }
+    road: ["LineString", "MultiLineString"],
+    bridge: ["Point", "MultiPoint"],
+    area: ["Polygon", "MultiPolygon"],
+  };
   const inverseMapper: Record<string, string> = {
-    "LineString": "Jalan",
-    "MultiLineString": "Jalan",
-    "Point": "Jembatan",
-    "MultiPoint": "Jembatan",
-    "Polygon": "Area",
-    "MultiPolygon": "Area",
-  }
-  const matchAll = featureTypes.every((type: string) => mapper[data.data.type].includes(type));
+    LineString: "Jalan",
+    MultiLineString: "Jalan",
+    Point: "Jembatan",
+    MultiPoint: "Jembatan",
+    Polygon: "Area",
+    MultiPolygon: "Area",
+  };
+  const matchAll = featureTypes.every((type: string) =>
+    mapper[data.data.type].includes(type)
+  );
 
   if (!matchAll) {
     return {
@@ -126,16 +146,18 @@ export async function saveGeoJSON(prevState: ImportFormState | null, formData: F
 }
 
 // even though this is an update operation, it is actually adding a new property to the database
-export async function updateFeatureProperty(featureId: number, data: Record<string, any>,
+export async function updateFeatureProperty(
+  featureId: number,
+  data: Record<string, any>,
   oldPhotos: Photo[],
   updatedPhotos: Photo[],
-  deletedPhotos: Photo[],
+  deletedPhotos: Photo[]
 ) {
   const property = await prisma.properties.create({
     data: {
       data: data,
       featureId: featureId,
-    }
+    },
   });
 
   // copy old photos, and update, delete, and add accordingly
@@ -161,7 +183,7 @@ export async function updateFeatureProperty(featureId: number, data: Record<stri
         path: photo.path,
         url: photo.url,
         description: photo.description,
-      }
+      },
     });
   }
 
@@ -195,6 +217,4 @@ export async function updateFeatureProperty(featureId: number, data: Record<stri
   //     },
   //   });
   // }
-
-
 }

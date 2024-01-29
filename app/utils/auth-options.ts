@@ -18,6 +18,7 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
+      // id: "update-user",
       name: "",
       credentials: {
         email: {
