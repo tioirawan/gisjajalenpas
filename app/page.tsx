@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { Puff } from "react-loader-spinner";
 import AdminOnly from "./components/AdminOnly";
-import FeatureSidebar from "./components/Feature/FeatureSidebar";
+import RoadConditionSidebar from "./components/Condition/RoadConditionSidebar";
 import LayerSidebar from "./components/Layer/LayerSidebar";
 import NavBar from "./components/NavBar";
 import useLayersStore from "./stores/layers_store";
@@ -47,8 +47,8 @@ export default function Home() {
         // minus the height of the navbar
         style={{ height: "calc(100vh - 4rem)" }}
       >
-        <FeatureSidebar />
-        {/* <RoadConditionSidebar /> */}
+        {/* <FeatureSidebar /> */}
+        <RoadConditionSidebar />
 
         <AdminOnly>
           <DynamicCreateRoadSidebar />
