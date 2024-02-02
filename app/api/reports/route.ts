@@ -1,8 +1,8 @@
-import { authOptions } from '@/app/utils/auth-options';
-import prisma from '@/libs/prismadb';
-import { writeFile } from 'fs';
-import moment from 'moment';
-import { getServerSession } from 'next-auth';
+import { authOptions } from "@/app/utils/auth-options";
+import prisma from "@/libs/prismadb";
+import { writeFile } from "fs";
+import moment from "moment";
+import { getServerSession } from "next-auth";
 
 export async function GET() {
   const reports = await prisma.report.findMany({
@@ -18,16 +18,17 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = (await getServerSession(authOptions));
+  const session = await getServerSession(authOptions);
 
   if (!session) {
-    return Response.json({
-      error: "You are not authenticated",
-    }, {
-      status: 403,
-
-
-    });
+    return Response.json(
+      {
+        error: "You are not authenticated",
+      },
+      {
+        status: 403,
+      }
+    );
   }
 
   // multipart accept file
@@ -38,28 +39,36 @@ export async function POST(request: Request) {
   const description = body.get("description");
 
   if (!file) {
-    return Response.json({
-      error: "No file provided",
-    }, {
-      status: 401,
-    }
+    return Response.json(
+      {
+        error: "No file provided",
+      },
+      {
+        status: 401,
+      }
     );
   }
 
   if (!title) {
-    return Response.json({
-      error: "No title provided",
-    }, {
-      status: 401,
-    });
+    return Response.json(
+      {
+        error: "No title provided",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   if (!description) {
-    return Response.json({
-      error: "No description provided",
-    }, {
-      status: 401,
-    });
+    return Response.json(
+      {
+        error: "No description provided",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   // save file to public folder

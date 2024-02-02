@@ -98,26 +98,28 @@ export default function RoadConditionSidebar() {
         </Carousel>
         <div className="w-full p-1 mt-6">
           <table className="w-full">
-            <tr>
-              <td className="w-1/3 font-bold">Nama Ruas</td>
-              <td className="w-2/3">: Jatisari - Pucangsari</td>
-            </tr>
-            <tr>
-              <td className="w-1/3 font-bold">Kecamatan yang dilalui</td>
-              <td className="w-2/3">: Purwodadi</td>
-            </tr>
-            <tr>
-              <td className="w-1/3 font-bold">Panjang SK</td>
-              <td className="w-2/3">: 1,650 Km</td>
-            </tr>
-            <tr>
-              <td className="w-1/3 font-bold">Lebar</td>
-              <td className="w-2/3">: 2,4 m</td>
-            </tr>
-            <tr>
-              <td className="w-1/3 font-bold">Keterangan</td>
-              <td className="w-2/3">: -</td>
-            </tr>
+            <tbody className="w-full">
+              <tr>
+                <td className="w-1/3 font-bold">Nama Ruas</td>
+                <td className="w-2/3">: Jatisari - Pucangsari</td>
+              </tr>
+              <tr>
+                <td className="w-1/3 font-bold">Kecamatan yang dilalui</td>
+                <td className="w-2/3">: Purwodadi</td>
+              </tr>
+              <tr>
+                <td className="w-1/3 font-bold">Panjang SK</td>
+                <td className="w-2/3">: 1,650 Km</td>
+              </tr>
+              <tr>
+                <td className="w-1/3 font-bold">Lebar</td>
+                <td className="w-2/3">: 2,4 m</td>
+              </tr>
+              <tr>
+                <td className="w-1/3 font-bold">Keterangan</td>
+                <td className="w-2/3">: -</td>
+              </tr>
+            </tbody>
           </table>
         </div>
 
