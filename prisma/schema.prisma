@@ -163,31 +163,40 @@ model Report {
 //   Perkerasan
 // )
 
+model Jalan {
+  id   Int    @id @default(autoincrement())
+  nama String @unique
+  ruas Ruas[]
+}
+
 model Ruas {
-  id         Int      @id @default(autoincrement())
-  nomorRuas  String
+  nomorRuas  Int      @id
+  idJalan    Int      @map("idJalan")
   namaRuas   String
   kecamatan  String
   panjangSK  Float
   lebar      Float
   keterangan String?
+  latitude   Float?
+  longitude  Float?
   createdAt  DateTime @default(now())
 
-  sta Sta[]
+  jalan Jalan @relation(fields: [idJalan], references: [id], onDelete: Cascade)
+  sta   Sta[]
 }
 
 model Sta {
-  id         Int      @id @default(autoincrement())
-  nomorRuas  String
-  sta        Float
-  xAwal      Float
-  yAwal      Float
-  xAkhir     Float
-  yAkhir     Float
-  kondisi    String
-  perkerasan String
-  createdAt  DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  nomorRuas   Int      @map("nomorRuas")
+  sta         String
+  xAwal       Float
+  yAwal       Float
+  xAkhir      Float
+  yAkhir      Float
+  kondisi     String
+  perkerasan  String
+  coordinates Json
+  createdAt   DateTime @default(now())
 
-  ruasId Int  @map("ruasId")
-  ruas   Ruas @relation(fields: [ruasId], references: [id], onDelete: Cascade)
+  ruas Ruas @relation(fields: [nomorRuas], references: [nomorRuas], onDelete: Cascade)
 }

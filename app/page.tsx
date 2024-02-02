@@ -7,6 +7,7 @@ import AdminOnly from "./components/AdminOnly";
 import RoadConditionSidebar from "./components/Condition/RoadConditionSidebar";
 import LayerSidebar from "./components/Layer/LayerSidebar";
 import NavBar from "./components/NavBar";
+import useJalanStore from "./stores/jalan_store";
 import useLayersStore from "./stores/layers_store";
 
 const DynamicMap = dynamic(() => import("./components/Map"), {
@@ -33,10 +34,15 @@ const DynamicCreateRoadSidebar = dynamic(
 
 export default function Home() {
   const loadLayers = useLayersStore((state) => state.loadLayers);
+  const loadJalan = useJalanStore((state) => state.fetch);
 
   useEffect(() => {
     loadLayers();
   }, [loadLayers]);
+
+  useEffect(() => {
+    loadJalan();
+  }, [loadJalan]);
 
   return (
     <div className="flex flex-col items-stretch h-screen">
