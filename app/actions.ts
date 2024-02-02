@@ -4,6 +4,7 @@ import prisma from "@/libs/prismadb";
 import { Photo } from "@prisma/client";
 import { z } from "zod";
 import { GeoJSONImporter } from "./services/geojson-importer";
+import { RuasImporter } from "./services/ruas-importer";
 
 // export async function saveGeoJSON(data: GeoJSON.FeatureCollection, detail: FeatureCollectionDetail) {
 //   const importer = new GeoJSONImporter();
@@ -137,6 +138,69 @@ export async function saveGeoJSON(
     weight: data.data.weight,
     dashed: data.data.dashed,
     radius: data.data.radius,
+  });
+
+  return {
+    error: null,
+    success: true,
+  };
+}
+
+const ruasSchema = z.object({
+  file: z
+    .any()
+    .refine((files) => files?.length == 1, "Geojson file is required.")
+    .refine(
+      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+      `Max file size is 5MB.`
+    ),
+  name: z
+    .string({
+      required_error: "Name is required.",
+    })
+    .min(3, "Name must be at least 3 characters."),
+});
+
+export type SaveRuasFormState = {
+  error: Record<string, string> | null;
+  success: boolean;
+};
+export async function saveRuasGeoJSON(
+  _: SaveRuasFormState | null,
+  formData: FormData
+): Promise<SaveRuasFormState> {
+  const data = ruasSchema.safeParse({
+    file: formData.getAll("file"),
+    name: formData.get("name"),
+  });
+
+  if (!data.success) {
+    return {
+      error: data.error.flatten().fieldErrors as Record<string, string>,
+      success: false,
+    };
+  }
+
+  // read file
+  const file = data.data.file[0];
+  const fileContent = await file.text();
+  const json = JSON.parse(fileContent);
+
+  // check if file is valid geojson
+  if (json.type !== "FeatureCollection") {
+    return {
+      error: {
+        file: "Invalid geojson file.",
+      },
+      success: false,
+    };
+  }
+
+  const importer = new RuasImporter();
+
+  // import geojson
+  await importer.importGeoJSON(json, {
+    name: data.data.name,
   });
 
   return {

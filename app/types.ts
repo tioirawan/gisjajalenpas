@@ -36,3 +36,15 @@ export type NewPhoto = {
 };
 
 export type UserRole = "ADMIN" | "OPERATOR" | "OPD";
+
+export type JalanWithRuas = Prisma.JalanGetPayload<{
+  include: {
+    ruas: true;
+  };
+}>;
+
+export type RuasWithSta = Prisma.RuasGetPayload<{
+  include: {
+    sta: true;
+  };
+}>;
