@@ -140,3 +140,54 @@ model Report {
   createdBy Int  @map("createdBy")
   user      User @relation(fields: [createdBy], references: [id], onDelete: Cascade)
 }
+
+// struktur data baru untuk tiap 200meter
+// tabel ruas = data umum jalan (
+//   Nomor Ruas
+//   Nama Ruas
+//   Kecamatan yang dilalui
+//   Panjang SK
+//   Lebar
+//   Keterangan
+// )
+
+// tabel sta = data ruas ruas (
+//   id
+//   Nomor Ruas (FK)
+//   STA
+//   X_awal
+//   Y_awal
+//   X_akhir
+//   Y_akhir
+//   Kondisi
+//   Perkerasan
+// )
+
+model Ruas {
+  id         Int      @id @default(autoincrement())
+  nomorRuas  String
+  namaRuas   String
+  kecamatan  String
+  panjangSK  Float
+  lebar      Float
+  keterangan String?
+  createdAt  DateTime @default(now())
+
+  sta Sta[]
+}
+
+model Sta {
+  id         Int      @id @default(autoincrement())
+  nomorRuas  String
+  sta        Float
+  xAwal      Float
+  yAwal      Float
+  xAkhir     Float
+  yAkhir     Float
+  kondisi    String
+  perkerasan String
+  createdAt  DateTime @default(now())
+
+  ruasId Int  @map("ruasId")
+  ruas   Ruas @relation(fields: [ruasId], references: [id], onDelete: Cascade)
+}
