@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import useSelectedStaStore from "@/app/stores/selected_sta_store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -40,11 +41,14 @@ const conditions = [
   },
 ];
 
-export default function ConditionDetail({
-  setIsStaDetail,
-}: {
-  setIsStaDetail: (value: boolean) => void;
-}) {
+export default function ConditionDetail() {
+  const { selectedSta, setSelectedSta } = useSelectedStaStore(
+    (selectedSta) => ({
+      selectedSta: selectedSta.selected,
+      setSelectedSta: selectedSta.set,
+    })
+  );
+
   return (
     <>
       <Carousel
@@ -180,7 +184,7 @@ export default function ConditionDetail({
                 <TableCell>ASPAL/PENETRASI/MAKADAM</TableCell>
                 <TableCell>Rusak Ringan</TableCell>
                 <TableCell>
-                  <Button onClick={() => setIsStaDetail(true)}>Detail</Button>
+                  <Button onClick={() => setSelectedSta(true)}>Detail</Button>
                 </TableCell>
               </TableRow>
             ))}

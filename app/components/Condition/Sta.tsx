@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import useSelectedStaStore from "@/app/stores/selected_sta_store";
 import { Tab, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { useState } from "react";
@@ -32,11 +33,13 @@ const conditions = [
   },
 ];
 
-export default function Sta({
-  setIsStaDetail,
-}: {
-  setIsStaDetail: (value: boolean) => void;
-}) {
+export default function Sta() {
+  const { selectedSta, setSelectedSta } = useSelectedStaStore(
+    (selectedSta) => ({
+      selectedSta: selectedSta.selected,
+      setSelectedSta: selectedSta.set,
+    })
+  );
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -47,7 +50,7 @@ export default function Sta({
         <button
           className="text-xl font-bold"
           onClick={() => {
-            setIsStaDetail(false);
+            setSelectedSta(null);
           }}
         >
           <IoClose />

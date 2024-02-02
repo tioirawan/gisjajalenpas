@@ -6,25 +6,17 @@ import ConditionDetail from "./ConditionDetail";
 
 moment.locale("id");
 
-export default function ConditionHistory({
-  setIsStaDetail,
-}: {
-  setIsStaDetail: (value: boolean) => void;
-}) {
+export default function ConditionHistory() {
   return (
     <div className="flex flex-col">
       <ul className="list-none">
-        <HistoryTile setIsStaDetail={setIsStaDetail} />
+        <HistoryTile />
       </ul>
     </div>
   );
 }
 
-function HistoryTile({
-  setIsStaDetail,
-}: {
-  setIsStaDetail: (value: boolean) => void;
-}) {
+function HistoryTile() {
   const [isOpen, setIsOpen] = useState(false);
 
   function openModal() {
@@ -75,7 +67,7 @@ function HistoryTile({
                     {moment("2024-02-02").format("LLL")}
                   </Dialog.Title>
                   <div className="mt-2 pt-3 pb-2">
-                    <ConditionDetail setIsStaDetail={setIsStaDetail} />
+                    <ConditionDetail />
                   </div>
 
                   <div className="mt-4 flex justify-end">

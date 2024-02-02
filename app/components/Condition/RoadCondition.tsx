@@ -11,10 +11,8 @@ import ConditionEditor from "./ConditionEditior";
 import ConditionHistory from "./ConditionHistory";
 
 export default function RoadCondition({
-  setIsStaDetail,
   setSelectedFeature,
 }: {
-  setIsStaDetail: (value: boolean) => void;
   setSelectedFeature: (value: any) => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -97,11 +95,7 @@ export default function RoadCondition({
                   </div>
                 </button>
               </AdminOnly>
-              {isEditing ? (
-                <ConditionEditor />
-              ) : (
-                <ConditionDetail setIsStaDetail={setIsStaDetail} />
-              )}
+              {isEditing ? <ConditionEditor /> : <ConditionDetail />}
             </Transition>
           </Tab.Panel>
           <AuthenticatedOnly>
@@ -116,7 +110,7 @@ export default function RoadCondition({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <ConditionHistory setIsStaDetail={setIsStaDetail} />
+                <ConditionHistory />
               </Transition>
             </Tab.Panel>
           </AuthenticatedOnly>
