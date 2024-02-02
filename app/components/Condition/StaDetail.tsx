@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import useSelectedStaStore from "@/app/stores/selected_sta_store";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -7,9 +8,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { staDetailDummy } from "./dummies";
 
 export default function StaDetail() {
+  const { selectedSta, setSelectedSta } = useSelectedStaStore(
+    (selectedSta) => ({
+      selectedSta: selectedSta.selected,
+      setSelectedSta: selectedSta.set,
+    })
+  );
+
   return (
     <>
       <Carousel
@@ -41,10 +48,10 @@ export default function StaDetail() {
       <div className="w-full p-1 mt-6">
         <table className="w-full">
           <tbody className="w-full">
-            {staDetailDummy.map((item, index) => (
+            {Object.keys(selectedSta).map((item, index) => (
               <tr key={index}>
-                <td className="w-1/3 font-bold">{item.title}</td>
-                <td className="w-2/3">: {item.value}</td>
+                <td className="w-1/3 font-bold">{item}</td>
+                <td className="w-2/3">: {selectedSta[item]}</td>
               </tr>
             ))}
           </tbody>
