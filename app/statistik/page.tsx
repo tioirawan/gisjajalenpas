@@ -32,6 +32,16 @@ export default function Laporan() {
     return roads.find((road) => road.id === parseInt(selectedRoadId));
   }, [roads, selectedRoadId]);
 
+  const jumlahSta = useMemo(() => {
+    if (!road) return 0;
+
+    const r: any = road;
+
+    return r.ruas.reduce((acc: any, ruas: any) => {
+      return acc + ruas.sta.length;
+    }, 0);
+  }, [road]);
+
   useEffect(() => {
     loadRoads();
   }, [loadRoads]);
@@ -100,7 +110,7 @@ export default function Laporan() {
                     Jumlah Ruas
                   </th>
                   <td className="border border-slate-300 p-2">
-                    {selectedRoad?.ruas.length} Ruas
+                    {selectedRoad?.ruas.length} Ruas ({jumlahSta} STA)
                   </td>
                 </tr>
                 <tr>
