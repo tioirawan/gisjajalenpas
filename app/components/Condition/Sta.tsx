@@ -11,28 +11,6 @@ import StaDetail from "./StaDetail";
 import StaEditor from "./StaEditor";
 import StaHistory from "./StaHistory";
 
-const invoices = [
-  {
-    col1: "-",
-    col2: " 0,600",
-    col3: "-",
-    col4: " 1,050",
-  },
-];
-
-const conditions = [
-  {
-    col1: "-",
-    col2: "-",
-    col3: "0,600",
-    col4: "36,36",
-    col5: "-",
-    col6: "-",
-    col7: "1,050",
-    col8: "63,64",
-  },
-];
-
 export default function Sta() {
   const { selectedSta, setSelectedSta } = useSelectedStaStore(
     (selectedSta) => ({

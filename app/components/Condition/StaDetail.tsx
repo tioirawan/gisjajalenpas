@@ -48,12 +48,38 @@ export default function StaDetail() {
       <div className="w-full p-1 mt-6">
         <table className="w-full">
           <tbody className="w-full">
-            {Object.keys(selectedSta).map((item, index) => (
-              <tr key={index}>
-                <td className="w-1/3 font-bold">{item}</td>
-                <td className="w-2/3">: {selectedSta[item]}</td>
-              </tr>
-            ))}
+            <tr>
+              <td className="w-1/3 font-bold">Nomor Ruas</td>
+              <td className="w-2/3">: {selectedSta.nomorRuas}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">STA</td>
+              <td className="w-2/3">: {selectedSta.sta}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">X Awal</td>
+              <td className="w-2/3">: {selectedSta.xAwal}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">X Akhir</td>
+              <td className="w-2/3">: {selectedSta.xAkhir}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">Y Awal</td>
+              <td className="w-2/3">: {selectedSta.yAwal}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">Y Akhir</td>
+              <td className="w-2/3">: {selectedSta.yAkhir}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">Kondisi</td>
+              <td className="w-2/3">: {selectedSta.kondisi}</td>
+            </tr>
+            <tr>
+              <td className="w-1/3 font-bold">Perkerasan</td>
+              <td className="w-2/3">: {selectedSta.perkerasan}</td>
+            </tr>
           </tbody>
         </table>
       </div>

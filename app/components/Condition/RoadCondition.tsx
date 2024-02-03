@@ -11,21 +11,25 @@ import ConditionEditor from "./ConditionEditior";
 import ConditionHistory from "./ConditionHistory";
 
 export default function RoadCondition({
-  setSelectedFeature,
+  selectedRuas,
+  setSelectedRuas,
 }: {
-  setSelectedFeature: (value: any) => void;
+  selectedRuas: any;
+  setSelectedRuas: (value: any) => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
       <div className="flex flex-row justify-between items-center pb-4">
-        <h1 className="text-xl font-bold">Kondisi Jalan</h1>
+        <h1 className="text-xl font-bold">
+          {selectedRuas && selectedRuas.namaRuas}
+        </h1>
 
         <button
           className="text-xl font-bold"
           onClick={() => {
-            setSelectedFeature(null);
+            setSelectedRuas(null);
           }}
         >
           <IoClose />

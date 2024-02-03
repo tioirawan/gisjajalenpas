@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import useSelectedFeatureStore from "@/app/stores/selected_feature_store";
+import useSelectedRuasStore from "@/app/stores/selected_ruas_store";
 import useSelectedStaStore from "@/app/stores/selected_sta_store";
 import clsx from "clsx";
 import { useState } from "react";
@@ -8,11 +8,10 @@ import Sta from "./Sta";
 
 export default function RoadConditionSidebar() {
   const [isStaDetail, setIsStaDetail] = useState(false);
-
-  const { selectedFeature, setSelectedFeature } = useSelectedFeatureStore(
-    (selectedFeature) => ({
-      selectedFeature: selectedFeature.selectedFeature,
-      setSelectedFeature: selectedFeature.setSelectedFeature,
+  const { selectedRuas, setSelectedRuas } = useSelectedRuasStore(
+    (selectedRuas) => ({
+      selectedRuas: selectedRuas.selected,
+      setSelectedRuas: selectedRuas.set,
     })
   );
 
@@ -23,10 +22,12 @@ export default function RoadConditionSidebar() {
     })
   );
 
+  console.log(selectedRuas);
+
   return (
     <aside
       className={clsx(
-        selectedFeature || selectedSta
+        selectedRuas || selectedSta
           ? "lg:w-4/6 xl:w-1/3 w-full p-4 shrink-0"
           : "w-0 p-0",
         "transition-all duration-500 ease-in-out overflow-y-auto border-r h-full  bg-white"
@@ -36,7 +37,10 @@ export default function RoadConditionSidebar() {
         {selectedSta ? (
           <Sta />
         ) : (
-          <RoadCondition setSelectedFeature={setSelectedFeature} />
+          <RoadCondition
+            selectedRuas={selectedRuas}
+            setSelectedRuas={setSelectedRuas}
+          />
         )}
       </div>
     </aside>
