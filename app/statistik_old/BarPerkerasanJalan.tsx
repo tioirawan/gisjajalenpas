@@ -1,5 +1,5 @@
 type BarPerkerasanJalanProps = {
-  road: JalanWithRuas;
+  layer: FeatureCollectionFull;
 };
 
 import {
@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
-import { JalanWithRuas } from "../types";
+import { FeatureCollectionFull } from "../types";
 
 ChartJS.register(
   CategoryScale,
@@ -24,8 +24,8 @@ ChartJS.register(
   Legend
 );
 
-export default function BarPerkerasanJalan({ road }: BarPerkerasanJalanProps) {
-  const { ruas } = road;
+export default function BarPerkerasanJalan({ layer }: BarPerkerasanJalanProps) {
+  const { features } = layer;
 
   const chartId = "bar-perkerasan-jalan";
 
@@ -33,11 +33,15 @@ export default function BarPerkerasanJalan({ road }: BarPerkerasanJalanProps) {
     // from features, count the number of each type based on first properties data with key Tipe_Ker_1
     const result: Record<string, number> = {};
 
-    ruas.forEach((r: any) => {
-      const sta = r.sta;
+    features.forEach((feature) => {
+      // console.log((feature.properties[0]?.data as { [key: string]: any })["Tipe_Ker_1"]);
+      const data = feature.properties[0]?.data as { [key: string]: any };
+      const types: string[] = data["Tipe_Ker_1"]?.split(", ") ?? [];
 
-      sta.forEach((data: any) => {
-        const type = data.perkerasan;
+      // loop types, add it to result
+      types.forEach((type) => {
+        type = type.trim();
+
         if (result[type]) {
           result[type] += 1;
         } else {
@@ -47,7 +51,7 @@ export default function BarPerkerasanJalan({ road }: BarPerkerasanJalanProps) {
     });
 
     return result;
-  }, [ruas]);
+  }, [features]);
 
   function downloadChart() {
     const canvas = document.getElementById(chartId) as HTMLCanvasElement;

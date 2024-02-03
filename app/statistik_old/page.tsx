@@ -3,52 +3,40 @@
 import { useEffect, useMemo, useState } from "react";
 import { Circles } from "react-loader-spinner";
 import NavBar from "../components/NavBar";
-import useJalanStore from "../stores/jalan_store";
+import useLayersStore from "../stores/layers_store";
 import BarPerkerasanJalan from "./BarPerkerasanJalan";
 import PieKondisiJalan from "./PieKondisiJalan";
 
 export default function Laporan() {
-  //   const { layers, isLoading, loadLayers } = useLayersStore((state) => ({
-  //     layers: state.layers,
-  //     isLoading: state.isLoading,
-  //     loadLayers: state.loadLayers,
-  //   }));
+  const { layers, isLoading, loadLayers } = useLayersStore((state) => ({
+    layers: state.layers,
+    isLoading: state.isLoading,
+    loadLayers: state.loadLayers,
+  }));
 
-  const { loadRoads, roadError, roadLoading, roads, loadRoad, road } =
-    useJalanStore((state) => ({
-      roads: state.data,
-      road: state.road,
-      roadLoading: state.loading,
-      roadError: state.error,
-      loadRoads: state.fetch,
-      loadRoad: state.loadRoad,
-    }));
+  const [selectedLayerId, setSelectedLayerId] = useState<string | null>(null);
 
-  const [selectedRoadId, setSelectedRoadId] = useState<string | null>(null);
+  const selectedLayer = useMemo(() => {
+    if (!selectedLayerId) return null;
 
-  const selectedRoad = useMemo(() => {
-    if (!selectedRoadId) return null;
-
-    return roads.find((road) => road.id === parseInt(selectedRoadId));
-  }, [roads, selectedRoadId]);
+    return layers.find((layer) => layer.id === parseInt(selectedLayerId));
+  }, [layers, selectedLayerId]);
 
   useEffect(() => {
-    loadRoads();
-  }, [loadRoads]);
-
-  useEffect(() => {
-    if (selectedRoadId) {
-      loadRoad(selectedRoadId);
-    }
-  }, [selectedRoadId, loadRoad]);
+    loadLayers();
+  }, [loadLayers]);
 
   const jumlahPanjang = useMemo(() => {
-    return selectedRoad?.ruas.reduce((acc, ruas: any) => {
-      const panjang = parseFloat(ruas.panjangSK ?? 0);
+    return selectedLayer?.layer.features.reduce((acc, feature) => {
+      const panjang = parseFloat(
+        (feature.properties[0].data as any)["Panjang_1"] ?? 0
+      );
 
       return acc + panjang;
     }, 0);
-  }, [selectedRoad]);
+  }, [selectedLayer?.layer.features]);
+
+  console.log(layers);
 
   return (
     <div className="flex flex-col items-stretch h-screen ">
@@ -68,18 +56,20 @@ export default function Laporan() {
         {/* select layer */}
         <select
           className="w-full p-2 my-4 border rounded-md"
-          value={selectedRoadId ?? ""}
-          onChange={(e) => setSelectedRoadId(e.target.value)}
+          value={selectedLayerId ?? ""}
+          onChange={(e) => setSelectedLayerId(e.target.value)}
         >
           <option value="">Pilih Jalan</option>
-          {roads.map((road) => (
-            <option key={road.id} value={road.id}>
-              {road.nama}
-            </option>
-          ))}
+          {layers
+            .filter((layer) => layer.layer.type === "road")
+            .map((layer) => (
+              <option key={layer.id} value={layer.id}>
+                {layer.layer.name}
+              </option>
+            ))}
         </select>
 
-        {roadLoading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Circles
               height="35"
@@ -91,7 +81,7 @@ export default function Laporan() {
               visible={true}
             />
           </div>
-        ) : road ? (
+        ) : selectedLayer ? (
           <div className="flex flex-col justify-stretch">
             <table className="border-collapse border border-slate-200 mb-4">
               <tbody>
@@ -100,7 +90,7 @@ export default function Laporan() {
                     Jumlah Ruas
                   </th>
                   <td className="border border-slate-300 p-2">
-                    {selectedRoad?.ruas.length} Ruas
+                    {selectedLayer?.layer.features.length} Ruas
                   </td>
                 </tr>
                 <tr>
@@ -116,10 +106,10 @@ export default function Laporan() {
 
             <div className="flex w-full overflow-x-auto">
               <div className="w-1/2 flex-grow shrink-0 pr-4">
-                <BarPerkerasanJalan road={road} />
+                <BarPerkerasanJalan layer={selectedLayer?.layer} />
               </div>
               <div className="w-1/2 flex-grow shrink-0 ml-1">
-                <PieKondisiJalan road={road} />
+                <PieKondisiJalan layer={selectedLayer?.layer} />
               </div>
             </div>
           </div>

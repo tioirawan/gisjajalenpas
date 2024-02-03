@@ -1,16 +1,16 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { useMemo } from "react";
 import { Pie } from "react-chartjs-2";
-import { JalanWithRuas } from "../types";
+import { FeatureCollectionFull } from "../types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type PieKondisiJalanProps = {
-  road: JalanWithRuas;
+  layer: FeatureCollectionFull;
 };
 
-export default function PieKondisiJalan({ road }: PieKondisiJalanProps) {
-  const { ruas } = road;
+export default function PieKondisiJalan({ layer }: PieKondisiJalanProps) {
+  const { features } = layer;
 
   const chartId = "pie-kondisi-jalan";
 
@@ -23,30 +23,33 @@ export default function PieKondisiJalan({ road }: PieKondisiJalanProps) {
       rusakBerat: 0, // Kon_Rusa_1
     };
 
-    ruas.forEach((r: any) => {
-      const sta = r.sta;
+    features.forEach((feature) => {
+      // console.log((feature.properties[0]?.data as { [key: string]: any })["Tipe_Ker_1"]);
+      const data = feature.properties[0]?.data as { [key: string]: any };
 
-      sta.forEach((data: any) => {
-        const condition = data.kondisi;
-        switch (condition) {
-          case "Baik":
-            result.baik += 1;
-            break;
-          case "Sedang":
-            result.sedang += 1;
-            break;
-          case "Rusak Ringan":
-            result.rusakRingan += 1;
-            break;
-          case "Rusak Berat":
-            result.rusakBerat += 1;
-            break;
-        }
-      });
+      // Determine the condition based on Kon_Baik_1, Kon_Sdg_1, Kon_Rgn_1, Kon_Rusa_1 value, select the highest
+      const conditions = [
+        parseFloat(data["Kon_Baik_1"]),
+        parseFloat(data["Kon_Sdg_1"]),
+        parseFloat(data["Kon_Rgn_1"]),
+        parseFloat(data["Kon_Rusa_1"]),
+      ];
+
+      const max = Math.max(...conditions);
+
+      if (max === conditions[0]) {
+        result.baik += 1;
+      } else if (max === conditions[1]) {
+        result.sedang += 1;
+      } else if (max === conditions[2]) {
+        result.rusakRingan += 1;
+      } else if (max === conditions[3]) {
+        result.rusakBerat += 1;
+      }
     });
 
     return result;
-  }, [ruas]);
+  }, [features]);
 
   function downloadChart() {
     const canvas = document.getElementById(chartId) as HTMLCanvasElement;
