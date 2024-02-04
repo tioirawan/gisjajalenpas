@@ -1,12 +1,17 @@
+import { JalanInformation } from "@/app/stores/jalan_store";
 import { useState } from "react";
 import useLayersStore, { LayerInformation } from "../../stores/layers_store";
 import EditForm from "./EditForm";
 import ImportForm from "./ImportForm";
 import LayersList from "./LayersList";
+import RoadEditForm from "./RoadEditForm";
 
 export default function LayerSidebar() {
   const [isImporting, setIsImporting] = useState(false);
   const [isEditing, setIsEditing] = useState<LayerInformation | null>(null);
+  const [isRoadEditing, setIsRoadEditing] = useState<JalanInformation | null>(
+    null
+  );
 
   const { isVisible, loadLayers, toggleVisibility } = useLayersStore(
     (state) => ({
@@ -52,8 +57,22 @@ export default function LayerSidebar() {
             setIsEditing(null);
           }}
         />
+      ) : isRoadEditing ? (
+        <RoadEditForm
+          roadInformation={isRoadEditing}
+          onClose={() => {
+            setIsRoadEditing(null);
+          }}
+          onSuccess={() => {
+            setIsRoadEditing(null);
+          }}
+        />
       ) : (
-        <LayersList onImporting={setIsImporting} onEdit={setIsEditing} />
+        <LayersList
+          onRoadEdit={setIsRoadEditing}
+          onImporting={setIsImporting}
+          onEdit={setIsEditing}
+        />
       )}
     </aside>
   );

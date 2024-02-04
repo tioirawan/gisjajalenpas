@@ -94,8 +94,13 @@ export default function Map() {
     toggleVisibility: state.toggleVisibility,
   }));
 
+  const { dataKondisiJalan, isRoadVisible } = useJalanStore((state) => ({
+    dataKondisiJalan: state.roads,
+    isRoadVisible: state.isJalanVisible,
+  }));
+
   // kondisi jalan
-  const dataKondisiJalan = useJalanStore((state) => state.data);
+  // const dataKondisiJalan = useJalanStore((state) => state.roads);
   const selectedRuas = useSelectedRuasStore((state) => state.selected);
   const setSelectedRuas = useSelectedRuasStore((state) => state.set);
   const selectedSta = useSelectedStaStore((state) => state.selected);
@@ -207,7 +212,8 @@ export default function Map() {
         <>
           {/* marker ruas jalan */}
           {dataKondisiJalan.map((jalan, i) => {
-            const ruas = jalan.ruas;
+            if (!isRoadVisible(jalan.id)) return null;
+            const ruas = jalan.road.ruas;
 
             return ruas.map((ruas, i) => {
               return (
