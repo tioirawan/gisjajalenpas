@@ -198,5 +198,58 @@ model Sta {
   coordinates Json
   createdAt   DateTime @default(now())
 
-  ruas Ruas @relation(fields: [nomorRuas], references: [nomorRuas], onDelete: Cascade)
+  ruas     Ruas            @relation(fields: [nomorRuas], references: [nomorRuas], onDelete: Cascade)
+  history  StaHistory[]
+  pictures PicturesOnSta[]
+}
+
+model StaHistory {
+  id          Int      @id @default(autoincrement())
+  idSta       Int      @map("idSta")
+  nomorRuas   Int      @map("nomorRuas")
+  sta         String
+  xAwal       Float
+  yAwal       Float
+  xAkhir      Float
+  yAkhir      Float
+  kondisi     String
+  perkerasan  String
+  coordinates Json
+  createdAt   DateTime @default(now())
+
+  Sta      Sta                    @relation(fields: [idSta], references: [id], onDelete: Cascade)
+  pictures PicturesOnStaHistory[]
+}
+
+model Picture {
+  id        Int      @id @default(autoincrement())
+  path      String
+  createdAt DateTime @default(now())
+
+  stas        PicturesOnSta[]
+  stasHistory PicturesOnStaHistory[]
+}
+
+model PicturesOnSta {
+  idSta     Int @map("idSta")
+  idPicture Int @map("idPicture")
+
+  description String?
+
+  sta     Sta     @relation(fields: [idSta], references: [id], onDelete: Cascade)
+  picture Picture @relation(fields: [idPicture], references: [id], onDelete: Cascade)
+
+  @@id([idSta, idPicture])
+}
+
+model PicturesOnStaHistory {
+  idStaHistory Int @map("idStaHistory")
+  idPicture    Int @map("idPicture")
+
+  description String?
+
+  staHistory StaHistory @relation(fields: [idStaHistory], references: [id], onDelete: Cascade)
+  picture    Picture    @relation(fields: [idPicture], references: [id], onDelete: Cascade)
+
+  @@id([idStaHistory, idPicture])
 }

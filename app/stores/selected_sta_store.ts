@@ -1,11 +1,11 @@
-import { Sta } from "@prisma/client";
 import { create } from "zustand";
+import { StaWithPictures } from "../types";
 
 type SelectedStaStore = {
-  selected: Sta | null;
+  selected: StaWithPictures | null;
   isLoading: boolean;
   error: string | null;
-  set: (ruas: Sta | null) => void;
+  set: (ruas: StaWithPictures | null) => void;
 };
 
 const useSelectedStaStore = create<SelectedStaStore>((set) => ({

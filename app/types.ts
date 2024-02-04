@@ -45,6 +45,46 @@ export type JalanWithRuas = Prisma.JalanGetPayload<{
 
 export type RuasWithSta = Prisma.RuasGetPayload<{
   include: {
-    sta: true;
+    sta: {
+      include: {
+        pictures: {
+          include: {
+            picture: true;
+          };
+        }
+      };
+    }
+  };
+}>;
+
+export type StaWithPictures = Prisma.StaGetPayload<{
+  include: {
+    pictures: {
+      include: {
+        picture: true;
+      };
+    }
+  };
+}>;
+
+export type StaPicture = Prisma.PicturesOnStaGetPayload<{
+  include: {
+    picture: true;
+  };
+}>;
+
+export type StaHistoryWithPictures = Prisma.StaHistoryGetPayload<{
+  include: {
+    pictures: {
+      include: {
+        picture: true;
+      };
+    };
+  };
+}>;
+
+export type StaHistoryPicture = Prisma.PicturesOnStaHistoryGetPayload<{
+  include: {
+    picture: true;
   };
 }>;
