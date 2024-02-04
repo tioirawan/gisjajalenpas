@@ -1,20 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 import useBaseLayerStore from "@/app/stores/base_layer_store";
+import useJalanStore from "@/app/stores/jalan_store";
 import useLayersStore from "@/app/stores/layers_store";
 import { BiImport } from "react-icons/bi";
 import { Circles } from "react-loader-spinner";
 import AdminOnly from "../AdminOnly";
 import LayerTile from "./LayerTile";
+import RoadTile from "./RoadTile";
 
 type LayerListProps = {
   onImporting: (value: boolean) => void;
   onEdit: (value: any) => void;
+  onRoadEdit: (value: any) => void;
 };
 
 export default function LayersList(props: LayerListProps) {
   const { layers, isLoading } = useLayersStore((state) => ({
     layers: state.layers,
     isLoading: state.isLoading,
+  }));
+
+  const { roads, roadLoading } = useJalanStore((state) => ({
+    roads: state.roads,
+    roadLoading: state.loading,
   }));
 
   const { baseLayer, setBaseLayer } = useBaseLayerStore();
@@ -32,7 +40,7 @@ export default function LayersList(props: LayerListProps) {
 
       <hr />
 
-      {isLoading ? (
+      {isLoading || roadLoading ? (
         <div className="flex items-center justify-center h-full">
           <Circles
             height="35"
@@ -47,6 +55,17 @@ export default function LayersList(props: LayerListProps) {
       ) : (
         <>
           <ul className="p-4">
+            {roads.map((road) => {
+              return (
+                <RoadTile
+                  key={road.id}
+                  jalanInformation={road}
+                  onEdit={(roadInformation) => {
+                    props.onRoadEdit(roadInformation);
+                  }}
+                />
+              );
+            })}
             {layers.map((information) => {
               return (
                 <LayerTile
