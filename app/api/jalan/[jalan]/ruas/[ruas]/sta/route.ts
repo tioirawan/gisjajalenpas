@@ -1,6 +1,5 @@
 import prisma from "@/libs/prismadb";
 
-
 type JalanRuasSTARouteParams = {
   jalan: string;
   ruas: string;
@@ -12,6 +11,13 @@ export async function GET(request: Request, { params }: { params: JalanRuasSTARo
   const sta = await prisma.sta.findMany({
     where: {
       nomorRuas: parseInt(ruas),
+    },
+    include: {
+      pictures: {
+        include: {
+          picture: true,
+        },
+      },
     },
   });
 

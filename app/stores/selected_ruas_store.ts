@@ -7,9 +7,10 @@ type SelectedRuasStore = {
   isLoading: boolean;
   error: string | null;
   set: (ruas: Ruas | null) => Promise<void>;
+  refresh(): Promise<void>;
 };
 
-const useSelectedRuasStore = create<SelectedRuasStore>((set) => ({
+const useSelectedRuasStore = create<SelectedRuasStore>((set, get) => ({
   selected: null,
   isLoading: false,
   error: null,
@@ -31,6 +32,12 @@ const useSelectedRuasStore = create<SelectedRuasStore>((set) => ({
       set({ error: "Gagal memuat data kondisi jalan", isLoading: false });
     }
   },
+  refresh: async () => {
+    const ruas = get().selected;
+    if (ruas) {
+      await get().set(ruas);
+    }
+  }
 }));
 
 export default useSelectedRuasStore;

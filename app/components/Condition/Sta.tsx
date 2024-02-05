@@ -2,7 +2,7 @@
 import useSelectedStaStore from "@/app/stores/selected_sta_store";
 import { Tab, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import AdminOnly from "../AdminOnly";
@@ -19,6 +19,12 @@ export default function Sta() {
     })
   );
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (selectedSta) {
+      setIsEditing(false);
+    }
+  }, [selectedSta]);
 
   return (
     <div>
@@ -99,7 +105,11 @@ export default function Sta() {
                   </div>
                 </button>
               </AdminOnly>
-              {isEditing ? <StaEditor /> : <StaDetail />}
+              {isEditing ? (
+                <StaEditor onDoneEditing={() => setIsEditing(false)} />
+              ) : (
+                <StaDetail sta={selectedSta!} />
+              )}
             </Tab.Panel>
           </Transition>
           <AuthenticatedOnly>

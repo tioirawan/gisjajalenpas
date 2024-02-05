@@ -17,7 +17,15 @@ export async function GET(
     include: {
       ruas: {
         include: {
-          sta: true,
+          sta: {
+            include: {
+              pictures: {
+                include: {
+                  picture: true,
+                }
+              },
+            },
+          }
         },
       },
     },

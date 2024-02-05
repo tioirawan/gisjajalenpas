@@ -1,22 +1,64 @@
+import useSelectedStaStore from "@/app/stores/selected_sta_store";
+import { StaHistoryWithPictures, StaWithPictures } from "@/app/types";
 import { Dialog, Transition } from "@headlessui/react";
 import moment from "moment";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { IoEye } from "react-icons/io5";
+import { Circles } from "react-loader-spinner";
 import StaDetail from "./StaDetail";
 
 moment.locale("id");
 
 export default function StaHistory() {
+  const sta = useSelectedStaStore((state) => state.selected);
+
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!sta) return;
+
+    setLoading(true);
+
+    fetch(`/api/sta/${sta.id}/history`)
+      .then((res) => res.json())
+      .then((data) => {
+        setHistory(data);
+        setLoading(false);
+      });
+  }, [sta?.id]);
+
   return (
     <div className="flex flex-col">
+      {loading && (
+        <Circles
+          height="35"
+          width="35"
+          color="#4fa94d"
+          ariaLabel="circles-loading"
+          wrapperStyle={{}}
+          wrapperClass="self-center mt-4"
+          visible={true}
+        />
+      )}
+
+      {history.length === 0 && !loading && (
+        <p className="text-center mt-4">Tidak ada data</p>
+      )}
+
       <ul className="list-none">
-        <HistoryTile />
+        {history.map((sta: StaHistoryWithPictures) => (
+          <HistoryTile key={sta.id} sta={sta} />
+        ))}
       </ul>
     </div>
   );
 }
 
-function HistoryTile() {
+type HistoryTileProps = {
+  sta: StaHistoryWithPictures;
+};
+function HistoryTile({ sta }: HistoryTileProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function openModal() {
@@ -29,7 +71,7 @@ function HistoryTile() {
 
   return (
     <li className="flex justify-between text-sm p-4 my-2 rounded bg-slate-100">
-      {moment("2024-02-02").format("LLL")}
+      {moment(sta.createdAt).format("LLL")}
       <button onClick={openModal}>
         <IoEye />
       </button>
@@ -64,10 +106,10 @@ function HistoryTile() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    {moment("2024-02-02").format("LLL")}
+                    {moment(sta.createdAt).format("LLL")}
                   </Dialog.Title>
                   <div className="mt-2 pt-3 pb-2">
-                    <StaDetail />
+                    <StaDetail sta={sta as unknown as StaWithPictures} />
                   </div>
 
                   <div className="mt-4 flex justify-end">
