@@ -22,8 +22,6 @@ export default function RoadConditionSidebar() {
     })
   );
 
-  console.log(selectedRuas);
-
   return (
     <aside
       className={clsx(

@@ -112,6 +112,19 @@ html {
   background-position: center;
 }
 
+.marker-tooltip {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #166534 !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.marker-tooltip::before {
+  border-color: transparent !important;
+}
+
 /* .bg-auth::after {
   z-index: 1;
   content: "";

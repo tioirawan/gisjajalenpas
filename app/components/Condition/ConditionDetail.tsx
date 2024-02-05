@@ -180,7 +180,6 @@ export default function ConditionDetail() {
     cekPanjangTiapKondisi();
   }, [selectedRuas]);
 
-  console.log(rusakBerat, panjangJalan);
   return (
     <>
       <Carousel
