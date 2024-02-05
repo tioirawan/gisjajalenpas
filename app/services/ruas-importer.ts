@@ -124,6 +124,10 @@ export class RuasImporter {
       // lat and long, use first STA geometry
       const geometry = feature.geometry as any;
       // get first coordinate from MultiLineString
+      if (geometry.coordinates[0] == undefined) {
+        return acc;
+      }
+
       const coordinate = geometry.coordinates[0][0];
       // geojson stored as [longitude, latitude]
       const latitude = coordinate[1];
@@ -136,7 +140,7 @@ export class RuasImporter {
           namaRuas: properties.GPX_Name,
           kecamatan: properties.Kecamatan,
           panjangSK: properties.Pjng_SK,
-          lebar: properties.Lebar_SK,
+          lebar: parseFloat(properties.Lebar_SK) || 0,
           keterangan: properties.GPX_Name,
           latitude,
           longitude,
@@ -144,8 +148,6 @@ export class RuasImporter {
         },
       ];
     }, []);
-
-    console.log(ruas);
 
     const jalan = await this.client.jalan.create({
       data: {
