@@ -288,10 +288,6 @@ export default function FeaturePropertyEditor(
                     }
                   }
 
-                  console.log("new", newPhotos.current);
-                  console.log("updated", updatedPhotos.current);
-                  console.log("deleted", deletedPhotos.current);
-
                   props.onSave?.(
                     toJson(),
                     newPhotos.current,

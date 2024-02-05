@@ -36,8 +36,6 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        console.log(credentials);
-
         const user = await prisma.user.findUnique({
           where: {
             username: credentials.email,
@@ -78,7 +76,6 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: async ({ token, user }) => {
-      // console.log('JWT Callback', { token, user })
       if (user) {
         const u = user as unknown as any;
         return {

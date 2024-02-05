@@ -88,9 +88,7 @@ export default function CreateRoadSidebar() {
       await saveCreatedRoad(selectedLayer!.id);
 
       loadLayer(selectedLayer!.id);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   }
 
   return (

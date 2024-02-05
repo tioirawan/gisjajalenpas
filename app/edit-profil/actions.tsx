@@ -76,7 +76,6 @@ export async function changePassword(
   });
 
   if (!data.success) {
-    console.log("error change password");
     return {
       error: data.error.flatten().fieldErrors as Record<string, string>,
       success: false,

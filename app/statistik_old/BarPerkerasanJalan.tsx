@@ -34,7 +34,6 @@ export default function BarPerkerasanJalan({ layer }: BarPerkerasanJalanProps) {
     const result: Record<string, number> = {};
 
     features.forEach((feature) => {
-      // console.log((feature.properties[0]?.data as { [key: string]: any })["Tipe_Ker_1"]);
       const data = feature.properties[0]?.data as { [key: string]: any };
       const types: string[] = data["Tipe_Ker_1"]?.split(", ") ?? [];
 

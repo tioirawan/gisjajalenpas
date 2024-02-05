@@ -48,7 +48,7 @@ export default function Laporan() {
 
   useEffect(() => {
     if (selectedRoadId) {
-      loadRoad(selectedRoadId);
+      loadRoad(parseInt(selectedRoadId));
     }
   }, [selectedRoadId, loadRoad]);
 

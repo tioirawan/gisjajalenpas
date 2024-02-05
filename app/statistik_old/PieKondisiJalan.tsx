@@ -24,7 +24,6 @@ export default function PieKondisiJalan({ layer }: PieKondisiJalanProps) {
     };
 
     features.forEach((feature) => {
-      // console.log((feature.properties[0]?.data as { [key: string]: any })["Tipe_Ker_1"]);
       const data = feature.properties[0]?.data as { [key: string]: any };
 
       // Determine the condition based on Kon_Baik_1, Kon_Sdg_1, Kon_Rgn_1, Kon_Rusa_1 value, select the highest

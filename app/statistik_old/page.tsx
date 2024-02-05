@@ -36,8 +36,6 @@ export default function Laporan() {
     }, 0);
   }, [selectedLayer?.layer.features]);
 
-  console.log(layers);
-
   return (
     <div className="flex flex-col items-stretch h-screen ">
       <NavBar />

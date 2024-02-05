@@ -13,14 +13,7 @@ export default async function Users() {
     return <div>Forbidden</div>;
   }
 
-  // get users from db
   const users = await prisma.user.findMany();
-
-  // async function addUser() {
-  //   "use server";
-
-  //   console.log("add user");
-  // }
 
   return (
     <div className="flex flex-col items-stretch h-screen">

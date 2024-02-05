@@ -47,8 +47,6 @@ const useJalanStore = create<JalanStore>((set, get) => ({
       body: JSON.stringify(road),
     });
 
-    console.log(response);
-
     if (response.ok) {
       await get().loadRoad(roadId);
     }

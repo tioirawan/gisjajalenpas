@@ -31,7 +31,6 @@ const useLayersStore = create<LayersStore>((set, get) => ({
 
     const response = await fetch(`/api/layers`);
     const data = await response.json();
-    // console.log(response);
 
     // sort data bridge, road, area
     const score: { [key: string]: number } = {

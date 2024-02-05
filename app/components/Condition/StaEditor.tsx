@@ -233,13 +233,6 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
       <div className="flex justify-stretch pt-4">
         <button
           onClick={async () => {
-            // console.log(properties.current);
-            // console.log({
-            //   deletedPictures: deletedPictures.current,
-            //   updatedPictures: updatedPictures.current,
-            //   newPictures: newPictures.current,
-            // });
-
             await onSave({
               properties: properties.current,
               deletedPictures: deletedPictures.current,

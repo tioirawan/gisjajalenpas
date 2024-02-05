@@ -15,7 +15,6 @@
  * @example
  * const lngLat = [0, 1];
  * const swappedLngLat = swapLngLat(lngLat);
- * console.log(swappedLngLat); // [1, 0]
   */
 
 export function swapLngLat(lngLat: number[] | number[][] | number[][][]): number[] | number[][] | number[][][] {
