@@ -3,7 +3,7 @@
 import L, { Icon } from "leaflet";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   MdClose,
   MdLayers,
@@ -67,6 +67,9 @@ const AutoboundToRuas = () => {
 };
 
 export default function Map() {
+  const [map, setMap] = useState<any>(null);
+  const [currentZoom, setCurrentZoom] = useState(11);
+
   const { setSelectedFeature, selectedFeature } = useSelectedFeatureStore();
 
   const { position, updatePosition } = useCurrentPositionStore();
@@ -74,6 +77,16 @@ export default function Map() {
   useEffect(() => {
     updatePosition();
   }, []);
+
+  const onZoom = useCallback(() => {
+    setCurrentZoom(map.getZoom());
+  }, [map]);
+
+  useEffect(() => {
+    if (map) {
+      map.on("zoom", onZoom);
+    }
+  }, [map, onZoom]);
 
   const { isCreatingRoad, startCreatingRoad, setGeojsonFeature } =
     useCreateRoad((state) => ({
@@ -108,6 +121,7 @@ export default function Map() {
 
   return (
     <MapContainer
+      ref={setMap}
       center={[-7.786, 112.8582]}
       zoom={11}
       zoomControl={false}
@@ -227,14 +241,17 @@ export default function Map() {
                     },
                   }}
                 >
-                  <Tooltip
-                    direction="top"
-                    offset={[0, 0]}
-                    opacity={1}
-                    permanent
-                  >
-                    {ruas.namaRuas}
-                  </Tooltip>
+                  {currentZoom > 14 && (
+                    <Tooltip
+                      className="marker-tooltip"
+                      direction="top"
+                      offset={[0, 0]}
+                      opacity={1}
+                      permanent={true}
+                    >
+                      {ruas.namaRuas}
+                    </Tooltip>
+                  )}
                 </Marker>
               );
             });
