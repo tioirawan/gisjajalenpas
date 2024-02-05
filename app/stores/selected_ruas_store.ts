@@ -24,10 +24,10 @@ const useSelectedRuasStore = create<SelectedRuasStore>((set, get) => ({
     try {
       const idJalan = ruas?.idJalan;
       const nomorRuas = ruas?.nomorRuas;
-      const response = await fetch(`/api/jalan/${idJalan}/ruas/${nomorRuas}/sta`);
-      const sta = await response.json();
+      const response = await fetch(`/api/jalan/${idJalan}/ruas/${nomorRuas}`);
+      const result = await response.json();
 
-      set({ selected: { ...ruas, sta } as RuasWithSta, isLoading: false });
+      set({ selected: result as RuasWithSta, isLoading: false });
     } catch (error) {
       set({ error: "Gagal memuat data kondisi jalan", isLoading: false });
     }

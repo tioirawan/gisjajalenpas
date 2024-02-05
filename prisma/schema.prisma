@@ -181,8 +181,51 @@ model Ruas {
   longitude  Float?
   createdAt  DateTime @default(now())
 
-  jalan Jalan @relation(fields: [idJalan], references: [id], onDelete: Cascade)
-  sta   Sta[]
+  jalan    Jalan            @relation(fields: [idJalan], references: [id], onDelete: Cascade)
+  sta      Sta[]
+  pictures PicturesOnRuas[]
+  history  RuasHistory[]
+}
+
+model RuasHistory {
+  id         Int      @id @default(autoincrement())
+  nomorRuas  Int      @map("nomorRuas")
+  namaRuas   String
+  kecamatan  String
+  panjangSK  Float
+  lebar      Float
+  keterangan String?
+  latitude   Float?
+  longitude  Float?
+  createdAt  DateTime @default(now())
+
+  pictures      PicturesOnRuasHistory[]
+  Ruas          Ruas?                   @relation(fields: [ruasNomorRuas], references: [nomorRuas])
+  ruasNomorRuas Int?
+}
+
+model PicturesOnRuas {
+  idRuas    Int @map("idRuas")
+  idPicture Int @map("idPicture")
+
+  description String?
+
+  ruas    Ruas    @relation(fields: [idRuas], references: [nomorRuas], onDelete: Cascade)
+  picture Picture @relation(fields: [idPicture], references: [id], onDelete: Cascade)
+
+  @@id([idRuas, idPicture])
+}
+
+model PicturesOnRuasHistory {
+  idRuasHistory Int @map("idRuasHistory")
+  idPicture     Int @map("idPicture")
+
+  description String?
+
+  ruasHistory RuasHistory @relation(fields: [idRuasHistory], references: [id], onDelete: Cascade)
+  picture     Picture     @relation(fields: [idPicture], references: [id], onDelete: Cascade)
+
+  @@id([idRuasHistory, idPicture])
 }
 
 model Sta {
@@ -228,6 +271,8 @@ model Picture {
 
   stas        PicturesOnSta[]
   stasHistory PicturesOnStaHistory[]
+  ruas        PicturesOnRuas[]
+  ruasHistory PicturesOnRuasHistory[]
 }
 
 model PicturesOnSta {

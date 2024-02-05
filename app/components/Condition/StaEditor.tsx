@@ -15,7 +15,7 @@ const keyAlias = {
   perkerasan: "Perkerasan",
 };
 
-export type NewPicture = {
+type NewPicture = {
   file: File;
   description: string;
 };
@@ -100,29 +100,10 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
                     />
                   )}
                 </td>
-
-                {/* <td className={`pl-2 py-1 px-1`}>
-                  {item.title !== "RENCANA ANGGARAN" && (
-                    <button className="text-red-500 hover:text-red-800 transition-all duration-300">
-                      <IoTrash />
-                    </button>
-                  )}
-                </td> */}
               </tr>
             ))}
         </tbody>
       </table>
-
-      {/* add field button */}
-      {/* <div className="flex justify-end pt-2">
-        <button
-          className="bg-white shadow-lg text-green-700 px-4 py-2 rounded hover:bg-green-800 hover:text-white transition-all duration-300"
-          // prevent submit
-          type="button"
-        >
-          <IoAdd />
-        </button>
-      </div> */}
 
       {/* photos editor, can remove or add photos and can also add description */}
       <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
@@ -287,8 +268,6 @@ type SaveData = {
 };
 
 async function onSave(data: SaveData) {
-  console.log(data);
-
   const formData = new FormData();
 
   for (const key in data.properties) {

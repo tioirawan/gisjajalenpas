@@ -26,7 +26,7 @@ export default function StaHistory() {
         setHistory(data);
         setLoading(false);
       });
-  }, [sta?.id]);
+  }, [sta]);
 
   return (
     <div className="flex flex-col">

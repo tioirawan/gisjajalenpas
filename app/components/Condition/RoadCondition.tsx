@@ -99,7 +99,11 @@ export default function RoadCondition({
                   </div>
                 </button>
               </AdminOnly>
-              {isEditing ? <ConditionEditor /> : <ConditionDetail />}
+              {isEditing ? (
+                <ConditionEditor onDoneEditing={() => setIsEditing(false)} />
+              ) : (
+                <ConditionDetail ruas={selectedRuas} />
+              )}
             </Transition>
           </Tab.Panel>
           <AuthenticatedOnly>
