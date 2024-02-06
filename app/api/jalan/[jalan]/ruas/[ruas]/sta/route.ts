@@ -5,7 +5,10 @@ type JalanRuasSTARouteParams = {
   ruas: string;
 };
 
-export async function GET(request: Request, { params }: { params: JalanRuasSTARouteParams }) {
+export async function GET(
+  request: Request,
+  { params }: { params: JalanRuasSTARouteParams }
+) {
   const { jalan, ruas } = params;
 
   const sta = await prisma.sta.findMany({

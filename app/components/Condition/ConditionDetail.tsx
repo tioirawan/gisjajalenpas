@@ -18,29 +18,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ChevronDownCircle, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const invoices = [
-  {
-    col1: "-",
-    col2: " 0,600",
-    col3: "-",
-    col4: " 1,050",
-  },
-];
-
-const conditions = [
-  {
-    col1: "-",
-    col2: "-",
-    col3: "0,600",
-    col4: "36,36",
-    col5: "-",
-    col6: "-",
-    col7: "1,050",
-    col8: "63,64",
-  },
-];
 
 type ConditionDetailProps = {
   ruas: RuasWithSta;
@@ -232,101 +211,137 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
       {ruas?.sta && ruas.sta.length > 0 && (
         <>
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold">Panjang Tipe Permukaan</h6>
+            <h6 className="font-bold flex gap-2 items-center">
+              <ChevronDownCircle size={14} /> PANJANG TIPE PERMUKAAN
+            </h6>
             <Table className="mt-3">
               <TableHeader>
                 <TableRow>
-                  <TableHead>ASPAL / PENETRASI / MAKADAM</TableHead>
-                  <TableHead>PERKERASAN BETON</TableHead>
-                  <TableHead>TELFORD / KERIKIL</TableHead>
-                  <TableHead>TANAH / BELUM TEMBUS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    ASPAL / PENETRASI / MAKADAM
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    PERKERASAN BETON
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    TELFORD / KERIKIL
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    TANAH / BELUM TEMBUS
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell>{aspal}</TableCell>
-                  <TableCell>{beton}</TableCell>
-                  <TableCell>{kerikil}</TableCell>
-                  <TableCell>{tanah}</TableCell>
+                  <TableCell className="text-gray-500">{aspal}</TableCell>
+                  <TableCell className="text-gray-500">{beton}</TableCell>
+                  <TableCell className="text-gray-500">{kerikil}</TableCell>
+                  <TableCell className="text-gray-500">{tanah}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </div>
 
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold">Panjang Tiap Kondisi</h6>
+            <h6 className="font-bold flex items-center gap-2">
+              <ChevronDownCircle size={14} /> PANJANG TIAP KONDISI
+            </h6>
             <Table className="mt-3">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center" colSpan={2}>
-                    Baik
+                  <TableHead
+                    className="text-center text-black font-bold"
+                    colSpan={2}
+                  >
+                    BAIK
                   </TableHead>
-                  <TableHead className="text-center" colSpan={2}>
-                    Sedang
+                  <TableHead
+                    className="text-center text-black font-bold"
+                    colSpan={2}
+                  >
+                    SEDANG
                   </TableHead>
-                  <TableHead className="text-center" colSpan={2}>
-                    Rusak Ringan
+                  <TableHead
+                    className="text-center text-black font-bold"
+                    colSpan={2}
+                  >
+                    RUSAK RINGAN
                   </TableHead>
-                  <TableHead className="text-center" colSpan={2}>
-                    Rusak Berat
+                  <TableHead
+                    className="text-center text-black font-bold"
+                    colSpan={2}
+                  >
+                    RUSAK BERAT
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Km</TableHead>
-                  <TableHead>%</TableHead>
-                  <TableHead>Km</TableHead>
-                  <TableHead>%</TableHead>
-                  <TableHead>Km</TableHead>
-                  <TableHead>%</TableHead>
-                  <TableHead>Km</TableHead>
-                  <TableHead>%</TableHead>
+                  <TableHead className="text-black font-bold">m</TableHead>
+                  <TableHead className="text-black font-bold">%</TableHead>
+                  <TableHead className="text-black font-bold">m</TableHead>
+                  <TableHead className="text-black font-bold">%</TableHead>
+                  <TableHead className="text-black font-bold">m</TableHead>
+                  <TableHead className="text-black font-bold">%</TableHead>
+                  <TableHead className="text-black font-bold">m</TableHead>
+                  <TableHead className="text-black font-bold">%</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {conditions.map((condition) => (
-                  <TableRow key={condition.col1}>
-                    <TableCell>{baik > 0 ? baik : "-"}</TableCell>
-                    <TableCell>
-                      {baik > 0
-                        ? ((baik / panjangJalan) * 100).toFixed(2)
-                        : "-"}
-                    </TableCell>
-                    <TableCell>{sedang > 0 ? sedang : "-"}</TableCell>
-                    <TableCell>
-                      {sedang > 0
-                        ? ((sedang / panjangJalan) * 100).toFixed(2)
-                        : "-"}
-                    </TableCell>
-                    <TableCell>{rusakRingan > 0 ? rusakRingan : "-"}</TableCell>
-                    <TableCell>
-                      {rusakRingan > 0
-                        ? ((rusakRingan / panjangJalan) * 100).toFixed(2)
-                        : "-"}
-                    </TableCell>
-                    <TableCell>{rusakBerat > 0 ? rusakBerat : "-"}</TableCell>
-                    <TableCell>
-                      {rusakBerat > 0
-                        ? ((rusakBerat / panjangJalan) * 100).toFixed(2)
-                        : "-"}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                <TableRow>
+                  <TableCell className="text-gray-500">
+                    {baik > 0 ? baik : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {baik > 0 ? ((baik / panjangJalan) * 100).toFixed(2) : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {sedang > 0 ? sedang : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {sedang > 0
+                      ? ((sedang / panjangJalan) * 100).toFixed(2)
+                      : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {rusakRingan > 0 ? rusakRingan : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {rusakRingan > 0
+                      ? ((rusakRingan / panjangJalan) * 100).toFixed(2)
+                      : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {rusakBerat > 0 ? rusakBerat : "-"}
+                  </TableCell>
+                  <TableCell className="text-gray-500">
+                    {rusakBerat > 0
+                      ? ((rusakBerat / panjangJalan) * 100).toFixed(2)
+                      : "-"}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </div>
 
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold">Rincian Data Per STA</h6>
+            <h6 className="font-bold flex items-center gap-2">
+              <ChevronDownCircle size={14} /> RINCIAN DATA PER STA
+            </h6>
             <Table className="mt-3">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Nomor Ruas</TableHead>
-                  <TableHead>STA</TableHead>
-                  <TableHead>Tipe Permukaan</TableHead>
-                  <TableHead>Kondisi</TableHead>
-                  <TableHead>Aksi</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NOMOR RUAS
+                  </TableHead>
+                  <TableHead className="font-bold text-black">STA</TableHead>
+                  <TableHead className="font-bold text-black">
+                    TIPE PERMUKAAN
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    KONDISI
+                  </TableHead>
+                  <TableHead className="font-bold text-black">DETAIL</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -335,13 +350,21 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                     sortSta(ruas.sta);
                     return (
                       <TableRow key={sta.id}>
-                        <TableCell>{sta.nomorRuas}</TableCell>
-                        <TableCell>{sta.sta}</TableCell>
-                        <TableCell>{sta.perkerasan}</TableCell>
-                        <TableCell>{sta.kondisi}</TableCell>
+                        <TableCell className="text-gray-500">
+                          {sta.nomorRuas}
+                        </TableCell>
+                        <TableCell className="text-gray-500">
+                          {sta.sta}
+                        </TableCell>
+                        <TableCell className="text-gray-500">
+                          {sta.perkerasan}
+                        </TableCell>
+                        <TableCell className="text-gray-500">
+                          {sta.kondisi}
+                        </TableCell>
                         <TableCell>
                           <Button onClick={() => setSelectedSta(sta)}>
-                            Detail
+                            <Eye size={16} />
                           </Button>
                         </TableCell>
                       </TableRow>
