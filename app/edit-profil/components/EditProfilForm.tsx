@@ -29,7 +29,7 @@ export default function EditProfilForm(props: Props) {
         window.location.reload();
       })();
     }
-  }, [state.success]);
+  }, [state.success, update]);
 
   return (
     <Card className={props.className}>

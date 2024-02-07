@@ -1,9 +1,8 @@
 "use client";
-
 import L, { Icon } from "leaflet";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet/dist/leaflet.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   MdClose,
   MdLayers,
@@ -62,7 +61,7 @@ const AutoboundToRuas = () => {
         duration: 1,
       });
     }
-  }, [selectedRuas]);
+  }, [selectedRuas, map]);
   return null;
 };
 
@@ -76,7 +75,7 @@ export default function Map() {
 
   useEffect(() => {
     updatePosition();
-  }, []);
+  }, [updatePosition]);
 
   const onZoom = useCallback(() => {
     setCurrentZoom(map.getZoom());
@@ -118,6 +117,34 @@ export default function Map() {
   const setSelectedRuas = useSelectedRuasStore((state) => state.set);
   const selectedSta = useSelectedStaStore((state) => state.selected);
   const setSelectedSta = useSelectedStaStore((state) => state.set);
+
+  const icons = useMemo(() => {
+    const result: Record<number, L.DivIcon> = {};
+
+    for (let jalan of dataKondisiJalan) {
+      const color = seedColor(jalan.road.id.toString()).toHex();
+      const markerHtmlStyles = `
+        background-color: ${color};
+        width: 16px;
+        height: 16px;
+        display: block;
+        left: -8px;
+        top: -8px;
+        position: relative;
+        border-radius: 3rem 3rem 0;
+        transform: rotate(45deg);
+        border: 1px solid #FFFFFF`;
+
+      const icon = new L.DivIcon({
+        className: "my-custom-pin",
+        iconAnchor: [-8, 0],
+        html: `<span style="${markerHtmlStyles}" />`,
+      });
+
+      result[jalan.road.id] = icon;
+    }
+    return result;
+  }, [dataKondisiJalan]);
 
   return (
     <MapContainer
@@ -209,6 +236,16 @@ export default function Map() {
               key={`sta-marker-${sta.id}`}
               position={[lastCoordinate[1], lastCoordinate[0]]}
               icon={healthIcon}
+              // icon={
+              //   // new Icon({
+              //   //   iconUrl:
+              //   //     "https://static.vecteezy.com/system/resources/previews/009/267/136/non_2x/location-icon-design-free-png.png",
+              //   //   iconSize: [25, 35], // size of the icon
+              //   //   iconAnchor: [12, 35], // point of the icon which will correspond to marker's location,
+              //   //   tooltipAnchor: [0, -35 - 4],
+              //   // })
+              //   // dynamic color based on
+              // }
               eventHandlers={{
                 click: (e) => {
                   setSelectedSta(sta);
@@ -234,7 +271,7 @@ export default function Map() {
                 <Marker
                   key={i}
                   position={[ruas.latitude!, ruas.longitude!]}
-                  icon={healthIcon}
+                  icon={icons[jalan.road.id]}
                   eventHandlers={{
                     click: (e) => {
                       setSelectedRuas(ruas);

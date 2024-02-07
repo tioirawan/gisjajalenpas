@@ -2,6 +2,7 @@ import useJalanStore, { JalanInformation } from "@/app/stores/jalan_store";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { IoClose, IoSettings } from "react-icons/io5";
+import seedColor from "seed-color";
 import AdminOnly from "../AdminOnly";
 
 type LayerTileProp = {
@@ -36,6 +37,8 @@ export default function RoadTile({
     area: "w-4 h-4 rounded-sm",
   };
 
+  const color = seedColor(information.road.id.toString()).toHex();
+
   return (
     <li key={information.id} className="flex flex-row items-center py-1">
       <input
@@ -48,8 +51,16 @@ export default function RoadTile({
       />
       <div className="w-8 flex items-center justify-center">
         <span
-        //   className={`inline-block mx-2 ${classByType[information.layer.type]}`}
-        //   style={{ backgroundColor: information.layer.color }}
+          style={{
+            backgroundColor: color,
+            width: "16px",
+            height: "16px",
+            display: "block",
+            position: "relative",
+            borderRadius: "3rem 3rem 0",
+            transform: "rotate(45deg)",
+            border: "1px solid #FFFFFF",
+          }}
         ></span>
       </div>
       <span className="flex-grow text-sm">{information.road.nama}</span>

@@ -19,7 +19,7 @@ export default function DrawPolyline(props: DrawPolylineProps) {
 
   useEffect(() => {
     props.onChange(feature);
-  }, [feature]);
+  }, [feature, props]);
 
   const drawnItemsRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
 
@@ -85,12 +85,9 @@ export default function DrawPolyline(props: DrawPolylineProps) {
     setFeature(await layer.toGeoJSON());
   }, []);
 
-  const onDrawDeleted = useCallback(
-    (e: L.LeafletEvent) => {
-      setFeature(null);
-    },
-    [context.map]
-  );
+  const onDrawDeleted = useCallback((e: L.LeafletEvent) => {
+    setFeature(null);
+  }, []);
 
   useEffect(() => {
     if (feature == null) {
@@ -100,7 +97,7 @@ export default function DrawPolyline(props: DrawPolylineProps) {
       context.map.removeControl(controlFullRef.current);
       context.map.addControl(controlEditOnlyRef.current);
     }
-  }, [feature]);
+  }, [feature, context.map]);
 
   useEffect(() => {
     const map = context.map;
@@ -124,7 +121,7 @@ export default function DrawPolyline(props: DrawPolylineProps) {
       map.off(L.Draw.Event.EDITED, onDrawEdited);
       map.off(L.Draw.Event.DELETED, onDrawDeleted);
     };
-  }, [propsRef.current, context.map]);
+  }, [context.map, onDrawCreated, onDrawEdited, onDrawDeleted]);
 
   return null;
 }
