@@ -30,7 +30,7 @@ export default function StaDetail({ sta }: StaDetailProps) {
                     <CardContent className="flex h-48 items-center justify-center p-0">
                       <img
                         className="w-full h-full object-cover"
-                        src={picture.picture.path}
+                        src={"/api/picture/" + picture.picture.id}
                         alt={picture.description ?? ""}
                       />
                     </CardContent>

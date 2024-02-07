@@ -122,7 +122,7 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
               // if photo is Picture, use url, if photo is File, use url
               src={
                 (picture as StaPicture).idPicture
-                  ? (picture as StaPicture).picture.path
+                  ? "/api/picture/" + (picture as StaPicture).idPicture
                   : URL.createObjectURL((picture as NewPicture).file)
               }
               alt={picture.description ?? ""}

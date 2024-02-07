@@ -163,7 +163,7 @@ export default function FeaturePropertyEditor(
               // if photo is Photo, use url, if photo is File, use url
               src={
                 (photo as Photo).id
-                  ? (photo as Photo).url
+                  ? "/api/photo/" + (photo as Photo).id
                   : URL.createObjectURL((photo as NewPhoto).file)
               }
               alt={photo.description ?? ""}

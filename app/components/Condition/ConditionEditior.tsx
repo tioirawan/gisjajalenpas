@@ -128,7 +128,7 @@ export default function ConditionEditor({
               // if photo is Picture, use url, if photo is File, use url
               src={
                 (picture as RuasPicture).idPicture
-                  ? (picture as RuasPicture).picture.path
+                  ? "/api/picture/" + (picture as RuasPicture).idPicture
                   : URL.createObjectURL((picture as NewPicture).file)
               }
               alt={picture.description ?? ""}
