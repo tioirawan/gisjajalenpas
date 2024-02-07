@@ -85,7 +85,7 @@ export default function LayersList(props: LayerListProps) {
 
       <h2 className="text-lg font-bold p-4">Peta Dasar</h2>
 
-      <div className="grid grid-cols-2 gap-2 px-4">
+      <div className="grid grid-cols-1 gap-2 px-4">
         <div
           className={`p-2 rounded-lg ${
             baseLayer === "esri"
@@ -97,7 +97,7 @@ export default function LayersList(props: LayerListProps) {
           <img
             src="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/0/0/0"
             alt="esri"
-            className="w-full rounded"
+            className="w-full h-20 object-cover rounded"
           />
           <p className={`text-center font-bold text-xs mt-2`}>Satelit</p>
         </div>
@@ -112,11 +112,11 @@ export default function LayersList(props: LayerListProps) {
           <img
             src="https://a.tile.openstreetmap.org/0/0/0.png"
             alt="openstreetmap"
-            className="w-full rounded"
+            className="w-full h-20 object-cover rounded"
           />
           <p className={`text-center font-bold text-xs mt-2`}>Street View</p>
         </div>
-        <div
+        {/* <div
           className={`p-2 rounded-lg ${
             baseLayer === "stadia"
               ? "bg-green-800 text-white"
@@ -127,10 +127,10 @@ export default function LayersList(props: LayerListProps) {
           <img
             src="https://tiles.stadiamaps.com/tiles/alidade_smooth/0/0/0.png"
             alt="stadia"
-            className="w-full rounded"
+            className="w-full h-20 object-cover rounded"
           />
           <p className={`text-center font-bold text-xs mt-2`}>Simple</p>
-        </div>
+        </div> */}
         <div
           className={`p-2 rounded-lg ${
             baseLayer === null
@@ -143,7 +143,7 @@ export default function LayersList(props: LayerListProps) {
             <img
               src="https://tiles.stadiamaps.com/tiles/alidade_smooth/0/0/0.png"
               alt="stadia"
-              className="w-full rounded-lg opacity-0"
+              className="w-full h-20 object-cover rounded-lg opacity-0"
             />
           </div>
           <p className={`text-center font-bold text-xs mt-2`}>
