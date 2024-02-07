@@ -96,14 +96,17 @@ const useJalanStore = create<JalanStore>((set, get) => ({
     set((state) => ({
       roads: state.roads.map((l) => {
         if (l.id === layerId) {
-          return { ...l, visible: !l.visible };
+          const visibility = !l.visible;
+          localStorage.setItem(`jalan-${l.id}`, JSON.stringify(visibility));
+          return { ...l, visible: visibility };
         }
         return l;
       }),
     })),
   isJalanVisible: (layerId) => {
-    const layerInfo = get().roads.find((l) => l.id === layerId);
-    return layerInfo ? layerInfo.visible : false;
+    const visibility = localStorage.getItem(`jalan-${layerId}`);
+
+    return visibility ? JSON.parse(visibility) : true;
   },
 }));
 

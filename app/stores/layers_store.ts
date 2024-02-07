@@ -104,14 +104,18 @@ const useLayersStore = create<LayersStore>((set, get) => ({
     set((state) => ({
       layers: state.layers.map((l) => {
         if (l.id === layerId) {
+          const visibility = !l.visible;
+
+          localStorage.setItem(`layer-${l.id}`, JSON.stringify(visibility));
           return { ...l, visible: !l.visible };
         }
         return l;
       }),
     })),
   isLayerVisible: (layerId) => {
-    const layerInfo = get().layers.find((l) => l.id === layerId);
-    return layerInfo ? layerInfo.visible : false;
+    const visibility = localStorage.getItem(`layer-${layerId}`);
+
+    return visibility ? JSON.parse(visibility) : true;
   },
 }));
 
