@@ -121,7 +121,7 @@ export default function FeaturePropertyDetail({
                   className="flex flex-col justify-center items-center"
                 >
                   <img
-                    src={photo.url}
+                    src={"/api/photo/" + photo.id}
                     alt={photo.description ?? ""}
                     className="w-full object-cover rounded"
                   />

@@ -269,7 +269,7 @@ export default function Map() {
             return ruas.map((ruas, i) => {
               return (
                 <Marker
-                  key={i}
+                  key={"ruas-" + ruas.nomorRuas}
                   position={[ruas.latitude!, ruas.longitude!]}
                   icon={icons[jalan.road.id]}
                   eventHandlers={{
