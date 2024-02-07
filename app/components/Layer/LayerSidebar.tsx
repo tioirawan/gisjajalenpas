@@ -1,4 +1,4 @@
-import { JalanInformation } from "@/app/stores/jalan_store";
+import useJalanStore, { JalanInformation } from "@/app/stores/jalan_store";
 import { useState } from "react";
 import useLayersStore, { LayerInformation } from "../../stores/layers_store";
 import EditForm from "./EditForm";
@@ -21,6 +21,8 @@ export default function LayerSidebar() {
     })
   );
 
+  const loadCondition = useJalanStore((state) => state.fetch);
+
   return (
     <aside
       className={`
@@ -39,9 +41,13 @@ export default function LayerSidebar() {
       </button>
       {isImporting ? (
         <ImportForm
-          onSuccess={() => {
+          onLayerSuccess={() => {
             setIsImporting(false);
             loadLayers();
+          }}
+          onConditionSuccess={() => {
+            setIsImporting(false);
+            loadCondition();
           }}
           onClose={() => {
             setIsImporting(false);

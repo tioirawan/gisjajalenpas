@@ -10,7 +10,8 @@ import {
 } from "../../actions";
 
 type ImportFormProps = {
-  onSuccess: () => void;
+  onLayerSuccess: () => void;
+  onConditionSuccess: () => void;
   onClose: () => void;
 };
 
@@ -39,7 +40,11 @@ function SubmitButton() {
   );
 }
 
-export default function ImportForm({ onSuccess, onClose }: ImportFormProps) {
+export default function ImportForm({
+  onLayerSuccess,
+  onConditionSuccess,
+  onClose,
+}: ImportFormProps) {
   const [layerType, setLayerType] = useState<FeatureCollectionType>("road");
   const [isRoadCondition, setIsRoadCondition] = useState(false);
 
@@ -55,9 +60,15 @@ export default function ImportForm({ onSuccess, onClose }: ImportFormProps) {
 
   useEffect(() => {
     if (state.success) {
-      onSuccess();
+      onLayerSuccess();
     }
-  }, [state.success, onSuccess]);
+  }, [state.success, onLayerSuccess]);
+
+  useEffect(() => {
+    if (ruasState.success) {
+      onConditionSuccess();
+    }
+  }, [ruasState.success, onConditionSuccess]);
 
   return (
     <div className="max-w-lg mx-auto overflow-hidden">
