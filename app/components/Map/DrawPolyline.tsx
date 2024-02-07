@@ -17,9 +17,9 @@ export default function DrawPolyline(props: DrawPolylineProps) {
     GeoJSON.LineString | GeoJSON.MultiLineString
   > | null>(null);
 
-  // useEffect(() => {
-  //   props.onChange(feature);
-  // }, [feature, props]);
+  useEffect(() => {
+    propsRef.current.onChange(feature);
+  }, [feature, propsRef]);
 
   const drawnItemsRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
 
