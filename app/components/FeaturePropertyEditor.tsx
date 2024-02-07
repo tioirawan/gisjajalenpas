@@ -147,9 +147,9 @@ export default function FeaturePropertyEditor(
       </div>
 
       {/* photos editor, can remove or add photos and can also add description */}
-      <h1 className="text-sm font-bold mt-4 mb-2">Foto</h1>
+      <h1 className="text-xs sm:text-sm font-bold mt-4 mb-2">Foto</h1>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {photos.length === 0 && (
           <div className="w-full">
             <span className="text-xs text-gray-500">Tidak ada foto</span>
@@ -240,7 +240,7 @@ export default function FeaturePropertyEditor(
       <div className="w-full pt-4">
         <label
           htmlFor="photo"
-          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300"
+          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 text-xs sm:text-sm"
         >
           <input
             type="file"
@@ -272,7 +272,7 @@ export default function FeaturePropertyEditor(
         <button
           // className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full"
           className={
-            "bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full" +
+            "bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full text-xs sm:text-sm" +
             (props.isLoading ? " opacity-50" : "")
           }
           onClick={

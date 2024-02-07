@@ -45,7 +45,7 @@ export default function StaDetail({ sta }: StaDetailProps) {
       )}
       <div className="w-full p-1 mt-6">
         <table className="w-full">
-          <tbody className="w-full">
+          <tbody className="w-full text-sm sm:text-md">
             <tr>
               <td className="w-1/3 font-bold">Nomor Ruas</td>
               <td className="w-2/3">: {sta?.nomorRuas}</td>

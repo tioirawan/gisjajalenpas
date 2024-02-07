@@ -29,7 +29,7 @@ export default function Sta() {
   return (
     <div>
       <div className="flex flex-row justify-between items-center pb-4">
-        <h1 className="text-xl font-bold">Detail STA</h1>
+        <h1 className="font-bold text-md sm:text-xl">Detail STA</h1>
 
         <button
           className="text-xl font-bold"
@@ -93,7 +93,7 @@ export default function Sta() {
                   } transition-all duration-300`}
                   onClick={() => setIsEditing(!isEditing)}
                 >
-                  <p className="text-white text-lg font-bold">
+                  <p className="text-white text-md sm:text-lg font-bold">
                     {isEditing ? "Batal" : "Edit"}
                   </p>
                   <div className="p-2 bg-white rounded">

@@ -105,7 +105,7 @@ export default function CreateRoadSidebar() {
     >
       <div className="flex justify-between items-center p-4">
         <div className="flex-grow">
-          <h1 className="text-xl font-bold ">Tambah Jalan</h1>
+          <h1 className="text-md md:text-xl font-bold ">Tambah Jalan</h1>
           <small className="inline-block">
             Buat ruas jalan baru dengan menggambar pada peta
           </small>
@@ -121,7 +121,7 @@ export default function CreateRoadSidebar() {
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="text-gray-700 text-sm font-bold block mb-2"
+            className="text-gray-700 text-xs sm:text-sm font-bold block mb-2"
           >
             Layer
           </label>
@@ -129,7 +129,7 @@ export default function CreateRoadSidebar() {
             <div className="relative mt-1">
               {/* className="border focus:border-green-500 focus:outline-none rounded transition-all duration-300" */}
               <Listbox.Button className="relative w-full cursor-default border focus:border-green-500 focus:outline-none rounded bg-white py-2 pl-3 pr-10 text-left focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                <span className="block truncate">
+                <span className="block truncate text-sm">
                   {selectedLayer?.layer.name ?? "Pilih Layer"}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -186,7 +186,7 @@ export default function CreateRoadSidebar() {
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="text-gray-700 text-sm font-bold block mb-2"
+            className="text-gray-700 text-xs text-xs sm:text-sm font-bold block mb-2"
           >
             Polyline
           </label>
@@ -218,7 +218,7 @@ export default function CreateRoadSidebar() {
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="text-gray-700 text-sm font-bold block mb-2"
+            className="text-gray-700 text-xs sm:text-sm font-bold block mb-2"
           >
             Properti
           </label>

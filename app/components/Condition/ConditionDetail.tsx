@@ -171,35 +171,35 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
         <table className="w-full">
           {ruas && (
             <tbody className="w-full">
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Nomor Ruas</td>
                 <td className="w-1/2">: {ruas.nomorRuas}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Nama Ruas</td>
                 <td className="w-1/2">: {ruas.namaRuas}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Kecamatan</td>
                 <td className="w-1/2">: {ruas.kecamatan}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">panjang SK</td>
                 <td className="w-1/2">: {ruas.panjangSK}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Lebar</td>
                 <td className="w-1/2">: {ruas.lebar}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Latitude</td>
                 <td className="w-1/2">: {ruas.latitude}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Longitude</td>
                 <td className="w-1/2">: {ruas.longitude}</td>
               </tr>
-              <tr className="w-full">
+              <tr className="w-full text-sm sm:text-md">
                 <td className="w-1/2 font-bold">Keterangan</td>
                 <td className="w-1/2">: {ruas.keterangan}</td>
               </tr>
@@ -211,13 +211,13 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
       {ruas?.sta && ruas.sta.length > 0 && (
         <>
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold flex gap-2 items-center">
+            <h6 className="font-bold flex gap-2 items-center text-sm sm:text-md">
               <ChevronDownCircle size={14} /> PANJANG TIPE PERMUKAAN
             </h6>
             <Table className="mt-3">
               <TableHeader>
-                <TableRow>
-                  <TableHead className="font-bold text-black">
+                <TableRow className="text-xs sm:text-md">
+                  <TableHead className="font-bold text-black ">
                     ASPAL / PENETRASI / MAKADAM
                   </TableHead>
                   <TableHead className="font-bold text-black">
@@ -232,7 +232,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
+                <TableRow className="text-xs sm:text-md">
                   <TableCell className="text-gray-500">{aspal}</TableCell>
                   <TableCell className="text-gray-500">{beton}</TableCell>
                   <TableCell className="text-gray-500">{kerikil}</TableCell>
@@ -243,12 +243,12 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
           </div>
 
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold flex items-center gap-2">
+            <h6 className="font-bold flex items-center gap-2 text-sm sm:text-md">
               <ChevronDownCircle size={14} /> PANJANG TIAP KONDISI
             </h6>
             <Table className="mt-3">
               <TableHeader>
-                <TableRow>
+                <TableRow className="text-xs sm:text-md">
                   <TableHead
                     className="text-center text-black font-bold"
                     colSpan={2}
@@ -276,7 +276,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                 </TableRow>
               </TableHeader>
               <TableHeader>
-                <TableRow>
+                <TableRow className="text-xs sm:text-md">
                   <TableHead className="text-black font-bold">m</TableHead>
                   <TableHead className="text-black font-bold">%</TableHead>
                   <TableHead className="text-black font-bold">m</TableHead>
@@ -288,7 +288,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
+                <TableRow className="text-xs sm:text-md">
                   <TableCell className="text-gray-500">
                     {baik > 0 ? baik : "-"}
                   </TableCell>
@@ -325,12 +325,12 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
           </div>
 
           <div className="w-full p-1 mt-6">
-            <h6 className="font-bold flex items-center gap-2">
+            <h6 className="font-bold flex items-center gap-2 text-sm sm:text-md">
               <ChevronDownCircle size={14} /> RINCIAN DATA PER STA
             </h6>
             <Table className="mt-3">
               <TableHeader>
-                <TableRow>
+                <TableRow className="text-xs sm:text-md">
                   <TableHead className="font-bold text-black">
                     NOMOR RUAS
                   </TableHead>
@@ -349,7 +349,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                   ruas.sta.map((sta: any) => {
                     sortSta(ruas.sta);
                     return (
-                      <TableRow key={sta.id}>
+                      <TableRow key={sta.id} className="text-xs sm:text-md">
                         <TableCell className="text-gray-500">
                           {sta.nomorRuas}
                         </TableCell>

@@ -202,7 +202,7 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
       <div className="w-full pt-4">
         <label
           htmlFor="photo"
-          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300"
+          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 text-xs sm:text-md"
         >
           <input
             type="file"
@@ -243,7 +243,7 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
             onDoneEditing();
           }}
           className={
-            "bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full"
+            "bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-all duration-300 w-full text-xs sm:text-md"
           }
         >
           Simpan
