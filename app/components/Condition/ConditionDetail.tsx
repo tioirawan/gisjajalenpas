@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ChevronDownCircle, Eye } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type ConditionDetailProps = {
   ruas: RuasWithSta;
@@ -29,19 +29,19 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
     setSelectedSta: selectedSta.set,
   }));
 
-  const [panjangJalan, setPanjangJalan] = useState(0);
+  const panjangJalan = useRef(0);
 
-  // kondisi jalan
-  const [baik, setBaik] = useState(0);
-  const [sedang, setSedang] = useState(0);
-  const [rusakRingan, setRusakRingan] = useState(0);
-  const [rusakBerat, setRusakBerat] = useState(0);
+  // kondisi
+  const baik = useRef(0);
+  const sedang = useRef(0);
+  const rusakRingan = useRef(0);
+  const rusakBerat = useRef(0);
 
   // permukaan
-  const [aspal, setAspal] = useState(0);
-  const [beton, setBeton] = useState(0);
-  const [kerikil, setKerikil] = useState(0);
-  const [tanah, setTanah] = useState(0);
+  const aspal = useRef(0);
+  const beton = useRef(0);
+  const kerikil = useRef(0);
+  const tanah = useRef(0);
 
   const formatSta = (sta: string) => {
     return parseInt(sta.replace(/\+/g, ""));
@@ -52,15 +52,15 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
   };
 
   const clearCondition = () => {
-    setBaik(0);
-    setSedang(0);
-    setRusakRingan(0);
-    setRusakBerat(0);
+    baik.current = 0;
+    sedang.current = 0;
+    rusakRingan.current = 0;
+    rusakBerat.current = 0;
 
-    setAspal(0);
-    setBeton(0);
-    setKerikil(0);
-    setTanah(0);
+    aspal.current = 0;
+    beton.current = 0;
+    kerikil.current = 0;
+    tanah.current = 0;
   };
 
   useEffect(() => {
@@ -69,7 +69,8 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
         sortSta(ruas.sta);
         const sta = ruas.sta[ruas.sta.length - 1].sta;
         const panjang = formatSta(sta);
-        setPanjangJalan(panjang);
+
+        panjangJalan.current = panjang;
       }
     };
 
@@ -79,55 +80,47 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
         sortSta(ruas.sta);
         ruas.sta.forEach((sta: any, index: number) => {
           if (sta.kondisi === "Baik") {
-            setBaik((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            baik.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.kondisi === "Sedang") {
-            setSedang((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            sedang.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.kondisi === "Rusak Ringan") {
-            setRusakRingan((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            rusakRingan.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.kondisi === "Rusak Berat") {
-            setRusakBerat((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            rusakBerat.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           }
 
           if (sta.perkerasan === "Aspal") {
-            setAspal((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            aspal.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.perkerasan === "Beton") {
-            setBeton((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            beton.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.perkerasan === "Kerikil") {
-            setKerikil((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            kerikil.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           } else if (sta.perkerasan === "Tanah") {
-            setTanah((prev) =>
-              index > 0
-                ? prev + formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
-                : prev + formatSta(sta.sta)
-            );
+            
+            tanah.current += index > 0
+              ? formatSta(sta.sta) - formatSta(ruas.sta[index - 1].sta)
+              : formatSta(sta.sta);
           }
         });
       }
@@ -136,6 +129,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
     cekPanjangJalan();
     cekPanjangTiapKondisi();
   }, [ruas, sortSta]);
+
 
   return (
     <>
@@ -233,10 +227,10 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
               </TableHeader>
               <TableBody>
                 <TableRow className="text-xs sm:text-md">
-                  <TableCell className="text-gray-500">{aspal}</TableCell>
-                  <TableCell className="text-gray-500">{beton}</TableCell>
-                  <TableCell className="text-gray-500">{kerikil}</TableCell>
-                  <TableCell className="text-gray-500">{tanah}</TableCell>
+                  <TableCell className="text-gray-500">{aspal.current}</TableCell>
+                  <TableCell className="text-gray-500">{beton.current}</TableCell>
+                  <TableCell className="text-gray-500">{kerikil.current}</TableCell>
+                  <TableCell className="text-gray-500">{tanah.current}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -290,33 +284,33 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
               <TableBody>
                 <TableRow className="text-xs sm:text-md">
                   <TableCell className="text-gray-500">
-                    {baik > 0 ? baik : "-"}
+                    {baik.current > 0 ? baik.current : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {baik > 0 ? ((baik / panjangJalan) * 100).toFixed(2) : "-"}
+                    {baik.current > 0 ? ((baik.current / panjangJalan.current) * 100).toFixed(2) : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {sedang > 0 ? sedang : "-"}
+                    {sedang.current > 0 ? sedang.current : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {sedang > 0
-                      ? ((sedang / panjangJalan) * 100).toFixed(2)
+                    {sedang.current > 0
+                      ? ((sedang.current / panjangJalan.current) * 100).toFixed(2)
                       : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {rusakRingan > 0 ? rusakRingan : "-"}
+                    {rusakRingan.current > 0 ? rusakRingan.current : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {rusakRingan > 0
-                      ? ((rusakRingan / panjangJalan) * 100).toFixed(2)
+                    {rusakRingan.current > 0
+                      ? ((rusakRingan.current / panjangJalan.current) * 100).toFixed(2)
                       : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {rusakBerat > 0 ? rusakBerat : "-"}
+                    {rusakBerat.current > 0 ? rusakBerat.current : "-"}
                   </TableCell>
                   <TableCell className="text-gray-500">
-                    {rusakBerat > 0
-                      ? ((rusakBerat / panjangJalan) * 100).toFixed(2)
+                    {rusakBerat.current > 0
+                      ? ((rusakBerat.current / panjangJalan.current) * 100).toFixed(2)
                       : "-"}
                   </TableCell>
                 </TableRow>
