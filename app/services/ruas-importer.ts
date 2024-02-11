@@ -149,6 +149,21 @@ export class RuasImporter {
       ];
     }, []);
 
+    // update ruas latitude and longitude to be the middle of the stas
+    ruas.forEach((ruas) => {
+      const middleSTA = ruas.sta[Math.floor(ruas.sta.length / 2)];
+
+      if (middleSTA) {
+        const geometry = middleSTA.coordinates[0];
+
+        if (geometry) {
+          const coordinate = geometry[0];
+          ruas.latitude = coordinate[1];
+          ruas.longitude = coordinate[0];
+        }
+      }
+    });
+
     const jalan = await this.client.jalan.create({
       data: {
         nama: detail.name,
