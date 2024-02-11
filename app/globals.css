@@ -116,7 +116,9 @@ html {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
-  color: #166534 !important;
+  /* color: #0059ff !important; */
+  color: black !important;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white !important;
   font-weight: 600 !important;
   font-size: 1rem !important;
 }
