@@ -56,12 +56,33 @@ const AutoboundToRuas = () => {
     const bounds = L.latLngBounds(swapLngLat(coordinates as any) as any);
 
     if (selectedRuas) {
-      map.flyToBounds(bounds, {
-        padding: [50, 50],
-        duration: 1,
-      });
+      setTimeout(() => {
+        map.flyToBounds(bounds, {
+          padding: [50, 50],
+          duration: 1,
+        });
+      }, 500);
     }
   }, [selectedRuas, map]);
+  return null;
+};
+
+const AutoInvalidateMapSize = () => {
+  const map = useMap();
+
+  // resize map whenever sidebar is toggled
+  const isLayerSidebar = useLayersStore((state) => state.isVisible);
+  const isFeatureSidebar = useSelectedFeatureStore(
+    (state) => state.selectedFeature
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("invalidate map size");
+      map.invalidateSize();
+    }, 500);
+  }, [map, isLayerSidebar, isFeatureSidebar]);
+
   return null;
 };
 
@@ -146,6 +167,8 @@ export default function Map() {
     return result;
   }, [dataKondisiJalan]);
 
+  console.log("map rerender");
+
   return (
     <MapContainer
       ref={setMap}
@@ -200,6 +223,7 @@ export default function Map() {
       {/* <PolylineMeasureControl /> */}
 
       <AutoboundToRuas />
+      <AutoInvalidateMapSize />
 
       <Pane name="sta" style={{ zIndex: 504 }} />
       <Pane name="bridge" style={{ zIndex: 503 }} />
