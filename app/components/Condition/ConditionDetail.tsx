@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ChevronDownCircle, Eye } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ConditionDetailProps = {
   ruas: RuasWithSta;
@@ -28,6 +28,7 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
   const { setSelectedSta } = useSelectedStaStore((selectedSta) => ({
     setSelectedSta: selectedSta.set,
   }));
+  const [render, setRender] = useState(0);
 
   const panjangJalan = useRef(0);
 
@@ -64,6 +65,10 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
   };
 
   useEffect(() => {
+    const rerender = () => {
+      setRender((prev) => prev + 1);
+    };
+
     const cekPanjangJalan = () => {
       if (ruas?.sta) {
         sortSta(ruas.sta);
@@ -123,12 +128,17 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
               : formatSta(sta.sta);
           }
         });
+        rerender();
       }
+
     };
 
     cekPanjangJalan();
     cekPanjangTiapKondisi();
-  }, [ruas, sortSta]);
+    // rerender();
+
+    // setRender((prev) => prev + 1);
+  }, [ruas?.sta]);
 
 
   return (
