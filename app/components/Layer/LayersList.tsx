@@ -2,7 +2,7 @@
 import useBaseLayerStore from "@/app/stores/base_layer_store";
 import useJalanStore from "@/app/stores/jalan_store";
 import useLayersStore from "@/app/stores/layers_store";
-import { BiImport } from "react-icons/bi";
+import { UploadCloud } from "lucide-react";
 import { Circles } from "react-loader-spinner";
 import AdminOnly from "../AdminOnly";
 import LayerTile from "./LayerTile";
@@ -33,7 +33,7 @@ export default function LayersList(props: LayerListProps) {
         Legenda
         <AdminOnly>
           <button onClick={() => props.onImporting(true)}>
-            <BiImport />
+            <UploadCloud />
           </button>
         </AdminOnly>
       </h1>

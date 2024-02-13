@@ -1,4 +1,5 @@
 import useJalanStore, { JalanInformation } from "@/app/stores/jalan_store";
+import { X } from "lucide-react";
 import { useState } from "react";
 import useLayersStore, { LayerInformation } from "../../stores/layers_store";
 import EditForm from "./EditForm";
@@ -31,13 +32,13 @@ export default function LayerSidebar() {
         h-full border-l bg-white`}
     >
       <button
-        className="md:hidden bg-slate-200 text-slate-800
-         w-full text-xl font-bold p-4 "
+        className="md:hidden text-red-500
+         w-full text-lg p-4 flex justify-center items-center"
         onClick={() => {
           toggleVisibility();
         }}
       >
-        TUTUP
+        <X className="me-2"/> Tutup
       </button>
       {isImporting ? (
         <ImportForm

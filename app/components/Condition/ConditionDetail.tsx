@@ -18,8 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ChevronDownCircle, Eye } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import ImageDialog from "../Dialog/ImageDiaolog";
 
 type ConditionDetailProps = {
   ruas: RuasWithSta;
@@ -154,7 +156,9 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
             {ruas?.pictures.map((picture, index) => (
               <CarouselItem key={index} className="">
                 <div className="p-1">
-                  <Card>
+                  <ImageDialog image={"/api/picture/" + picture.picture.id} desc={picture.description ?? ""} data={ruas} >
+                  <DialogTrigger className="w-full">
+                  <Card className="w-full">
                     <CardContent className="flex h-48 items-center justify-center p-0">
                       <img
                         className="w-full h-full object-cover"
@@ -163,6 +167,9 @@ export default function ConditionDetail({ ruas }: ConditionDetailProps) {
                       />
                     </CardContent>
                   </Card>
+                  </DialogTrigger>
+                  </ImageDialog>
+                  
                 </div>
               </CarouselItem>
             ))}

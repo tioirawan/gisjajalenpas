@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import AdminOnly from "./AdminOnly";
 
 export default function NavBar() {
   const { data, status } = useSession();
@@ -60,11 +61,21 @@ export default function NavBar() {
             <DropdownMenuItem>
               <a href="/">Home</a>
             </DropdownMenuItem>
+            <AdminOnly>
+              <DropdownMenuItem>
+                <a href="/laporan">Laporan</a>
+              </DropdownMenuItem>
+            </AdminOnly>
             <AuthenticatedOnly>
               <DropdownMenuItem>
                 <a href="/statistik">Statistik</a>
               </DropdownMenuItem>
             </AuthenticatedOnly>
+            <DropdownMenuItem>
+              <a href="https://www.lapor.go.id/" target="_blank">
+                Pengaduan
+              </a>
+            </DropdownMenuItem>
             {(data?.user as any)?.role === "ADMIN" && (
               <DropdownMenuItem>
                 <a href="/users">Akun</a>
@@ -96,6 +107,7 @@ export default function NavBar() {
         >
           Home
         </a>
+        <AdminOnly>
         <a
           className={`p-4 ${
             currentPath === "/laporan"
@@ -106,6 +118,7 @@ export default function NavBar() {
         >
           Laporan
         </a>
+        </AdminOnly>
         <AuthenticatedOnly>
           <a
             className={`p-4 ${
