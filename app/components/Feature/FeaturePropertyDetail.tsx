@@ -2,9 +2,7 @@
 import { Photo } from "@prisma/client";
 import { useEffect, useMemo, useState } from "react";
 import { FeatureProperty, NewPhoto } from "../../types";
-import AuthenticatedOnly from "../AuthenticatedOnly";
 import FeaturePropertyEditor from "../FeaturePropertyEditor";
-import LoginToSee from "../LoginToSee";
 import OperatorOnly from "../OperatorOnly";
 
 type FeaturePropertyDetailProp = {
@@ -73,7 +71,7 @@ export default function FeaturePropertyDetail({
         />
       ) : (
         <>
-          <AuthenticatedOnly>
+          {/* <AuthenticatedOnly> */}
             <table className="table-auto text-sm">
               <tbody key={data.length}>
                 {properties.map((d, i) =>
@@ -134,9 +132,9 @@ export default function FeaturePropertyDetail({
                 </div>
               ))}
             </div>
-          </AuthenticatedOnly>
+          {/* </AuthenticatedOnly>
 
-          <LoginToSee />
+          <LoginToSee /> */}
         </>
       )}
     </div>

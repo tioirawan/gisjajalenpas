@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useMemo } from "react";
 import { FeatureWithProperties } from "../../types";
-import AuthenticatedOnly from "../AuthenticatedOnly";
-import LoginToSee from "../LoginToSee";
 
 const attributes: Record<string, string> = {
   "Nama Jalan": "Jdl",
@@ -41,7 +39,7 @@ export default function FeaturePropertyDetailPopup({
     <div className="flex flex-col">
       <h1 className="text-xl font-bold mb-4">{title}</h1>
 
-      <AuthenticatedOnly>
+      {/* <AuthenticatedOnly> */}
         <table className="table-auto text-sm">
           <tbody key={data.length}>
             {Object.keys(attributes).map((key, i) => (
@@ -95,9 +93,9 @@ export default function FeaturePropertyDetailPopup({
         >
           Detail
         </button>
-      </AuthenticatedOnly>
+      {/* </AuthenticatedOnly>
 
-      <LoginToSee />
+      <LoginToSee /> */}
     </div>
   );
 }
