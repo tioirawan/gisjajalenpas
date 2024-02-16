@@ -6,10 +6,15 @@ type StaRouteParams = {
 };
 
 export async function PATCH(request: Request, { params }: { params: StaRouteParams }) {
-  const { sta } = params;
+  const { sta: staId } = params;
 
   const body = await request.formData();
 
+  const sta = body.get("sta") ?? "";
+  const xAwal = body.get("xAwal") ?? "";
+  const yAwal = body.get("yAwal") ?? "";
+  const xAkhir = body.get("xAkhir") ?? "";
+  const yAkhir = body.get("yAkhir") ?? "";
   const kondisi = body.get("kondisi") ?? "";
   const perkerasan = body.get("perkerasan") ?? "";
 
@@ -53,7 +58,7 @@ export async function PATCH(request: Request, { params }: { params: StaRoutePara
 
   const oldSta = await prisma.sta.findFirst({
     where: {
-      id: parseInt(sta),
+      id: parseInt(staId),
     },
     include: {
       pictures: true,
@@ -62,7 +67,7 @@ export async function PATCH(request: Request, { params }: { params: StaRoutePara
 
   const updatedSta = await prisma.sta.update({
     where: {
-      id: parseInt(sta),
+      id: parseInt(staId),
     },
     include: {
       pictures: {
@@ -72,6 +77,11 @@ export async function PATCH(request: Request, { params }: { params: StaRoutePara
       },
     },
     data: {
+      sta: sta as string,
+      xAwal: parseFloat(xAwal as string),
+      yAwal: parseFloat(yAwal as string),
+      xAkhir: parseFloat(xAkhir as string),
+      yAkhir: parseFloat(yAkhir as string),
       kondisi: kondisi as string,
       perkerasan: perkerasan as string,
       // todo: add more properties to update as needed
@@ -84,7 +94,7 @@ export async function PATCH(request: Request, { params }: { params: StaRoutePara
           where: {
             idSta_idPicture: {
               idPicture: parseInt(p),
-              idSta: parseInt(sta),
+              idSta: parseInt(staId),
             }
           },
           data: {
@@ -94,7 +104,7 @@ export async function PATCH(request: Request, { params }: { params: StaRoutePara
         delete: deletedPictures.map((p) => ({
           idSta_idPicture: {
             idPicture: parseInt(p),
-            idSta: parseInt(sta),
+            idSta: parseInt(staId),
           }
         })) as any,
       },

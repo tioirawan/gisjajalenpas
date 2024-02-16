@@ -88,11 +88,11 @@ export default function StaEditor({ onDoneEditing }: StaEditorProps) {
                       defaultValue={properties.current[item] as string}
                       readOnly={[
                         "nomorRuas",
-                        "sta",
-                        "xAwal",
-                        "yAwal",
-                        "xAkhir",
-                        "yAkhir",
+                        // "sta",
+                        // "xAwal",
+                        // "yAwal",
+                        // "xAkhir",
+                        // "yAkhir",
                       ].includes(item)}
                       onChange={(e) => {
                         properties.current[item] = e.target.value;
