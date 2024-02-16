@@ -10,11 +10,11 @@ export default function ImageDialog({children, image, data, desc}: {children: Re
     return (
         <Dialog >
             {children}
-            <DialogContent className="z-[500] min-w-3xl max-w-3xl p-0">
+            <DialogContent className="z-[500] min-w-4xl max-w-4xl p-0">
                 <DialogHeader>
                     {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
                     <DialogDescription className="flex flex-col items-center relative">
-                        <img src={image} alt="image" style={{ width: "85%", transformOrigin: "0 0" }}/>
+                        <img src={image} alt="image" style={{ maxWidth: "100%", height: "auto", transformOrigin: "0 0" }}/>
                         <div className="absolute flex-col items-start bottom-0 w-full bg-black opacity-55 p-3">
                             <p className="text-white">{desc ?? ""}</p>
                             <p className="text-white">{data.latitude + " " + data.longitude ?? ""}</p>
