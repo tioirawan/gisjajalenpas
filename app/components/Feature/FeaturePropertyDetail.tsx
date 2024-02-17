@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { Photo } from "@prisma/client";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useEffect, useMemo, useState } from "react";
 import { FeatureProperty, NewPhoto } from "../../types";
+import ImageDialog from "../Dialog/ImageDiaolog";
 import FeaturePropertyEditor from "../FeaturePropertyEditor";
 import OperatorOnly from "../OperatorOnly";
 
@@ -118,17 +120,21 @@ export default function FeaturePropertyDetail({
                   key={i}
                   className="flex flex-col justify-center items-center"
                 >
-                  <img
-                    src={"/api/photo/" + photo.id}
-                    alt={photo.description ?? ""}
-                    className="w-full object-cover rounded"
-                  />
+                  <ImageDialog image={"/api/photo/" + photo.id} desc={photo.description ?? ""} data={null}>
+                  <DialogTrigger className="w-full">
+                      <img
+                        src={"/api/photo/" + photo.id}
+                        alt={photo.description ?? ""}
+                        className="w-full object-cover rounded"
+                      />
 
-                  <div className="flex justify-between items-center mt-1">
-                    <span className="text-xs text-gray-500">
-                      {photo.description}
-                    </span>
-                  </div>
+                      <div className="flex justify-between items-center mt-1">
+                        <span className="text-xs text-gray-500">
+                          {photo.description}
+                        </span>
+                      </div>
+                  </DialogTrigger>
+                  </ImageDialog>
                 </div>
               ))}
             </div>

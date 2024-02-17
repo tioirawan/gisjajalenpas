@@ -6,7 +6,7 @@ import {
     DialogHeader
 } from "@/components/ui/dialog"
 
-export default function ImageDialog({children, image, data, desc}: {children: React.ReactNode, image: string, data: any, desc: string}) {
+export default function ImageDialog({children, image, data, desc}: {children: React.ReactNode, image: string, data: any|null, desc: string}) {
     return (
         <Dialog >
             {children}
@@ -17,9 +17,9 @@ export default function ImageDialog({children, image, data, desc}: {children: Re
                         <img src={image} alt="image" style={{ maxWidth: "90%", height: "auto", transformOrigin: "0 0" }}/>
                         <div className="absolute flex-col items-start bottom-0 w-full bg-black opacity-55 p-3">
                             <p className="text-white">{desc ?? ""}</p>
-                            <p className="text-white">{data.latitude + " " + data.longitude ?? ""}</p>
-                            <p className="text-white">{data.namaRuas ?? ""}</p>
-                            <p className="text-white">{"Kecamatan " + data.kecamatan ?? ""}</p>
+                            <p className="text-white">{data ? data.latitude ?? "" + " " + data.longitude ?? "" : ""}</p>
+                            <p className="text-white">{data ? data.namaRuas ?? "" : ""}</p>
+                            <p className="text-white">{(data) ? "Kecamatan " + data.kecamatan ?? "" : ""}</p>
                         </div>
                     </DialogDescription>
                 </DialogHeader>
