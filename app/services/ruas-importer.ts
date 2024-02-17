@@ -110,7 +110,7 @@ export class RuasImporter {
         xAkhir: properties.X_Akhir,
         yAkhir: properties.Y_Akhir,
         kondisi: properties.Kondisi,
-        perkerasan: properties.Perkerasan,
+        perkerasan: properties.Perkerasan || properties.Tipe_Perke,
         coordinates: feature.geometry ? (feature.geometry as any).coordinates : [],
       };
 
