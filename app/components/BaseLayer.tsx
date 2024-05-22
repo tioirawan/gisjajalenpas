@@ -1,8 +1,8 @@
 import React from "react";
 import { TileLayer } from "react-leaflet";
-import useBaseLayerStore, { BaseLayer } from "../stores/base_layer_store";
+import useBaseLayerStore, { BaseLayerType } from "../stores/base_layer_store";
 
-const layers: Record<BaseLayer, React.ReactNode> = {
+const layers: Record<BaseLayerType, React.ReactNode> = {
   esri: (
     <TileLayer url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
   ),

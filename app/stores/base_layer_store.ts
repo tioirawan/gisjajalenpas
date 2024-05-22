@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
-export type BaseLayer = "esri" | "openstreetmap" | "stadia";
+export type BaseLayerType = "esri" | "openstreetmap" | "stadia";
 
 type BaseLayerStore = {
-  baseLayer: BaseLayer | null;
-  setBaseLayer: (layer: BaseLayer | null) => void;
+  baseLayer: BaseLayerType | null;
+  setBaseLayer: (layer: BaseLayerType | null) => void;
 };
 
 const useBaseLayerStore = create<BaseLayerStore>((set) => ({
