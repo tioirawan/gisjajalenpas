@@ -1,5 +1,7 @@
 import prisma from "@/libs/prismadb";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const jalan = await prisma.jalan.findMany({
     include: {
