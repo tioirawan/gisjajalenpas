@@ -54,7 +54,7 @@ const useJalanStore = create<JalanStore>((set, get) => ({
   fetch: async () => {
     set({ loading: true });
     try {
-      const response = await fetch("/api/jalan");
+      const response = await fetch("/api/jalan", { next: { revalidate: 10 }});
       const data = await response.json();
       set({
         data,

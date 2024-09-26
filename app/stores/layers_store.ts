@@ -29,7 +29,7 @@ const useLayersStore = create<LayersStore>((set, get) => ({
   loadLayers: async () => {
     set({ isLoading: true });
 
-    const response = await fetch(`/api/layers`);
+    const response = await fetch(`/api/layers`, { next: { revalidate: 10 }});
     const data = await response.json();
 
     // sort data bridge, road, area

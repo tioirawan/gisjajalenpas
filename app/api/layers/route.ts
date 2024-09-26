@@ -1,5 +1,7 @@
 import prisma from "@/libs/prismadb";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const features = await prisma.featureCollection.findMany({
     include: {
