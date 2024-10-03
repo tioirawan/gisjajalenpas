@@ -47,7 +47,7 @@ const useLayersStore = create<LayersStore>((set, get) => ({
       layers: data.map((layer: FeatureCollectionFull) => ({
         id: layer.id,
         layer,
-        visible: true,
+        visible: false,
       })),
       isLoading: false,
     });
@@ -106,16 +106,24 @@ const useLayersStore = create<LayersStore>((set, get) => ({
         if (l.id === layerId) {
           const visibility = !l.visible;
 
-          localStorage.setItem(`layer-${l.id}`, JSON.stringify(visibility));
+          // localStorage.setItem(`layer-${l.id}`, JSON.stringify(visibility));
           return { ...l, visible: !l.visible };
         }
         return l;
       }),
     })),
   isLayerVisible: (layerId) => {
-    const visibility = localStorage.getItem(`layer-${layerId}`);
+    // const visibility = localStorage.getItem(`layer-${layerId}`);
 
-    return visibility ? JSON.parse(visibility) : true;
+    // return visibility ? JSON.parse(visibility) : true;
+    let isVisible = false;
+    get().layers.forEach((l) => {
+      if (l.id === layerId) {
+        isVisible =  l.visible;
+      }
+    });
+    return isVisible;
+    // return false;
   },
 }));
 

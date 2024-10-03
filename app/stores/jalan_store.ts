@@ -62,7 +62,7 @@ const useJalanStore = create<JalanStore>((set, get) => ({
         roads: data.map((road: JalanWithRuas) => ({
           id: road.id,
           road,
-          visible: true,
+          visible: false,
         })),
       });
     } catch (error) {
@@ -97,16 +97,23 @@ const useJalanStore = create<JalanStore>((set, get) => ({
       roads: state.roads.map((l) => {
         if (l.id === layerId) {
           const visibility = !l.visible;
-          localStorage.setItem(`jalan-${l.id}`, JSON.stringify(visibility));
+          // localStorage.setItem(`jalan-${l.id}`, JSON.stringify(visibility));
           return { ...l, visible: visibility };
         }
         return l;
       }),
     })),
   isJalanVisible: (layerId) => {
-    const visibility = localStorage.getItem(`jalan-${layerId}`);
+    // const visibility = localStorage.getItem(`jalan-${layerId}`);
 
-    return visibility ? JSON.parse(visibility) : true;
+    // return visibility ? JSON.parse(visibility) : true;
+    let isVisible = false;
+    get().roads.forEach((l) => {
+      if (l.id === layerId) {
+        isVisible =  l.visible;
+      }
+    });
+    return isVisible;
   },
 }));
 
